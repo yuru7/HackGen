@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # HackGen Generator
-hackgen_version="0.1.0"
+hackgen_version="0.1.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
