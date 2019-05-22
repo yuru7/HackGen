@@ -31,9 +31,9 @@ for P in ${BASE_DIR}/HackGen*.ttf; do
   ttx -m "${P}_orig" "${P%%.ttf}.ttx"
   
   if [ $? -eq 0 ]; then
-    mv "$P"  "${BASE_DIR}/build"
-    mv "${P}_orig" "${BASE_DIR}/bak"
-    mv "${P%%.ttf}.ttx" "${BASE_DIR}/bak"
+    mv "$P"  "${BASE_DIR}/build/"
+    mv "${P}_orig" "${BASE_DIR}/bak/"
+    mv "${P%%.ttf}.ttx" "${BASE_DIR}/bak/"
     rm "${P%%.ttf}.ttx.bak"
   fi
 done

@@ -676,10 +676,12 @@ while (i < SizeOf(fontstyle_list))
     # Save HackGen
     if (fontfamilysuffix != "")
         Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        #Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
     else
         Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        #Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
     endif
     Close()
 
@@ -992,7 +994,8 @@ endif
 
 # Save HackGen Discord
 Print("Save " + inputfamily + familysuffix + "-" + inputstyle + ".ttf")
-Generate(inputfamily + familysuffix + "-" + inputstyle + ".ttf", "", 0x84)
+#Generate(inputfamily + familysuffix + "-" + inputstyle + ".ttf", "", 0x84)
+Generate(inputfamily + familysuffix + "-" + inputstyle + ".ttf", "", 4)
 Close()
 
 Quit()
@@ -1061,7 +1064,8 @@ RoundToInt()
 RemoveOverlap()
 RoundToInt()
 
-Generate(output_family + "-" + output_style + ".ttf", "", 0x84)
+#Generate(output_family + "-" + output_style + ".ttf", "", 0x84)
+Generate(output_family + "-" + output_style + ".ttf", "", 4)
 Close()
 
 i += 1
