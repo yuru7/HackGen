@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # HackGen Generator
-hackgen_version="0.1.1"
+hackgen_version="0.2.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -42,6 +42,8 @@ modified_hack_bold="Modified-Hack-Bold.sfd"
 modified_genjyuu_generator="modified_genjyuu_generator.pe"
 modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.sfd"
 modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.sfd"
+#modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.ttf"
+#modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.ttf"
 hackgen_generator="hackgen_generator.pe"
 hackgen_discord_generator="hackgen_discord_generator.pe"
 regular2oblique_converter="regular2oblique_converter.sh"
@@ -279,7 +281,8 @@ while (i < SizeOf(input_list))
         Select(0u00b1); Clear()
         Select(0u00b2, 0u00b3); Clear()
         Select(0u00b4); Clear()
-        Select(0u00b6, 0u00b7); Clear()
+        #Select(0u00b6, 0u00b7); Clear()
+        Select(0u00b6); Clear()
         Select(0u00b8); Clear()
         Select(0u00b9); Clear()
         Select(0u00ba); Clear()
@@ -347,8 +350,10 @@ while (i < SizeOf(input_list))
         Select(0u2019); Clear()
         Select(0u201c); Clear()
         Select(0u201d); Clear()
-        Select(0u2020, 0u2022); Clear()
-        Select(0u2024, 0u2027); Clear()
+        #Select(0u2020, 0u2022); Clear()
+        Select(0u2020, 0u2021); Clear()
+        #Select(0u2024, 0u2027); Clear()
+        Select(0u2024, 0u2026); Clear()
         Select(0u2030); Clear()
         Select(0u2032, 0u2033); Clear()
         Select(0u2035); Clear()
@@ -498,27 +503,50 @@ while (i < SizeOf(input_list))
     Open(input_list[i])
     SelectWorthOutputting()
     UnlinkReference()
-    #ScaleToEm(860, 140)
-    #ScaleToEm(${scaletoem_ascent}, ${scaletoem_descent})
 
+    ii = 0
+    end_genjyuu = 65535
+    halfwidth_array = Array(end_genjyuu)
+    i_halfwidth = 0
+    Print("Half width check loop start")    
+    while ( ii <= end_genjyuu )
+      if ( ii % 5000 == 0 )
+        Print("Processing progress: " + ii)
+      endif
+      if (WorthOutputting(ii))
+        Select(ii)
+        if (GlyphInfo("Width")<768)
+          halfwidth_array[i_halfwidth] = ii
+          i_halfwidth = i_halfwidth + 1
+        endif
+      endif
+      ii = ii + 1
+    endloop
+    Print("Half width check loop end")    
+    
+    Print("Full SetWidth start")
     SelectWorthOutputting()
+    ii=0
+    while (ii < i_halfwidth)
+      SelectFewer(halfwidth_array[ii])
+      ii = ii + 1
+    endloop
     SetWidth(1064)
     Move(20, 0)
+    Print("Full SetWidth end")
+    
+    SelectNone()
 
-    # Scale down all glyphs
-    #if ("${scaling_down_flag}" == "true")
-    #    Print("Scale down all glyphs (it may take a few minutes)")
-    #    SelectWorthOutputting()
-    #    SetWidth(-1, 1); Scale(91, 91, 0, 0); SetWidth(110, 2); SetWidth(1, 1)
-    #    Move(23, 0); SetWidth(-23, 1)
-    #    RoundToInt(); RemoveOverlap(); RoundToInt()
-    #endif
-
-    # Clear instructions
-    #Print("Clear instructions")
-    #SelectWorthOutputting()
-    #ClearInstrs()
-
+    Print("Half SetWidth start")
+    ii=0
+    while (ii < i_halfwidth)
+      SelectMore(halfwidth_array[ii])
+      ii = ii + 1
+    endloop
+    SetWidth(532)
+    Move(10, 0)
+    Print("Half SetWidth end")
+        
     # Save modified GenJyuuGothicL
     Print("Save " + output_list[i])
     Save("${tmpdir}/" + output_list[i])
