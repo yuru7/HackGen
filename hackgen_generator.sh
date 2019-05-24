@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.3.0"
+hackgen_version="0.3.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -265,7 +265,7 @@ while (i < SizeOf(input_list))
     SelectNone()
 
     ## 記号
-    SelectMore(0u00a2, 0u0522)
+    SelectMore(0u00bc, 0u0522)
     SelectMore(0u0E3F)
     SelectMore(0u2010, 0u2021)
     SelectMore(0u2024, 0u2026)
@@ -312,7 +312,7 @@ while (i < SizeOf(input_list))
     SelectMore(0u2A2F)
     SelectMore(0u2b1a)
 
-    ## 可視化文字対策 ビュレット系記号を半角に
+    ## 可視化文字対策
     SelectFewer(0u2022)
     SelectFewer(0u00b7)
     SelectFewer(0u2024)
@@ -320,7 +320,11 @@ while (i < SizeOf(input_list))
     SelectFewer(0u25d8)
     SelectFewer(0u25e6)
 
+    ## 選択中の文字を削除
     Clear()
+
+    ## Eclipse Pleiades 半角スペース記号対策
+    Select(0u054d); Copy(); Select(0u1d1c); Paste()
 
     # Clear instructions
     #Print("Clear instructions")
