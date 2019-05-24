@@ -1,11 +1,13 @@
 #!/bin/sh
 
+base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.2.0"
+hackgen_version="0.3.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
 hackgen_familyname_suffix=""
+hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
 hackgen_ascent=950
@@ -17,6 +19,7 @@ em=$(($scaletoem_ascent + $scaletoem_descent))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
+powerline_patch_path="${base_dir}/powerline-fontpatcher/scripts/powerline-fontpatcher"
 
 # Set redirection of stderr
 redirection_stderr="/dev/null"
@@ -39,12 +42,16 @@ non_discorded_characters=""
 modified_hack_generator="modified_hack_generator.pe"
 modified_hack_regular="Modified-Hack-Regular.sfd"
 modified_hack_bold="Modified-Hack-Bold.sfd"
+modified_hack_console_generator="modified_hack_console_generator.pe"
+modified_hack_console_regular="Modified-Hack-Console-Regular.sfd"
+modified_hack_console_bold="Modified-Hack-Console-Bold.sfd"
 modified_genjyuu_generator="modified_genjyuu_generator.pe"
 modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.sfd"
 modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.sfd"
 #modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.ttf"
 #modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.ttf"
 hackgen_generator="hackgen_generator.pe"
+hackgen_console_generator="hackgen_console_generator.pe"
 hackgen_discord_generator="hackgen_discord_generator.pe"
 regular2oblique_converter="regular2oblique_converter.sh"
 
@@ -251,218 +258,113 @@ while (i < SizeOf(input_list))
     #ScaleToEm(860, 140)
     #ScaleToEm(${scaletoem_ascent}, ${scaletoem_descent})
 
-    # 下限よりも下にはみ出す文字対応
-    #SelectWorthOutputting(); Move(0, 38)
-
-    # brokenbar
-    #Select(0u00a6); Copy()
-    #Select(0u007c); Paste()
-    #Move(0, 120)
-
     # _ のかすれ対応
     Select(0u005f); Move(0, 1)
 
-    # 三角形・四角形・罫線記号を全角化
-    #Select(0u2500, 0u25ff); Clear()
-    # 矢印記号を全角化
-    #Select(0u2100, 0u21ff); Clear()
-
     # Remove ambiguous glyphs
-    if ("${fullwidth_ambiguous_flag}" == "true")
-        Print("Remove ambiguous glyphs")
-        Select(0u00a1); Clear()
-        Select(0u00a4); Clear()
-        Select(0u00a7); Clear()
-        Select(0u00a8); Clear()
-        Select(0u00aa); Clear()
-        Select(0u00ad); Clear()
-        Select(0u00ae); Clear()
-        Select(0u00b0); Clear()
-        Select(0u00b1); Clear()
-        Select(0u00b2, 0u00b3); Clear()
-        Select(0u00b4); Clear()
-        #Select(0u00b6, 0u00b7); Clear()
-        Select(0u00b6); Clear()
-        Select(0u00b8); Clear()
-        Select(0u00b9); Clear()
-        Select(0u00ba); Clear()
-        Select(0u00bc, 0u00be); Clear()
-        Select(0u00bf); Clear()
-        Select(0u00c6); Clear()
-        Select(0u00d0); Clear()
-        Select(0u00d7); Clear()
-        Select(0u00d8); Clear()
-        Select(0u00de, 0u00e1); Clear()
-        Select(0u00e6); Clear()
-        Select(0u00e8, 0u00ea); Clear()
-        Select(0u00ec, 0u00ed); Clear()
-        Select(0u00f0); Clear()
-        Select(0u00f2, 0u00f3); Clear()
-        Select(0u00f7); Clear()
-        Select(0u00f8, 0u00fa); Clear()
-        Select(0u00fc); Clear()
-        Select(0u00fe); Clear()
-        Select(0u0101); Clear()
-        Select(0u0111); Clear()
-        Select(0u0113); Clear()
-        Select(0u011b); Clear()
-        Select(0u0126, 0u0127); Clear()
-        Select(0u012b); Clear()
-        Select(0u0131, 0u0133); Clear()
-        Select(0u0138); Clear()
-        Select(0u013f, 0u0142); Clear()
-        Select(0u0144); Clear()
-        Select(0u0148, 0u014b); Clear()
-        Select(0u014d); Clear()
-        Select(0u0152, 0u0153); Clear()
-        Select(0u0166, 0u0167); Clear()
-        Select(0u016b); Clear()
-        Select(0u01ce); Clear()
-        Select(0u01d0); Clear()
-        Select(0u01d2); Clear()
-        Select(0u01d4); Clear()
-        Select(0u01d6); Clear()
-        Select(0u01d8); Clear()
-        Select(0u01da); Clear()
-        Select(0u01dc); Clear()
-        Select(0u0251); Clear()
-        Select(0u0261); Clear()
-        Select(0u02c4); Clear()
-        Select(0u02c7); Clear()
-        Select(0u02c9, 0u02cb); Clear()
-        Select(0u02cd); Clear()
-        Select(0u02d0); Clear()
-        Select(0u02d8, 0u02db); Clear()
-        Select(0u02dd); Clear()
-        Select(0u02df); Clear()
-        Select(0u0300, 0u036f); Clear()
-        Select(0u0391, 0u03a1); Clear()
-        Select(0u03a3, 0u03a9); Clear()
-        Select(0u03b1, 0u03c1); Clear()
-        Select(0u03c3, 0u03c9); Clear()
-        Select(0u0401); Clear()
-        Select(0u0410, 0u044f); Clear()
-        Select(0u0451); Clear()
-        Select(0u2010); Clear()
-        Select(0u2013, 0u2015); Clear()
-        Select(0u2016); Clear()
-        Select(0u2018); Clear()
-        Select(0u2019); Clear()
-        Select(0u201c); Clear()
-        Select(0u201d); Clear()
-        #Select(0u2020, 0u2022); Clear()
-        Select(0u2020, 0u2021); Clear()
-        #Select(0u2024, 0u2027); Clear()
-        Select(0u2024, 0u2026); Clear()
-        Select(0u2030); Clear()
-        Select(0u2032, 0u2033); Clear()
-        Select(0u2035); Clear()
-        Select(0u203b); Clear()
-        Select(0u203e); Clear()
-        Select(0u2074); Clear()
-        Select(0u207f); Clear()
-        Select(0u2081, 0u2084); Clear()
-        Select(0u20ac); Clear()
-        Select(0u2103); Clear()
-        Select(0u2105); Clear()
-        Select(0u2109); Clear()
-        Select(0u2113); Clear()
-        Select(0u2116); Clear()
-        Select(0u2121, 0u2122); Clear()
-        Select(0u2126); Clear()
-        Select(0u212b); Clear()
-        Select(0u2153, 0u2154); Clear()
-        Select(0u215b, 0u215e); Clear()
-        Select(0u2160, 0u216b); Clear()
-        Select(0u2170, 0u2179); Clear()
-        Select(0u2189); Clear()
-        Select(0u2190, 0u2194); Clear()
-        Select(0u2195, 0u2199); Clear()
-        Select(0u21b8, 0u21b9); Clear()
-        Select(0u21d2); Clear()
-        Select(0u21d4); Clear()
-        Select(0u21e7); Clear()
-        Select(0u2200); Clear()
-        Select(0u2202, 0u2203); Clear()
-        Select(0u2207, 0u2208); Clear()
-        Select(0u220b); Clear()
-        Select(0u220f); Clear()
-        Select(0u2211); Clear()
-        Select(0u2215); Clear()
-        Select(0u221a); Clear()
-        Select(0u221d, 0u2220); Clear()
-        Select(0u2223); Clear()
-        Select(0u2225); Clear()
-        Select(0u2227, 0u222c); Clear()
-        Select(0u222e); Clear()
-        Select(0u2234, 0u2237); Clear()
-        Select(0u223c, 0u223d); Clear()
-        Select(0u2248); Clear()
-        Select(0u224c); Clear()
-        Select(0u2252); Clear()
-        Select(0u2260, 0u2261); Clear()
-        Select(0u2264, 0u2267); Clear()
-        Select(0u226a, 0u226b); Clear()
-        Select(0u226e, 0u226f); Clear()
-        Select(0u2282, 0u2283); Clear()
-        Select(0u2286, 0u2287); Clear()
-        Select(0u2295); Clear()
-        Select(0u2299); Clear()
-        Select(0u22a5); Clear()
-        Select(0u22bf); Clear()
-        Select(0u2312); Clear()
-        Select(0u2460, 0u249b); Clear()
-        Select(0u249c, 0u24e9); Clear()
-        Select(0u24eb, 0u24ff); Clear()
-        Select(0u2500, 0u254b); Clear()
-        Select(0u2550, 0u2573); Clear()
-        Select(0u2580, 0u258f); Clear()
-        Select(0u2592, 0u2595); Clear()
-        Select(0u25a0, 0u25a1); Clear()
-        Select(0u25a3, 0u25a9); Clear()
-        Select(0u25b2, 0u25b3); Clear()
-        Select(0u25b6); Clear()
-        Select(0u25b7); Clear()
-        Select(0u25bc, 0u25bd); Clear()
-        Select(0u25c0); Clear()
-        Select(0u25c1); Clear()
-        Select(0u25c6, 0u25c8); Clear()
-        Select(0u25cb); Clear()
-        Select(0u25ce, 0u25d1); Clear()
-        Select(0u25e2, 0u25e5); Clear()
-        Select(0u25ef); Clear()
-        Select(0u2605, 0u2606); Clear()
-        Select(0u2609); Clear()
-        Select(0u260e, 0u260f); Clear()
-        Select(0u261c); Clear()
-        Select(0u261e); Clear()
-        Select(0u2640); Clear()
-        Select(0u2642); Clear()
-        Select(0u2660, 0u2661); Clear()
-        Select(0u2663, 0u2665); Clear()
-        Select(0u2667, 0u266a); Clear()
-        Select(0u266c, 0u266d); Clear()
-        Select(0u266f); Clear()
-        Select(0u269e, 0u269f); Clear()
-        Select(0u26bf); Clear()
-        Select(0u26c6, 0u26cd); Clear()
-        Select(0u26cf, 0u26d3); Clear()
-        Select(0u26d5, 0u26e1); Clear()
-        Select(0u26e3); Clear()
-        Select(0u26e8, 0u26e9); Clear()
-        Select(0u26eb, 0u26f1); Clear()
-        Select(0u26f4); Clear()
-        Select(0u26f6, 0u26f9); Clear()
-        Select(0u26fb, 0u26fc); Clear()
-        Select(0u26fe, 0u26ff); Clear()
-        Select(0u273d); Clear()
-        Select(0u2776, 0u277f); Clear()
-        Select(0u2b56, 0u2b59); Clear()
-        Select(0u3248, 0u324f); Clear()
-        Select(0ue000, 0uf8ff); Clear()
-        Select(0ufe00, 0ufe0f); Clear()
-        Select(0ufffd); Clear()
-    endif
+    SelectNone()
+
+    ## 記号
+    SelectMore(0u00a2, 0u0522)
+    SelectMore(0u0E3F)
+    SelectMore(0u2010, 0u2021)
+    SelectMore(0u2024, 0u2026)
+    SelectMore(0u202f, 0u204b)
+    SelectMore(0u2070, 0u208e)
+    SelectMore(0u20a0, 0u20b9)
+    SelectMore(0u2116, 0u215f)
+    SelectMore(0u2200, 0u2215)
+    SelectMore(0u221a, 0u222d)
+
+    ## 矢印
+    SelectMore(0u2190, 0u2199)
+    SelectMore(0u21a8)
+    SelectMore(0u21b0, 0u21b5)
+    SelectMore(0u21b8, 0u21b9)
+    SelectMore(0u21c4, 0u21cc)
+    SelectMore(0u21d0, 0u21d9)
+    SelectMore(0u21e4, 0u21ed)
+    SelectMore(0u21f5)
+    SelectMore(0u27a1)
+    SelectMore(0u2b05, 0u2b07)
+
+    ## ≒≠≡
+    SelectMore(0u2252)
+    SelectMore(0u2260)
+    SelectMore(0u2261)
+
+    ## 罫線、図形
+    SelectMore(0u2500, 0u25af)
+    SelectMore(0u25b1, 0u25b3)
+    SelectMore(0u25b6, 0u25b7)
+    SelectMore(0u25ba, 0u25bd)
+    SelectMore(0u25c0, 0u25c1)
+    SelectMore(0u25c4, 0u25cc)
+    SelectMore(0u25ce, 0u25d3)
+    SelectMore(0u25d8, 0u25d9)
+    SelectMore(0u25e2, 0u25e5)
+    SelectMore(0u25af)
+    SelectMore(0u25e6)
+    SelectMore(0u25ef)
+    SelectMore(0u266a)
+    SelectMore(0u2756)
+    SelectMore(0u29fa, 0u29fb)
+    SelectMore(0u2A2F)
+    SelectMore(0u2b1a)
+
+    ## 可視化文字対策 ビュレット系記号を半角に
+    SelectFewer(0u2022)
+    SelectFewer(0u00b7)
+    SelectFewer(0u2024)
+    SelectFewer(0u2219)
+    SelectFewer(0u25d8)
+    SelectFewer(0u25e6)
+
+    Clear()
+
+    # Clear instructions
+    #Print("Clear instructions")
+    #SelectWorthOutputting()
+    #ClearInstrs()
+    #RoundToInt(); RemoveOverlap(); RoundToInt()        
+    #AutoHint()
+    #AutoInstr()
+
+    # Save modified Hack
+    Print("Save " + output_list[i])
+    Save("${tmpdir}/" + output_list[i])
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified Hack console
+########################################
+
+cat > ${tmpdir}/${modified_hack_console_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified Hack")
+
+# Set parameters
+input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
+output_list = ["${modified_hack_console_regular}", "${modified_hack_console_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+    # Open Hack
+    Print("Open " + input_list[i])
+    Open(input_list[i])
+    SelectWorthOutputting()
+    UnlinkReference()
+    RoundToInt(100)
+
+    # _ のかすれ対応
+    Select(0u005f); Move(0, 1)
 
     # Clear instructions
     #Print("Clear instructions")
@@ -573,8 +475,6 @@ hack_list  = ["${tmpdir}/${modified_hack_regular}", \\
                      "${tmpdir}/${modified_hack_bold}"]
 genjyuu_list       = ["${tmpdir}/${modified_genjyuu_regular}", \\
                      "${tmpdir}/${modified_genjyuu_bold}"]
-#genjyuu_list       = ["${input_genjyuu_regular}", \\
-#                     "${input_genjyuu_bold}"]
 fontfamily        = "${hackgen_familyname}"
 fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
@@ -649,39 +549,130 @@ while (i < SizeOf(fontstyle_list))
         endif
     endif
 
-#    # Edit zenkaku comma and period
-#    Print("Edit zenkaku comma and period")
-#    #Select(0uff0c); Scale(150, 150, 100, 0); SetWidth(1000)
-#    #Select(0uff0e); Scale(150, 150, 100, 0); SetWidth(1000)
-#    Select(0uff0c); Scale(150, 150, $(printf '%.0f' $(echo "scale=1; $em * 0.1" | bc)), 0); SetWidth($em)
-#    Select(0uff0e); Scale(150, 150, $(printf '%.0f' $(echo "scale=1; $em * 0.1" | bc)), 0); SetWidth($em)
-#
-#    # Edit zenkaku colon and semicolon
-#    Print("Edit zenkaku colon and semicolon")
-#    Select(0uff0c); Copy(); Select(0uff1b); Paste()
-#    Select(0uff0e); Copy(); Select(0uff1b); PasteWithOffset(0, 400)
-#    CenterInWidth()
-#    Select(0uff1a); Paste(); PasteWithOffset(0, 400)
-#    CenterInWidth()
-#
-#    # Edit zenkaku brackets
-#    Print("Edit zenkaku brackets")
-#    #Select(0u0028); Copy(); Select(0uff08); Paste(); Move(250, 0); SetWidth(1000) # (
-#    #Select(0u0029); Copy(); Select(0uff09); Paste(); Move(250, 0); SetWidth(1000) # )
-#    #Select(0u005b); Copy(); Select(0uff3b); Paste(); Move(250, 0); SetWidth(1000) # [
-#    #Select(0u005d); Copy(); Select(0uff3d); Paste(); Move(250, 0); SetWidth(1000) # ]
-#    #Select(0u007b); Copy(); Select(0uff5b); Paste(); Move(250, 0); SetWidth(1000) # {
-#    #Select(0u007d); Copy(); Select(0uff5d); Paste(); Move(250, 0); SetWidth(1000) # }
-#    #Select(0u003c); Copy(); Select(0uff1c); Paste(); Move(250, 0); SetWidth(1000) # <
-#    #Select(0u003e); Copy(); Select(0uff1e); Paste(); Move(250, 0); SetWidth(1000) # >
-#    Select(0u0028); Copy(); Select(0uff08); Paste(); Move($(($em / 4)), 0); SetWidth($em) # (
-#    Select(0u0029); Copy(); Select(0uff09); Paste(); Move($(($em / 4)), 0); SetWidth($em) # )
-#    Select(0u005b); Copy(); Select(0uff3b); Paste(); Move($(($em / 4)), 0); SetWidth($em) # [
-#    Select(0u005d); Copy(); Select(0uff3d); Paste(); Move($(($em / 4)), 0); SetWidth($em) # ]
-#    Select(0u007b); Copy(); Select(0uff5b); Paste(); Move($(($em / 4)), 0); SetWidth($em) # {
-#    Select(0u007d); Copy(); Select(0uff5d); Paste(); Move($(($em / 4)), 0); SetWidth($em) # }
-#    Select(0u003c); Copy(); Select(0uff1c); Paste(); Move($(($em / 4)), 0); SetWidth($em) # <
-#    Select(0u003e); Copy(); Select(0uff1e); Paste(); Move($(($em / 4)), 0); SetWidth($em) # >
+    # Edit en and em dashes
+    Print("Edit en and em dashes")
+    Select(0u2013); Copy()
+    PasteWithOffset(200, 0); PasteWithOffset(-200, 0)
+    OverlapIntersect()
+    Select(0u2014); Copy()
+    PasteWithOffset(490, 0); PasteWithOffset(-490, 0)
+    OverlapIntersect()
+
+    # Proccess before saving
+    #Print("Process before saving (it may take a few minutes)")
+    #Select(".notdef")
+    #DetachAndRemoveGlyphs()
+    #SelectWorthOutputting()
+    #RoundToInt(); RemoveOverlap(); RoundToInt()
+    #AutoHint()
+    #AutoInstr()
+
+    # Save HackGen
+    if (fontfamilysuffix != "")
+        Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
+        #Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+    else
+        Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
+        #Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+    endif
+    Close()
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for HackGen Console
+########################################
+
+cat > ${tmpdir}/${hackgen_console_generator} << _EOT_
+#!$fontforge_command -script
+
+# Print message
+Print("Generate HackGen")
+
+# Set parameters
+hack_list  = ["${tmpdir}/${modified_hack_console_regular}", \\
+                     "${tmpdir}/${modified_hack_console_bold}"]
+genjyuu_list       = ["${tmpdir}/${modified_genjyuu_regular}", \\
+                     "${tmpdir}/${modified_genjyuu_bold}"]
+fontfamily        = "${hackgen_familyname}"
+fontfamilysuffix  = "${hackgen_console_suffix}"
+fontstyle_list    = ["Regular", "Bold"]
+fontweight_list   = [400,       700]
+panoseweight_list = [5,         8]
+copyright         = "Copyright (c) 2019, Yuko Otawara"
+version           = "${hackgen_version}"
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(fontstyle_list))
+    # Open new file
+    New()
+
+    # Set encoding to Unicode-bmp
+    Reencode("unicode")
+
+    # Set configuration
+    if (fontfamilysuffix != "")
+        SetFontNames(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i], \\
+                     fontfamily + " " + fontfamilysuffix, \\
+                     fontfamily + " " + fontfamilysuffix + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+    else
+        SetFontNames(fontfamily + "-" + fontstyle_list[i], \\
+                     fontfamily, \\
+                     fontfamily + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+    endif
+    SetTTFName(0x409, 2, fontstyle_list[i])
+    SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
+    #ScaleToEm(860, 140)
+    #ScaleToEm(${scaletoem_ascent}, ${scaletoem_descent})
+    SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
+    SetOS2Value("Width",                   5) # Medium
+    SetOS2Value("FSType",                  0)
+    SetOS2Value("VendorID",           "PfEd")
+    SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
+    SetOS2Value("WinAscentIsOffset",       0)
+    SetOS2Value("WinDescentIsOffset",      0)
+    SetOS2Value("TypoAscentIsOffset",      0)
+    SetOS2Value("TypoDescentIsOffset",     0)
+    SetOS2Value("HHeadAscentIsOffset",     0)
+    SetOS2Value("HHeadDescentIsOffset",    0)
+    SetOS2Value("WinAscent",             ${hackgen_ascent})
+    SetOS2Value("WinDescent",            ${hackgen_descent})
+    SetOS2Value("TypoAscent",            860)
+    SetOS2Value("TypoDescent",          -140)
+    SetOS2Value("TypoLineGap",             0)
+    SetOS2Value("HHeadAscent",           ${hackgen_ascent})
+    SetOS2Value("HHeadDescent",         -${hackgen_descent})
+    SetOS2Value("HHeadLineGap",            0)
+    SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+
+    # Merge Hack with GenJyuuGothicL
+    Print("Merge " + hack_list[i]:t \\
+          + " with " + genjyuu_list[i]:t)
+    MergeFonts(hack_list[i])
+    MergeFonts(genjyuu_list[i])
+
+    # Edit zenkaku space (from ballot box and heavy greek cross)
+    if ("${zenkaku_space_glyph}" != "0u3000")
+        Print("Edit zenkaku space")
+        if ("${zenkaku_space_glyph}" == "")
+            Select(0u2610); Copy(); Select(0u3000); Paste()
+            Select(0u271a); Copy(); Select(0u3000); PasteInto()
+            OverlapIntersect()
+        else
+            Select(${zenkaku_space_glyph}); Copy(); Select(0u3000); Paste()
+        endif
+    endif
 
     # Edit en and em dashes
     Print("Edit en and em dashes")
@@ -1107,30 +1098,27 @@ _EOT_
 ########################################
 
 # Generate HackGen
-$fontforge_command -script ${tmpdir}/${modified_hack_generator} \
-    2> $redirection_stderr || exit 4
-$fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} \
-    2> $redirection_stderr || exit 4
-$fontforge_command -script ${tmpdir}/${hackgen_generator} \
-    2> $redirection_stderr || exit 4
-#$fontforge_command -script ${tmpdir}/${hackgen_discord_generator} \
-#    ${hackgen_familyname}${hackgen_familyname_suffix}-Regular.ttf "${non_discorded_characters}" \
-#    2> $redirection_stderr || exit 4
-#$fontforge_command -script ${tmpdir}/${hackgen_discord_generator} \
-#    ${hackgen_familyname}${hackgen_familyname_suffix}-Bold.ttf "${non_discorded_characters}" \
-#    2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${modified_hack_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
+
 $fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
     ${hackgen_familyname}${hackgen_familyname_suffix}-Regular.ttf \
     2> $redirection_stderr || exit 4
+
 $fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
     ${hackgen_familyname}${hackgen_familyname_suffix}-Bold.ttf \
     2> $redirection_stderr || exit 4
-#$fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
-#    ${hackgen_familyname}${hackgen_familyname_suffix}Discord-Regular.ttf \
-#    2> $redirection_stderr || exit 4
-#$fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
-#    ${hackgen_familyname}${hackgen_familyname_suffix}Discord-Bold.ttf \
-#    2> $redirection_stderr || exit 4
+
+$fontforge_command -script ${tmpdir}/${modified_hack_console_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
+
+# powerline patch
+for style in Regular Bold
+do
+  $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
+  mv "${hackgen_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
+done
 
 # Remove temporary directory
 if [ "${leaving_tmp_flag}" = "false" ]
