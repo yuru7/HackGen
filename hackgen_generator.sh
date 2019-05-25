@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.3.1"
+hackgen_version="0.4.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -19,7 +19,7 @@ em=$(($scaletoem_ascent + $scaletoem_descent))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
-powerline_patch_path="${base_dir}/powerline-fontpatcher/scripts/powerline-fontpatcher"
+powerline_patch_path="${base_dir}/fontpatcher-develop/scripts/powerline-fontpatcher"
 
 # Set redirection of stderr
 redirection_stderr="/dev/null"
@@ -48,8 +48,6 @@ modified_hack_console_bold="Modified-Hack-Console-Bold.sfd"
 modified_genjyuu_generator="modified_genjyuu_generator.pe"
 modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.sfd"
 modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.sfd"
-#modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.ttf"
-#modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.ttf"
 hackgen_generator="hackgen_generator.pe"
 hackgen_console_generator="hackgen_console_generator.pe"
 hackgen_discord_generator="hackgen_discord_generator.pe"
@@ -234,17 +232,17 @@ else
 fi
 
 ########################################
-# Generate script for modified Hack
+# Generate script for modified Hack console
 ########################################
 
-cat > ${tmpdir}/${modified_hack_generator} << _EOT_
+cat > ${tmpdir}/${modified_hack_console_generator} << _EOT_
 #!$fontforge_command -script
 
 Print("Generate modified Hack")
 
 # Set parameters
 input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
-output_list = ["${modified_hack_regular}", "${modified_hack_bold}"]
+output_list = ["${modified_hack_console_regular}", "${modified_hack_console_bold}"]
 
 # Begin loop of regular and bold
 i = 0
@@ -254,12 +252,40 @@ while (i < SizeOf(input_list))
     Open(input_list[i])
     SelectWorthOutputting()
     UnlinkReference()
-    RoundToInt(100)
-    #ScaleToEm(860, 140)
-    #ScaleToEm(${scaletoem_ascent}, ${scaletoem_descent})
+    RoundToInt()
 
     # _ のかすれ対応
     Select(0u005f); Move(0, 1)
+
+    # Save modified Hack
+    Print("Save " + output_list[i])
+    Save("${tmpdir}/" + output_list[i])
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified Hack
+########################################
+
+cat > ${tmpdir}/${modified_hack_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified Hack")
+
+# Set parameters
+input_list  = ["${tmpdir}/${modified_hack_console_regular}", "${tmpdir}/${modified_hack_console_bold}"]
+output_list = ["${modified_hack_regular}", "${modified_hack_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+    # Open Hack
+    Print("Open " + input_list[i])
+    Open(input_list[i])
 
     # Remove ambiguous glyphs
     SelectNone()
@@ -325,58 +351,6 @@ while (i < SizeOf(input_list))
 
     ## Eclipse Pleiades 半角スペース記号対策
     Select(0u054d); Copy(); Select(0u1d1c); Paste()
-
-    # Clear instructions
-    #Print("Clear instructions")
-    #SelectWorthOutputting()
-    #ClearInstrs()
-    #RoundToInt(); RemoveOverlap(); RoundToInt()        
-    #AutoHint()
-    #AutoInstr()
-
-    # Save modified Hack
-    Print("Save " + output_list[i])
-    Save("${tmpdir}/" + output_list[i])
-
-    i += 1
-endloop
-
-Quit()
-_EOT_
-
-########################################
-# Generate script for modified Hack console
-########################################
-
-cat > ${tmpdir}/${modified_hack_console_generator} << _EOT_
-#!$fontforge_command -script
-
-Print("Generate modified Hack")
-
-# Set parameters
-input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
-output_list = ["${modified_hack_console_regular}", "${modified_hack_console_bold}"]
-
-# Begin loop of regular and bold
-i = 0
-while (i < SizeOf(input_list))
-    # Open Hack
-    Print("Open " + input_list[i])
-    Open(input_list[i])
-    SelectWorthOutputting()
-    UnlinkReference()
-    RoundToInt(100)
-
-    # _ のかすれ対応
-    Select(0u005f); Move(0, 1)
-
-    # Clear instructions
-    #Print("Clear instructions")
-    #SelectWorthOutputting()
-    #ClearInstrs()
-    #RoundToInt(); RemoveOverlap(); RoundToInt()        
-    #AutoHint()
-    #AutoInstr()
 
     # Save modified Hack
     Print("Save " + output_list[i])
@@ -1102,7 +1076,10 @@ _EOT_
 ########################################
 
 # Generate HackGen
+$fontforge_command -script ${tmpdir}/${modified_hack_console_generator} 2> $redirection_stderr || exit 4
+## modified_hack_console で作った sfd を元に作る
 $fontforge_command -script ${tmpdir}/${modified_hack_generator} 2> $redirection_stderr || exit 4
+
 $fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} 2> $redirection_stderr || exit 4
 $fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
 
@@ -1114,7 +1091,6 @@ $fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
     ${hackgen_familyname}${hackgen_familyname_suffix}-Bold.ttf \
     2> $redirection_stderr || exit 4
 
-$fontforge_command -script ${tmpdir}/${modified_hack_console_generator} 2> $redirection_stderr || exit 4
 $fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
 
 # powerline patch
