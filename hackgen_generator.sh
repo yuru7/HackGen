@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.4.0"
+hackgen_version="0.5.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -10,12 +10,12 @@ hackgen_familyname_suffix=""
 hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
-hackgen_ascent=950
-hackgen_descent=250
+hackgen_ascent=921
+hackgen_descent=213
 
-scaletoem_ascent=881
-scaletoem_descent=143
-em=$(($scaletoem_ascent + $scaletoem_descent))
+em_ascent=881
+em_descent=143
+em=$(($em_ascent + $em_descent))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
@@ -154,8 +154,11 @@ then
     done
     fonts_directories=$tmp
     # Search Hack
-    input_hack_regular=`find $fonts_directories -follow -name Hack-Regular.sfd | head -n 1`
-    input_hack_bold=`find $fonts_directories -follow -name Hack-Bold.sfd | head -n 1`
+    # input_hack_regular=`find $fonts_directories -follow -name Hack-Regular.sfd | head -n 1`
+    # input_hack_bold=`find $fonts_directories -follow -name Hack-Bold.sfd | head -n 1`
+    input_hack_regular=`find $fonts_directories -follow -name Hack-Regular.ttf | head -n 1`
+    input_hack_bold=`find $fonts_directories -follow -name Hack-Bold.ttf | head -n 1`
+
     if [ -z "${input_hack_regular}" -o -z "${input_hack_bold}" ]
     then
         echo "Error: Hack-Regular.ttf and/or Hack-Bold.ttf not found" >&2
@@ -252,10 +255,26 @@ while (i < SizeOf(input_list))
     Open(input_list[i])
     SelectWorthOutputting()
     UnlinkReference()
-    RoundToInt()
+    ScaleToEm(${em_ascent}, ${em_descent})
+    Scale(90, 94, 0, 0)
+
+    # 幅の変更 (Move で文字幅も変わることに注意)
+    move_pt = -8
+    width_pt = 538 - move_pt
+    SetWidth(width_pt, 0)
+    Move(move_pt, 0)
+
+    # パイプの破断線化
+    Select(0u00a6); Copy()
+    Select(0u007c); Paste()
+    Scale(100, 114)
 
     # _ のかすれ対応
     Select(0u005f); Move(0, 1)
+
+    # パスの小数点以下を切り捨て
+    SelectWorthOutputting()
+    RoundToInt()
 
     # Save modified Hack
     Print("Save " + output_list[i])
@@ -383,6 +402,7 @@ while (i < SizeOf(input_list))
     Open(input_list[i])
     SelectWorthOutputting()
     UnlinkReference()
+    ScaleToEm(${em_ascent}, ${em_descent})
 
     ii = 0
     end_genjyuu = 65535
@@ -405,26 +425,30 @@ while (i < SizeOf(input_list))
     Print("Half width check loop end")    
     
     Print("Full SetWidth start")
+    move_pt = 26
+    width_pt = 1076 - move_pt
     SelectWorthOutputting()
     ii=0
     while (ii < i_halfwidth)
       SelectFewer(halfwidth_array[ii])
       ii = ii + 1
     endloop
-    SetWidth(1064)
-    Move(20, 0)
+    SetWidth(width_pt)
+    Move(move_pt, 0)
     Print("Full SetWidth end")
     
     SelectNone()
 
     Print("Half SetWidth start")
+    move_pt = 13
+    width_pt = 538 - move_pt
     ii=0
     while (ii < i_halfwidth)
       SelectMore(halfwidth_array[ii])
       ii = ii + 1
     endloop
-    SetWidth(532)
-    Move(10, 0)
+    SetWidth(width_pt)
+    Move(move_pt, 0)
     Print("Half SetWidth end")
         
     # Save modified GenJyuuGothicL
@@ -486,8 +510,7 @@ while (i < SizeOf(fontstyle_list))
     endif
     SetTTFName(0x409, 2, fontstyle_list[i])
     SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
-    #ScaleToEm(860, 140)
-    #ScaleToEm(${scaletoem_ascent}, ${scaletoem_descent})
+    ScaleToEm(${em_ascent}, ${em_descent})
     SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
     SetOS2Value("Width",                   5) # Medium
     SetOS2Value("FSType",                  0)
@@ -501,8 +524,8 @@ while (i < SizeOf(fontstyle_list))
     SetOS2Value("HHeadDescentIsOffset",    0)
     SetOS2Value("WinAscent",             ${hackgen_ascent})
     SetOS2Value("WinDescent",            ${hackgen_descent})
-    SetOS2Value("TypoAscent",            860)
-    SetOS2Value("TypoDescent",          -140)
+    SetOS2Value("TypoAscent",            ${em_ascent})
+    SetOS2Value("TypoDescent",          -${em_descent})
     SetOS2Value("TypoLineGap",             0)
     SetOS2Value("HHeadAscent",           ${hackgen_ascent})
     SetOS2Value("HHeadDescent",         -${hackgen_descent})
@@ -611,8 +634,7 @@ while (i < SizeOf(fontstyle_list))
     endif
     SetTTFName(0x409, 2, fontstyle_list[i])
     SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
-    #ScaleToEm(860, 140)
-    #ScaleToEm(${scaletoem_ascent}, ${scaletoem_descent})
+    ScaleToEm(${em_ascent}, ${em_descent})
     SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
     SetOS2Value("Width",                   5) # Medium
     SetOS2Value("FSType",                  0)
@@ -626,8 +648,8 @@ while (i < SizeOf(fontstyle_list))
     SetOS2Value("HHeadDescentIsOffset",    0)
     SetOS2Value("WinAscent",             ${hackgen_ascent})
     SetOS2Value("WinDescent",            ${hackgen_descent})
-    SetOS2Value("TypoAscent",            860)
-    SetOS2Value("TypoDescent",          -140)
+    SetOS2Value("TypoAscent",            ${em_ascent})
+    SetOS2Value("TypoDescent",          -${em_descent})
     SetOS2Value("TypoLineGap",             0)
     SetOS2Value("HHeadAscent",           ${hackgen_ascent})
     SetOS2Value("HHeadDescent",         -${hackgen_descent})

@@ -6,8 +6,8 @@ for P in ${BASE_DIR}/HackGen*.ttf; do
   ttx -t OS/2 -t post "$P"
 
   xAvgCharWidth_value=$(grep xAvgCharWidth "${P%%.ttf}.ttx" | awk -F\" '{print $2}')
-  #sed -i.bak -e 's,xAvgCharWidth value="'$xAvgCharWidth_value'",xAvgCharWidth value="500",' "${P%%.ttf}.ttx"
-  sed -i.bak -e 's,xAvgCharWidth value="'$xAvgCharWidth_value'",xAvgCharWidth value="532",' "${P%%.ttf}.ttx"
+  #sed -i.bak -e 's,xAvgCharWidth value="'$xAvgCharWidth_value'",xAvgCharWidth value="532",' "${P%%.ttf}.ttx"
+  sed -i.bak -e 's,xAvgCharWidth value="'$xAvgCharWidth_value'",xAvgCharWidth value="538",' "${P%%.ttf}.ttx"
 
   fsSelection_value=$(grep fsSelection "${P%%.ttf}.ttx" | awk -F\" '{print $2}')
   if [ `echo $P | grep Regular` ]; then
