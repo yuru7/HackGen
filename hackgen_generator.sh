@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.5.0"
+hackgen_version="0.5.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -11,7 +11,7 @@ hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
 hackgen_ascent=921
-hackgen_descent=213
+hackgen_descent=203
 
 em_ascent=881
 em_descent=143
@@ -260,20 +260,26 @@ while (i < SizeOf(input_list))
 
     # 幅の変更 (Move で文字幅も変わることに注意)
     move_pt = -8
-    width_pt = 538 - move_pt
-    SetWidth(width_pt, 0)
+    width_pt = 538
     Move(move_pt, 0)
+    SetWidth(width_pt, 0)
 
     # パイプの破断線化
     Select(0u00a6); Copy()
     Select(0u007c); Paste()
     Scale(100, 114)
 
-    # _ のかすれ対応
-    Select(0u005f); Move(0, 1)
+    # ぼやけ対応
+    #Select(0u003d); Scale(100, 98) # =
+
+    # Eclipse Pleiades 半角スペース記号対策
+    Select(0u054d); Copy()
+    Select(0u1d1c); Paste()
+    Scale(100, 60)
 
     # パスの小数点以下を切り捨て
     SelectWorthOutputting()
+    Simplify()
     RoundToInt()
 
     # Save modified Hack
@@ -368,9 +374,6 @@ while (i < SizeOf(input_list))
     ## 選択中の文字を削除
     Clear()
 
-    ## Eclipse Pleiades 半角スペース記号対策
-    Select(0u054d); Copy(); Select(0u1d1c); Paste()
-
     # Save modified Hack
     Print("Save " + output_list[i])
     Save("${tmpdir}/" + output_list[i])
@@ -426,29 +429,29 @@ while (i < SizeOf(input_list))
     
     Print("Full SetWidth start")
     move_pt = 26
-    width_pt = 1076 - move_pt
+    width_pt = 1076
     SelectWorthOutputting()
     ii=0
     while (ii < i_halfwidth)
       SelectFewer(halfwidth_array[ii])
       ii = ii + 1
     endloop
-    SetWidth(width_pt)
     Move(move_pt, 0)
+    SetWidth(width_pt)
     Print("Full SetWidth end")
     
     SelectNone()
 
     Print("Half SetWidth start")
     move_pt = 13
-    width_pt = 538 - move_pt
+    width_pt = 538
     ii=0
     while (ii < i_halfwidth)
       SelectMore(halfwidth_array[ii])
       ii = ii + 1
     endloop
-    SetWidth(width_pt)
     Move(move_pt, 0)
+    SetWidth(width_pt)
     Print("Half SetWidth end")
         
     # Save modified GenJyuuGothicL
