@@ -274,7 +274,7 @@ while (i < SizeOf(input_list))
     Select(0u0030); Paste(); Scale(97, 100)
     Select(0u00b7); Copy()
     Select(0ufff0); Paste(); Scale(94, 100); Copy()
-    Select(0u0030); PasteInto()
+    Select(0u0030); PasteWithOffset(0, 30)
     Select(0ufff0); Clear()
 
     # Eclipse Pleiades 半角スペース記号 (u+054d) 対策
