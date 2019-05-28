@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.5.1"
+hackgen_version="0.5.2"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -259,8 +259,8 @@ while (i < SizeOf(input_list))
     Scale(90, 94, 0, 0)
 
     # 幅の変更 (Move で文字幅も変わることに注意)
-    move_pt = -8
-    width_pt = 538
+    move_pt = -6
+    width_pt = 542
     Move(move_pt, 0)
     SetWidth(width_pt, 0)
 
@@ -428,8 +428,8 @@ while (i < SizeOf(input_list))
     Print("Half width check loop end")    
     
     Print("Full SetWidth start")
-    move_pt = 26
-    width_pt = 1076
+    move_pt = 30
+    width_pt = 1084
     SelectWorthOutputting()
     ii=0
     while (ii < i_halfwidth)
@@ -443,8 +443,8 @@ while (i < SizeOf(input_list))
     SelectNone()
 
     Print("Half SetWidth start")
-    move_pt = 13
-    width_pt = 538
+    move_pt = 15
+    width_pt = 542
     ii=0
     while (ii < i_halfwidth)
       SelectMore(halfwidth_array[ii])
