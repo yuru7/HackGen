@@ -10,7 +10,7 @@ hackgen_familyname_suffix=""
 hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
-hackgen_ascent=921
+hackgen_ascent=941
 hackgen_descent=203
 
 em_ascent=881
