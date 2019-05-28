@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.5.2"
+hackgen_version="0.5.3"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -241,7 +241,7 @@ fi
 cat > ${tmpdir}/${modified_hack_console_generator} << _EOT_
 #!$fontforge_command -script
 
-Print("Generate modified Hack")
+Print("Generate modified Hack Console")
 
 # Set parameters
 input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
@@ -269,10 +269,15 @@ while (i < SizeOf(input_list))
     Select(0u007c); Paste()
     Scale(100, 114)
 
-    # ぼやけ対応
-    #Select(0u003d); Scale(100, 98) # =
+    # 0 生成
+    Select(0u004f); Copy()
+    Select(0u0030); Paste(); Scale(97, 100)
+    Select(0u00b7); Copy()
+    Select(0ufff0); Paste(); Scale(94, 100); Copy()
+    Select(0u0030); PasteInto()
+    Select(0ufff0); Clear()
 
-    # Eclipse Pleiades 半角スペース記号対策
+    # Eclipse Pleiades 半角スペース記号 (u+054d) 対策
     Select(0u054d); Copy()
     Select(0u1d1c); Paste()
     Scale(100, 60)
@@ -597,7 +602,7 @@ cat > ${tmpdir}/${hackgen_console_generator} << _EOT_
 #!$fontforge_command -script
 
 # Print message
-Print("Generate HackGen")
+Print("Generate HackGen Console")
 
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hack_console_regular}", \\
