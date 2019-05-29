@@ -1,4 +1,4 @@
-# 白源 (はくげん／HackGen)
+# プログラミングフォント 白源 (はくげん／HackGen)
 
 HackGen is a composite font of Hack and GenJyuu-Gothic.
 
