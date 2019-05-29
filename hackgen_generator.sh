@@ -2,20 +2,33 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.5.3"
+hackgen_version="0.6.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
 hackgen_familyname_suffix=""
+hackgen53_familyname="HackGen53"
+hackgen53_familyname_suffix=""
 hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
-hackgen_ascent=941
-hackgen_descent=203
+hackgen_ascent=951
+hackgen_descent=253
 
 em_ascent=881
 em_descent=143
 em=$(($em_ascent + $em_descent))
+
+typo_line_gap=150
+
+hack_width=616
+genjyuu_width=1024
+
+hackgen_half_width=538
+hackgen_full_width=$((${hackgen_half_width} * 2))
+
+hackgen53_half_width=618
+hackgen53_full_width=$((${hackgen53_half_width} * 5 / 3))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
@@ -39,18 +52,42 @@ scaling_down_flag="true"
 non_discorded_characters=""
 
 # Set filenames
-modified_hack_generator="modified_hack_generator.pe"
-modified_hack_regular="Modified-Hack-Regular.sfd"
-modified_hack_bold="Modified-Hack-Bold.sfd"
+modified_hack_material_generator="modified_hack_material_generator.pe"
+modified_hack_material_regular="Modified-Hack-Material-Regular.sfd"
+modified_hack_material_bold="Modified-Hack-Material-Bold.sfd"
+
 modified_hack_console_generator="modified_hack_console_generator.pe"
 modified_hack_console_regular="Modified-Hack-Console-Regular.sfd"
 modified_hack_console_bold="Modified-Hack-Console-Bold.sfd"
+
+modified_hack53_console_generator="modified_hack53_console_generator.pe"
+modified_hack53_console_regular="Modified-Hack53-Console-Regular.sfd"
+modified_hack53_console_bold="Modified-Hack53-Console-Bold.sfd"
+
+modified_hack_generator="modified_hack_generator.pe"
+modified_hack_regular="Modified-Hack-Regular.sfd"
+modified_hack_bold="Modified-Hack-Bold.sfd"
+
+modified_hack53_generator="modified_hack53_generator.pe"
+modified_hack53_regular="Modified-Hack53-Regular.sfd"
+modified_hack53_bold="Modified-Hack53-Bold.sfd"
+
 modified_genjyuu_generator="modified_genjyuu_generator.pe"
 modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.sfd"
 modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.sfd"
+
+modified_genjyuu53_generator="modified_genjyuu53_generator.pe"
+modified_genjyuu53_regular="Modified-GenJyuuGothicL53-Monospace-regular.sfd"
+modified_genjyuu53_bold="Modified-GenJyuuGothicL53-Monospace-bold.sfd"
+
 hackgen_generator="hackgen_generator.pe"
 hackgen_console_generator="hackgen_console_generator.pe"
-hackgen_discord_generator="hackgen_discord_generator.pe"
+
+hackgen53_generator="hackgen53_generator.pe"
+hackgen53_console_generator="hackgen53_console_generator.pe"
+
+# hackgen_discord_generator="hackgen_discord_generator.pe"
+
 regular2oblique_converter="regular2oblique_converter.sh"
 
 ########################################
@@ -235,17 +272,17 @@ else
 fi
 
 ########################################
-# Generate script for modified Hack console
+# Generate script for modified Hack Material
 ########################################
 
-cat > ${tmpdir}/${modified_hack_console_generator} << _EOT_
+cat > ${tmpdir}/${modified_hack_material_generator} << _EOT_
 #!$fontforge_command -script
 
-Print("Generate modified Hack Console")
+Print("Generate modified Hack Material")
 
 # Set parameters
 input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
-output_list = ["${modified_hack_console_regular}", "${modified_hack_console_bold}"]
+output_list = ["${modified_hack_material_regular}", "${modified_hack_material_bold}"]
 
 # Begin loop of regular and bold
 i = 0
@@ -256,13 +293,6 @@ while (i < SizeOf(input_list))
     SelectWorthOutputting()
     UnlinkReference()
     ScaleToEm(${em_ascent}, ${em_descent})
-    Scale(90, 94, 0, 0)
-
-    # 幅の変更 (Move で文字幅も変わることに注意)
-    move_pt = -6
-    width_pt = 542
-    Move(move_pt, 0)
-    SetWidth(width_pt, 0)
 
     # パイプの破断線化
     Select(0u00a6); Copy()
@@ -273,7 +303,7 @@ while (i < SizeOf(input_list))
     Select(0u004f); Copy()
     Select(0u0030); Paste(); Scale(97, 100)
     Select(0u00b7); Copy()
-    Select(0ufff0); Paste(); Scale(94, 100); Copy()
+    Select(0ufff0); Paste(); Scale(80, 130); Copy()
     Select(0u0030); PasteInto()
     Select(0ufff0); Clear()
 
@@ -281,6 +311,94 @@ while (i < SizeOf(input_list))
     Select(0u054d); Copy()
     Select(0u1d1c); Paste()
     Scale(100, 60)
+
+    # パスの小数点以下を切り捨て
+    SelectWorthOutputting()
+    Simplify()
+    RoundToInt()
+
+    # Save modified Hack
+    Print("Save " + output_list[i])
+    Save("${tmpdir}/" + output_list[i])
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified Hack console
+########################################
+
+cat > ${tmpdir}/${modified_hack_console_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified Hack Console")
+
+# Set parameters
+input_list  = ["${tmpdir}/${modified_hack_material_regular}", "${tmpdir}/${modified_hack_material_bold}"]
+output_list = ["${modified_hack_console_regular}", "${modified_hack_console_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+    # Open Hack
+    Print("Open " + input_list[i])
+    Open(input_list[i])
+    SelectWorthOutputting()
+    UnlinkReference()
+
+    Scale(90, 94, 0, 0)
+
+    # 幅の変更 (Move で文字幅も変わることに注意)
+    move_pt = $(((${hackgen_half_width} - ${hack_width}) / 2)) # -8
+    width_pt = ${hackgen_half_width}
+    Move(move_pt, 0)
+    SetWidth(width_pt, 0)
+
+    # パスの小数点以下を切り捨て
+    SelectWorthOutputting()
+    Simplify()
+    RoundToInt()
+
+    # Save modified Hack
+    Print("Save " + output_list[i])
+    Save("${tmpdir}/" + output_list[i])
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified Hack53 console
+########################################
+
+cat > ${tmpdir}/${modified_hack53_console_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified Hack53 Console")
+
+# Set parameters
+input_list  = ["${tmpdir}/${modified_hack_material_regular}", "${tmpdir}/${modified_hack_material_bold}"]
+output_list = ["${modified_hack53_console_regular}", "${modified_hack53_console_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+    # Open Hack
+    Print("Open " + input_list[i])
+    Open(input_list[i])
+    SelectWorthOutputting()
+    UnlinkReference()
+
+    # 幅の変更 (Move で文字幅も変わることに注意)
+    move_pt = $(((${hackgen53_half_width} - ${hack_width}) / 2)) # -8
+    width_pt = ${hackgen53_half_width}
+    Move(move_pt, 0)
+    SetWidth(width_pt, 0)
 
     # パスの小数点以下を切り捨て
     SelectWorthOutputting()
@@ -309,6 +427,98 @@ Print("Generate modified Hack")
 # Set parameters
 input_list  = ["${tmpdir}/${modified_hack_console_regular}", "${tmpdir}/${modified_hack_console_bold}"]
 output_list = ["${modified_hack_regular}", "${modified_hack_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+    # Open Hack
+    Print("Open " + input_list[i])
+    Open(input_list[i])
+
+    # Remove ambiguous glyphs
+    SelectNone()
+
+    ## 記号
+    SelectMore(0u00bc, 0u0522)
+    SelectMore(0u0E3F)
+    SelectMore(0u2010, 0u2021)
+    SelectMore(0u2024, 0u2026)
+    SelectMore(0u202f, 0u204b)
+    SelectMore(0u2070, 0u208e)
+    SelectMore(0u20a0, 0u20b9)
+    SelectMore(0u2116, 0u215f)
+    SelectMore(0u2200, 0u2215)
+    SelectMore(0u221a, 0u222d)
+
+    ## 矢印
+    SelectMore(0u2190, 0u2199)
+    SelectMore(0u21a8)
+    SelectMore(0u21b0, 0u21b5)
+    SelectMore(0u21b8, 0u21b9)
+    SelectMore(0u21c4, 0u21cc)
+    SelectMore(0u21d0, 0u21d9)
+    SelectMore(0u21e4, 0u21ed)
+    SelectMore(0u21f5)
+    SelectMore(0u27a1)
+    SelectMore(0u2b05, 0u2b07)
+
+    ## ≒≠≡
+    SelectMore(0u2252)
+    SelectMore(0u2260)
+    SelectMore(0u2261)
+
+    ## 罫線、図形
+    SelectMore(0u2500, 0u25af)
+    SelectMore(0u25b1, 0u25b3)
+    SelectMore(0u25b6, 0u25b7)
+    SelectMore(0u25ba, 0u25bd)
+    SelectMore(0u25c0, 0u25c1)
+    SelectMore(0u25c4, 0u25cc)
+    SelectMore(0u25ce, 0u25d3)
+    SelectMore(0u25d8, 0u25d9)
+    SelectMore(0u25e2, 0u25e5)
+    SelectMore(0u25af)
+    SelectMore(0u25e6)
+    SelectMore(0u25ef)
+    SelectMore(0u266a)
+    SelectMore(0u2756)
+    SelectMore(0u29fa, 0u29fb)
+    SelectMore(0u2A2F)
+    SelectMore(0u2b1a)
+
+    ## 可視化文字対策
+    SelectFewer(0u2022)
+    SelectFewer(0u00b7)
+    SelectFewer(0u2024)
+    SelectFewer(0u2219)
+    SelectFewer(0u25d8)
+    SelectFewer(0u25e6)
+
+    ## 選択中の文字を削除
+    Clear()
+
+    # Save modified Hack
+    Print("Save " + output_list[i])
+    Save("${tmpdir}/" + output_list[i])
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified Hack53
+########################################
+
+cat > ${tmpdir}/${modified_hack53_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified Hack")
+
+# Set parameters
+input_list  = ["${tmpdir}/${modified_hack53_console_regular}", "${tmpdir}/${modified_hack53_console_bold}"]
+output_list = ["${modified_hack53_regular}", "${modified_hack53_bold}"]
 
 # Begin loop of regular and bold
 i = 0
@@ -433,8 +643,8 @@ while (i < SizeOf(input_list))
     Print("Half width check loop end")    
     
     Print("Full SetWidth start")
-    move_pt = 30
-    width_pt = 1084
+    move_pt = $(((${hackgen_full_width} - ${genjyuu_width}) / 2)) # 26
+    width_pt = ${hackgen_full_width} # 1076
     SelectWorthOutputting()
     ii=0
     while (ii < i_halfwidth)
@@ -448,8 +658,89 @@ while (i < SizeOf(input_list))
     SelectNone()
 
     Print("Half SetWidth start")
-    move_pt = 15
-    width_pt = 542
+    move_pt = $(((${hackgen_half_width} - ${genjyuu_width} / 2) / 2)) # 13
+    width_pt = ${hackgen_half_width} # 538
+    ii=0
+    while (ii < i_halfwidth)
+      SelectMore(halfwidth_array[ii])
+      ii = ii + 1
+    endloop
+    Move(move_pt, 0)
+    SetWidth(width_pt)
+    Print("Half SetWidth end")
+        
+    # Save modified GenJyuuGothicL
+    Print("Save " + output_list[i])
+    Save("${tmpdir}/" + output_list[i])
+    Close()
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified GenJyuuGothicL for HackGen53
+########################################
+
+cat > ${tmpdir}/${modified_genjyuu53_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified GenJyuuGothicL")
+
+# Set parameters
+input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
+output_list = ["${modified_genjyuu53_regular}", "${modified_genjyuu53_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+    # Open GenJyuuGothicL
+    Print("Open " + input_list[i])
+    Open(input_list[i])
+    SelectWorthOutputting()
+    UnlinkReference()
+    ScaleToEm(${em_ascent}, ${em_descent})
+
+    ii = 0
+    end_genjyuu = 65535
+    halfwidth_array = Array(end_genjyuu)
+    i_halfwidth = 0
+    Print("Half width check loop start")    
+    while ( ii <= end_genjyuu )
+      if ( ii % 5000 == 0 )
+        Print("Processing progress: " + ii)
+      endif
+      if (WorthOutputting(ii))
+        Select(ii)
+        if (GlyphInfo("Width")<768)
+          halfwidth_array[i_halfwidth] = ii
+          i_halfwidth = i_halfwidth + 1
+        endif
+      endif
+      ii = ii + 1
+    endloop
+    Print("Half width check loop end")    
+    
+    Print("Full SetWidth start")
+    move_pt = $(((${hackgen53_full_width} - ${genjyuu_width}) / 2)) # 3
+    width_pt = ${hackgen53_full_width} # 1030
+    SelectWorthOutputting()
+    ii=0
+    while (ii < i_halfwidth)
+      SelectFewer(halfwidth_array[ii])
+      ii = ii + 1
+    endloop
+    Move(move_pt, 0)
+    SetWidth(width_pt)
+    Print("Full SetWidth end")
+    
+    SelectNone()
+
+    Print("Half SetWidth start")
+    move_pt = $(((${hackgen53_half_width} - ${genjyuu_width} / 2) / 2)) # 53
+    width_pt = ${hackgen53_half_width} # 618
     ii=0
     while (ii < i_halfwidth)
       SelectMore(halfwidth_array[ii])
@@ -534,7 +825,7 @@ while (i < SizeOf(fontstyle_list))
     SetOS2Value("WinDescent",            ${hackgen_descent})
     SetOS2Value("TypoAscent",            ${em_ascent})
     SetOS2Value("TypoDescent",          -${em_descent})
-    SetOS2Value("TypoLineGap",             0)
+    SetOS2Value("TypoLineGap",           ${typo_line_gap})
     SetOS2Value("HHeadAscent",           ${hackgen_ascent})
     SetOS2Value("HHeadDescent",         -${hackgen_descent})
     SetOS2Value("HHeadLineGap",            0)
@@ -557,24 +848,6 @@ while (i < SizeOf(fontstyle_list))
             Select(${zenkaku_space_glyph}); Copy(); Select(0u3000); Paste()
         endif
     endif
-
-    # Edit en and em dashes
-    Print("Edit en and em dashes")
-    Select(0u2013); Copy()
-    PasteWithOffset(200, 0); PasteWithOffset(-200, 0)
-    OverlapIntersect()
-    Select(0u2014); Copy()
-    PasteWithOffset(490, 0); PasteWithOffset(-490, 0)
-    OverlapIntersect()
-
-    # Proccess before saving
-    #Print("Process before saving (it may take a few minutes)")
-    #Select(".notdef")
-    #DetachAndRemoveGlyphs()
-    #SelectWorthOutputting()
-    #RoundToInt(); RemoveOverlap(); RoundToInt()
-    #AutoHint()
-    #AutoInstr()
 
     # Save HackGen
     if (fontfamilysuffix != "")
@@ -658,6 +931,112 @@ while (i < SizeOf(fontstyle_list))
     SetOS2Value("WinDescent",            ${hackgen_descent})
     SetOS2Value("TypoAscent",            ${em_ascent})
     SetOS2Value("TypoDescent",          -${em_descent})
+    SetOS2Value("TypoLineGap",           ${typo_line_gap})
+    SetOS2Value("HHeadAscent",           ${hackgen_ascent})
+    SetOS2Value("HHeadDescent",         -${hackgen_descent})
+    SetOS2Value("HHeadLineGap",            0)
+    SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+
+    # Merge Hack with GenJyuuGothicL
+    Print("Merge " + hack_list[i]:t \\
+          + " with " + genjyuu_list[i]:t)
+    MergeFonts(hack_list[i])
+    MergeFonts(genjyuu_list[i])
+
+    # Edit zenkaku space (from ballot box and heavy greek cross)
+    if ("${zenkaku_space_glyph}" != "0u3000")
+        Print("Edit zenkaku space")
+        if ("${zenkaku_space_glyph}" == "")
+            Select(0u2610); Copy(); Select(0u3000); Paste()
+            Select(0u271a); Copy(); Select(0u3000); PasteInto()
+            OverlapIntersect()
+        else
+            Select(${zenkaku_space_glyph}); Copy(); Select(0u3000); Paste()
+        endif
+    endif
+
+    # Save HackGen
+    if (fontfamilysuffix != "")
+        Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
+        #Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+    else
+        Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
+        #Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+    endif
+    Close()
+
+    i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for HackGen53
+########################################
+
+cat > ${tmpdir}/${hackgen53_generator} << _EOT_
+#!$fontforge_command -script
+
+# Print message
+Print("Generate HackGen")
+
+# Set parameters
+hack_list  = ["${tmpdir}/${modified_hack53_regular}", \\
+                     "${tmpdir}/${modified_hack53_bold}"]
+genjyuu_list       = ["${tmpdir}/${modified_genjyuu53_regular}", \\
+                     "${tmpdir}/${modified_genjyuu53_bold}"]
+fontfamily        = "${hackgen53_familyname}"
+fontfamilysuffix  = "${hackgen53_familyname_suffix}"
+fontstyle_list    = ["Regular", "Bold"]
+fontweight_list   = [400,       700]
+panoseweight_list = [5,         8]
+copyright         = "Copyright (c) 2019, Yuko Otawara"
+version           = "${hackgen_version}"
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(fontstyle_list))
+    # Open new file
+    New()
+
+    # Set encoding to Unicode-bmp
+    Reencode("unicode")
+
+    # Set configuration
+    if (fontfamilysuffix != "")
+        SetFontNames(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i], \\
+                     fontfamily + " " + fontfamilysuffix, \\
+                     fontfamily + " " + fontfamilysuffix + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+    else
+        SetFontNames(fontfamily + "-" + fontstyle_list[i], \\
+                     fontfamily, \\
+                     fontfamily + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+    endif
+    SetTTFName(0x409, 2, fontstyle_list[i])
+    SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
+    ScaleToEm(${em_ascent}, ${em_descent})
+    SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
+    SetOS2Value("Width",                   5) # Medium
+    SetOS2Value("FSType",                  0)
+    SetOS2Value("VendorID",           "PfEd")
+    SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
+    SetOS2Value("WinAscentIsOffset",       0)
+    SetOS2Value("WinDescentIsOffset",      0)
+    SetOS2Value("TypoAscentIsOffset",      0)
+    SetOS2Value("TypoDescentIsOffset",     0)
+    SetOS2Value("HHeadAscentIsOffset",     0)
+    SetOS2Value("HHeadDescentIsOffset",    0)
+    SetOS2Value("WinAscent",             ${hackgen_ascent})
+    SetOS2Value("WinDescent",            ${hackgen_descent})
+    SetOS2Value("TypoAscent",            ${em_ascent})
+    SetOS2Value("TypoDescent",          -${em_descent})
     SetOS2Value("TypoLineGap",             0)
     SetOS2Value("HHeadAscent",           ${hackgen_ascent})
     SetOS2Value("HHeadDescent",         -${hackgen_descent})
@@ -682,24 +1061,6 @@ while (i < SizeOf(fontstyle_list))
         endif
     endif
 
-    # Edit en and em dashes
-    Print("Edit en and em dashes")
-    Select(0u2013); Copy()
-    PasteWithOffset(200, 0); PasteWithOffset(-200, 0)
-    OverlapIntersect()
-    Select(0u2014); Copy()
-    PasteWithOffset(490, 0); PasteWithOffset(-490, 0)
-    OverlapIntersect()
-
-    # Proccess before saving
-    #Print("Process before saving (it may take a few minutes)")
-    #Select(".notdef")
-    #DetachAndRemoveGlyphs()
-    #SelectWorthOutputting()
-    #RoundToInt(); RemoveOverlap(); RoundToInt()
-    #AutoHint()
-    #AutoInstr()
-
     # Save HackGen
     if (fontfamilysuffix != "")
         Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
@@ -719,311 +1080,107 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for HackGen Discord
+# Generate script for HackGen53 Console
 ########################################
 
-cat > ${tmpdir}/${hackgen_discord_generator} << _EOT_
+cat > ${tmpdir}/${hackgen53_console_generator} << _EOT_
 #!$fontforge_command -script
 
-# Get arguments
-if (\$argc != 3)
-   Print("Usage: hackgen_discord_generator.pe filename.ttf characters")
-   Quit()
-endif
-filename = \$argv[1]
-characters = \$argv[2]
+# Print message
+Print("Generate HackGen Console")
 
-Print("Generate HackGen Discord")
+# Set parameters
+hack_list  = ["${tmpdir}/${modified_hack53_console_regular}", \\
+                     "${tmpdir}/${modified_hack53_console_bold}"]
+genjyuu_list       = ["${tmpdir}/${modified_genjyuu53_regular}", \\
+                     "${tmpdir}/${modified_genjyuu53_bold}"]
+fontfamily        = "${hackgen53_familyname}"
+fontfamilysuffix  = "${hackgen_console_suffix}"
+fontstyle_list    = ["Regular", "Bold"]
+fontweight_list   = [400,       700]
+panoseweight_list = [5,         8]
+copyright         = "Copyright (c) 2019, Yuko Otawara"
+version           = "${hackgen_version}"
 
-# Enable all flags
-flag_quotedbl="true"
-flag_quotesingle="true"
-flag_asterisk="true"
-flag_plus="true"
-flag_comma="true"
-flag_hyphen="true"
-flag_period="true"
-flag_0="true"
-flag_7="true"
-flag_colon="true"
-flag_semicolon="true"
-flag_less_greater="true"
-flag_equal="true"
-flag_D="true"
-flag_Z="true"
-flag_asciicircum="true"
-flag_grave="true"
-flag_l="true"
-flag_r="true"
-flag_z="true"
-flag_bar="true"
-flag_asciitilde="true"
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(fontstyle_list))
+    # Open new file
+    New()
 
-# Disable flags
-if (Strstr(characters, '"') != -1)
-    Print("Option: Disable magnified \"")
-    flag_quotedbl="false"
-endif
-if (Strstr(characters, "'") != -1)
-    Print("Option: Disable magnified \'")
-    flag_quotesingle="false"
-endif
-if (Strstr(characters, "*") != -1)
-    Print("Option: Disable * moved downward a little")
-    flag_asterisk="false"
-endif
-if (Strstr(characters, "+") != -1)
-    Print("Option: Disable + moved downward a little")
-    flag_plus="false"
-endif
-if (Strstr(characters, ",") != -1)
-    Print("Option: Disable magnified ,")
-    flag_comma="false"
-endif
-if (Strstr(characters, "-") != -1)
-    Print("Option: Disable - moved downward a little")
-    flag_hyphen="false"
-endif
-if (Strstr(characters, ".") != -1)
-    Print("Option: Disable magnified .")
-    flag_period="false"
-endif
-if (Strstr(characters, "0") != -1)
-    Print("Option: Disable dotted 0 (Hack's unused glyph)")
-    flag_0="false"
-endif
-if (Strstr(characters, "7") != -1)
-    Print("Option: Disable 7 with cross-bar")
-    flag_7="false"
-endif
-if (Strstr(characters, ":") != -1)
-    Print("Option: Disable magnified :")
-    flag_colon="false"
-endif
-if (Strstr(characters, ";") != -1)
-    Print("Option: Disable magnified ;")
-    flag_semicolon="false"
-endif
-if (Strstr(characters, "<") != -1 || Strstr(characters, ">") != -1)
-    Print("Option: Disable < and > moved downward a little")
-    flag_less_greater="false"
-endif
-if (Strstr(characters, "=") != -1)
-    Print("Option: Disable = moved downward a little")
-    flag_equal="false"
-endif
-if (Strstr(characters, "D") != -1)
-    Print("Option: Disable D of Eth (D with cross-bar)")
-    flag_D="false"
-endif
-if (Strstr(characters, "Z") != -1)
-    Print("Option: Disable Z with cross-bar")
-    flag_Z="false"
-endif
-if (Strstr(characters, "^") != -1)
-    Print("Option: Disable magnified ^")
-    flag_asciicircum="false"
-endif
-if (Strstr(characters, "\`") != -1)
-    Print("Option: Disable magnified \`")
-    flag_grave="false"
-endif
-if (Strstr(characters, "l") != -1)
-    Print("Option: Disable l of cutting off left-bottom serif")
-    flag_l="false"
-endif
-if (Strstr(characters, "r") != -1)
-    Print("Option: Disable r of serif (Hack's unused glyph)")
-    flag_r="false"
-endif
-if (Strstr(characters, "z") != -1)
-    Print("Option: Disable z with cross-bar")
-    flag_z="false"
-endif
-if (Strstr(characters, "|") != -1)
-    Print("Option: Disable broken |")
-    flag_bar="false"
-endif
-if (Strstr(characters, "~") != -1)
-    Print("Option: Disable ~ moved upward")
-    flag_asciitilde="false"
-endif
+    # Set encoding to Unicode-bmp
+    Reencode("unicode")
 
-# Check filename
-input = filename:t:r
-hyphen_index = Strrstr(input, '-')
-if (filename:e != "ttf" || hyphen_index == -1)
-    Print("Invalid argument: " + filename)
-    Quit()
-endif
-inputfamily  = Strsub(input, 0, hyphen_index)
-inputstyle   = Strsub(input, hyphen_index + 1)
-familysuffix = "Discord"
+    # Set configuration
+    if (fontfamilysuffix != "")
+        SetFontNames(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i], \\
+                     fontfamily + " " + fontfamilysuffix, \\
+                     fontfamily + " " + fontfamilysuffix + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+    else
+        SetFontNames(fontfamily + "-" + fontstyle_list[i], \\
+                     fontfamily, \\
+                     fontfamily + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+    endif
+    SetTTFName(0x409, 2, fontstyle_list[i])
+    SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
+    ScaleToEm(${em_ascent}, ${em_descent})
+    SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
+    SetOS2Value("Width",                   5) # Medium
+    SetOS2Value("FSType",                  0)
+    SetOS2Value("VendorID",           "PfEd")
+    SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
+    SetOS2Value("WinAscentIsOffset",       0)
+    SetOS2Value("WinDescentIsOffset",      0)
+    SetOS2Value("TypoAscentIsOffset",      0)
+    SetOS2Value("TypoDescentIsOffset",     0)
+    SetOS2Value("HHeadAscentIsOffset",     0)
+    SetOS2Value("HHeadDescentIsOffset",    0)
+    SetOS2Value("WinAscent",             ${hackgen_ascent})
+    SetOS2Value("WinDescent",            ${hackgen_descent})
+    SetOS2Value("TypoAscent",            ${em_ascent})
+    SetOS2Value("TypoDescent",          -${em_descent})
+    SetOS2Value("TypoLineGap",             0)
+    SetOS2Value("HHeadAscent",           ${hackgen_ascent})
+    SetOS2Value("HHeadDescent",         -${hackgen_descent})
+    SetOS2Value("HHeadLineGap",            0)
+    SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
-# Open file and set configuration
-Open(filename)
-Reencode("unicode")
-SetFontNames(inputfamily + familysuffix + "-" + inputstyle, \
-             \$familyname + " " + familysuffix, \
-             \$familyname + " " + familysuffix + " " + inputstyle, \
-             inputstyle)
-SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
+    # Merge Hack with GenJyuuGothicL
+    Print("Merge " + hack_list[i]:t \\
+          + " with " + genjyuu_list[i]:t)
+    MergeFonts(hack_list[i])
+    MergeFonts(genjyuu_list[i])
 
-# " -> magnified "
-if (flag_quotedbl == "true")
-    #Select(0u0022); Scale(115, 115, 250, 600); SetWidth(500)
-    Select(0u0022); Scale(115, 115, $(($em / 4)), $(printf '%.0f' $(echo "scale=1; $em * 0.6" | bc))); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
+    # Edit zenkaku space (from ballot box and heavy greek cross)
+    if ("${zenkaku_space_glyph}" != "0u3000")
+        Print("Edit zenkaku space")
+        if ("${zenkaku_space_glyph}" == "")
+            Select(0u2610); Copy(); Select(0u3000); Paste()
+            Select(0u271a); Copy(); Select(0u3000); PasteInto()
+            OverlapIntersect()
+        else
+            Select(${zenkaku_space_glyph}); Copy(); Select(0u3000); Paste()
+        endif
+    endif
 
-# ' -> magnified '
-if (flag_quotesingle == "true")
-    #Select(0u0027); Scale(115, 115, 250, 600); SetWidth(500)
-    Select(0u0027); Scale(115, 115, $(($em / 4)), $(printf '%.0f' $(echo "scale=1; $em * 0.6" | bc))); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
+    # Save HackGen
+    if (fontfamilysuffix != "")
+        Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
+        #Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+    else
+        Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
+        #Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+    endif
+    Close()
 
-# * -> * moved downward a little
-if (flag_asterisk == "true")
-    Select(0u002a); Move(0, -80)
-endif
-
-# + -> + moved downward a little
-if (flag_plus == "true")
-    Select(0u002b); Move(0, -80)
-endif
-
-# , -> magnified ,
-if (flag_comma == "true")
-    #Select(0u002c); Scale(115, 115, 250, 0); SetWidth(500)
-    Select(0u002c); Scale(115, 115, $(($em / 4)), 0); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# - -> - moved downward a little
-if (flag_hyphen == "true")
-    Select(0u002d); Move(0, -80)
-endif
-
-# . -> magnified .
-if (flag_period == "true")
-    #Select(0u002e); Scale(115, 115, 250, 0); SetWidth(500)
-    Select(0u002e); Scale(115, 115, $(($em / 4)), 0); SetWidth($em / 2)
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# 0 -> dotted 0 (Hack's unused glyph)
-if (flag_0 == "true")
-    Select(65544);  Copy()
-    Select(0u0030); Paste()
-endif
-
-# 7 -> 7 with cross-bar
-if (flag_7 == "true")
-    Select(0u00af); Copy() # macron
-    Select(0u0037); PasteWithOffset(20, -263)
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# : -> magnified :
-if (flag_colon == "true")
-    #Select(0u003a); Scale(115, 115, 250, 0); SetWidth(500)
-    Select(0u003a); Scale(115, 115, $(($em / 4)), 0); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# ; -> magnified ;
-if (flag_semicolon == "true")
-    #Select(0u003b); Scale(115, 115, 250, 0); SetWidth(500)
-    Select(0u003b); Scale(115, 115, $(($em / 4)), 0); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# < and > -> < and > moved downward a little
-if (flag_less_greater == "true")
-    Select(0u003c); Move(0, -80)
-    Select(0u003e); Move(0, -80)
-endif
-
-# = -> = moved downward a little
-if (flag_equal == "true")
-    Select(0u003d); Move(0, -80)
-endif
-
-# D -> D of Eth (D with cross-bar)
-if (flag_D == "true")
-    Select(0u0110); Copy()
-    Select(0u0044); Paste()
-endif
-
-# Z -> Z with cross-bar
-if (flag_Z == "true")
-    Select(0u00af); Copy()  # macron
-    Select(65552);  Paste() # Temporary glyph
-    #Transform(100, -65, 0, 100, 0, -12000); SetWidth(500)
-    Transform(100, -65, 0, 100, 0, -12000); SetWidth($(($em / 2)))
-    Copy()
-    Select(0u005a); PasteInto()
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-    Select(65552);  Clear() # Temporary glyph
-endif
-
-# ^ -> magnified ^
-if (flag_asciicircum == "true")
-    #Select(0u005e); Scale(115, 115, 250, 600); SetWidth(500)
-    Select(0u005e); Scale(115, 115, $(($em / 4)), $(printf '%.0f' $(echo "scale=1; $em * 0.6" | bc))); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# \` -> magnified \`
-if (flag_grave == "true")
-    #Select(0u0060); Scale(115, 115, 250, 600); SetWidth(500)
-    Select(0u0060); Scale(115, 115, $(($em / 4)), $(printf '%.0f' $(echo "scale=1; $em * 0.6" | bc))); SetWidth($(($em / 2)))
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-endif
-
-# l -> l of cutting off left-bottom serif
-if (flag_l == "true")
-    Select(0u006c); Copy()
-    #Rotate(180); Move(1, 0); SetWidth(500)
-    Rotate(180); Move(1, 0); SetWidth($(($em / 2)))
-    PasteInto(); OverlapIntersect()
-endif
-
-# r -> r of serif (Hack's unused glyph)
-if (flag_r == "true")
-    Select(65542);  Copy()
-    Select(0u0072); Paste()
-endif
-
-# z -> z with cross-bar
-if (flag_z == "true")
-    Select(0u00af); Copy()  # macron
-    Select(65552);  Paste() # Temporary glyph
-    #Transform(75, -52, 0, 100, 5500, -23500); SetWidth(500)
-    Transform(75, -52, 0, 100, 5500, -23500); SetWidth($(($em / 2)))
-    Copy()
-    Select(0u007a); PasteInto()
-    RoundToInt(); RemoveOverlap(); RoundToInt()
-    Select(65552);  Clear() # Temporary glyph
-endif
-
-# | -> broken |
-if (flag_bar == "true")
-    Select(0u00a6); Copy()
-    Select(0u007c); Paste()
-endif
-
-# ~ -> ~ moved upward
-if (flag_asciitilde == "true")
-    Select(0u007e); Move(0, 120)
-endif
-
-# Save HackGen Discord
-Print("Save " + inputfamily + familysuffix + "-" + inputstyle + ".ttf")
-#Generate(inputfamily + familysuffix + "-" + inputstyle + ".ttf", "", 0x84)
-Generate(inputfamily + familysuffix + "-" + inputstyle + ".ttf", "", 4)
-Close()
+    i += 1
+endloop
 
 Quit()
 _EOT_
@@ -1105,29 +1262,47 @@ _EOT_
 # Generate HackGen
 ########################################
 
-# Generate HackGen
+# Generate Material
+$fontforge_command -script ${tmpdir}/${modified_hack_material_generator} 2> $redirection_stderr || exit 4
+
+# Generate Console
 $fontforge_command -script ${tmpdir}/${modified_hack_console_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${modified_hack53_console_generator} 2> $redirection_stderr || exit 4
+
+# Generate Modiifed Hack
 ## modified_hack_console で作った sfd を元に作る
 $fontforge_command -script ${tmpdir}/${modified_hack_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${modified_hack53_generator} 2> $redirection_stderr || exit 4
 
+# Generate Modified GenJyuu
 $fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${modified_genjyuu53_generator} 2> $redirection_stderr || exit 4
+
+# Generate HackGen
 $fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stderr || exit 4
 
-$fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
-    ${hackgen_familyname}${hackgen_familyname_suffix}-Regular.ttf \
-    2> $redirection_stderr || exit 4
-
-$fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
-    ${hackgen_familyname}${hackgen_familyname_suffix}-Bold.ttf \
-    2> $redirection_stderr || exit 4
-
+# Generate HackGen Console
 $fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
+$fontforge_command -script ${tmpdir}/${hackgen53_console_generator} 2> $redirection_stderr || exit 4
+
+## Generate Oblique Style
+#$fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
+#  ${hackgen_familyname}${hackgen_familyname_suffix}-Regular.ttf \
+#  2> $redirection_stderr || exit 4
+#$fontforge_command -script ${tmpdir}/${regular2oblique_converter} \
+#  ${hackgen_familyname}${hackgen_familyname_suffix}-Bold.ttf \
+#  2> $redirection_stderr || exit 4
 
 # powerline patch
 for style in Regular Bold
 do
   $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
   mv "${hackgen_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
+
+  $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
+  mv "${hackgen53_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen53_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
+
 done
 
 # Remove temporary directory
