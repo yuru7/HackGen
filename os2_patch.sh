@@ -2,7 +2,7 @@
 
 BASE_DIR=$(cd $(dirname $0); pwd)
 
-xAvgCharWidth_SETVAL=542
+xAvgCharWidth_SETVAL=1076
 HACKGEN_PATTERN='HackGen[^5]*.ttf'
 
 xAvgCharWidth53_SETVAL=1030

@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.6.0"
+hackgen_version="0.6.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -19,7 +19,7 @@ em_ascent=881
 em_descent=143
 em=$(($em_ascent + $em_descent))
 
-typo_line_gap=150
+typo_line_gap=100
 
 hack_width=616
 genjyuu_width=1024
@@ -1037,7 +1037,7 @@ while (i < SizeOf(fontstyle_list))
     SetOS2Value("WinDescent",            ${hackgen_descent})
     SetOS2Value("TypoAscent",            ${em_ascent})
     SetOS2Value("TypoDescent",          -${em_descent})
-    SetOS2Value("TypoLineGap",             0)
+    SetOS2Value("TypoLineGap",           ${typo_line_gap})
     SetOS2Value("HHeadAscent",           ${hackgen_ascent})
     SetOS2Value("HHeadDescent",         -${hackgen_descent})
     SetOS2Value("HHeadLineGap",            0)
@@ -1143,7 +1143,7 @@ while (i < SizeOf(fontstyle_list))
     SetOS2Value("WinDescent",            ${hackgen_descent})
     SetOS2Value("TypoAscent",            ${em_ascent})
     SetOS2Value("TypoDescent",          -${em_descent})
-    SetOS2Value("TypoLineGap",             0)
+    SetOS2Value("TypoLineGap",           ${typo_line_gap})
     SetOS2Value("HHeadAscent",           ${hackgen_ascent})
     SetOS2Value("HHeadDescent",         -${hackgen_descent})
     SetOS2Value("HHeadLineGap",            0)
