@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.6.2"
+hackgen_version="0.6.3"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -368,7 +368,7 @@ while (i < SizeOf(input_list))
     SelectWorthOutputting()
     UnlinkReference()
 
-    Scale(87.5, 94, 0, 0)
+    Scale(90, 94, 0, 0)
 
     # 幅の変更 (Move で文字幅も変わることに注意)
     move_pt = $(((${hackgen_half_width} - ${hack_width}) / 2)) # -8
