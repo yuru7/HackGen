@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.6.1"
+hackgen_version="0.6.2"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -24,7 +24,7 @@ typo_line_gap=100
 hack_width=616
 genjyuu_width=1024
 
-hackgen_half_width=538
+hackgen_half_width=539
 hackgen_full_width=$((${hackgen_half_width} * 2))
 
 hackgen53_half_width=618
@@ -307,6 +307,25 @@ while (i < SizeOf(input_list))
     Select(0u0030); PasteInto()
     Select(0ufff0); Clear()
 
+    # クォーテーションの拡大
+    Select(0u0022)
+    SelectMore(0u0027)
+    SelectMore(0u0060)
+    Scale(110, 105)
+
+    # ; : , . の拡大
+    Select(0u003a)
+    SelectMore(0u003b)
+    SelectMore(0u002c)
+    SelectMore(0u002e)
+    Scale(108)
+
+    # クォーテーションの拡大
+    Select(0u0027)
+    SelectMore(0u0022)
+    SelectMore(0u0060)
+    Scale(108, 104)
+
     # Eclipse Pleiades 半角スペース記号 (u+054d) 対策
     Select(0u054d); Copy()
     Select(0u1d1c); Paste()
@@ -349,7 +368,7 @@ while (i < SizeOf(input_list))
     SelectWorthOutputting()
     UnlinkReference()
 
-    Scale(90, 94, 0, 0)
+    Scale(87.5, 94, 0, 0)
 
     # 幅の変更 (Move で文字幅も変わることに注意)
     move_pt = $(((${hackgen_half_width} - ${hack_width}) / 2)) # -8
@@ -1267,23 +1286,32 @@ $fontforge_command -script ${tmpdir}/${modified_hack_material_generator} 2> $red
 
 # Generate Console
 $fontforge_command -script ${tmpdir}/${modified_hack_console_generator} 2> $redirection_stderr || exit 4
-$fontforge_command -script ${tmpdir}/${modified_hack53_console_generator} 2> $redirection_stderr || exit 4
 
 # Generate Modiifed Hack
-## modified_hack_console で作った sfd を元に作る
 $fontforge_command -script ${tmpdir}/${modified_hack_generator} 2> $redirection_stderr || exit 4
-$fontforge_command -script ${tmpdir}/${modified_hack53_generator} 2> $redirection_stderr || exit 4
 
 # Generate Modified GenJyuu
 $fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} 2> $redirection_stderr || exit 4
-$fontforge_command -script ${tmpdir}/${modified_genjyuu53_generator} 2> $redirection_stderr || exit 4
 
 # Generate HackGen
 $fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
-$fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stderr || exit 4
 
 # Generate HackGen Console
 $fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
+
+# Generate Console - 53
+$fontforge_command -script ${tmpdir}/${modified_hack53_console_generator} 2> $redirection_stderr || exit 4
+
+# Generate Modiifed Hack - 53
+$fontforge_command -script ${tmpdir}/${modified_hack53_generator} 2> $redirection_stderr || exit 4
+
+# Generate Modified GenJyuu - 53
+$fontforge_command -script ${tmpdir}/${modified_genjyuu53_generator} 2> $redirection_stderr || exit 4
+
+# Generate HackGen - 53
+$fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stderr || exit 4
+
+# Generate HackGen Console - 53
 $fontforge_command -script ${tmpdir}/${hackgen53_console_generator} 2> $redirection_stderr || exit 4
 
 ## Generate Oblique Style
