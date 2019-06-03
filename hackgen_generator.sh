@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.7.1"
+hackgen_version="0.7.2"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -26,6 +26,8 @@ genjyuu_width=1024
 
 hackgen_half_width=539
 hackgen_full_width=$((${hackgen_half_width} * 2))
+hack_shrink_x=90
+hack_shrink_y=94
 
 hackgen53_half_width=618
 hackgen53_full_width=$((${hackgen53_half_width} * 5 / 3))
@@ -246,10 +248,10 @@ while (i < SizeOf(input_list))
   SelectWorthOutputting()
   UnlinkReference()
 
-  Scale(90, 94, 0, 0)
+  Scale(${hack_shrink_x}, ${hack_shrink_y}, 0, 0)
 
   # 幅の変更 (Move で文字幅も変わることに注意)
-  move_pt = $(((${hackgen_half_width} - ${hack_width}) / 2)) # -8
+  move_pt = $(((${hackgen_half_width} - ${hack_width} * ${hack_shrink_x} / 100) / 2)) # -8
   width_pt = ${hackgen_half_width}
   Move(move_pt, 0)
   SetWidth(width_pt, 0)
