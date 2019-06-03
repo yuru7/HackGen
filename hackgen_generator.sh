@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.7.0"
+hackgen_version="0.7.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -1169,7 +1169,7 @@ $fontforge_command -script ${tmpdir}/${hackgen53_console_generator} 2> $redirect
 
 for f in ${hackgen_familyname}-*.ttf ${hackgen_familyname}${hackgen_console_suffix}-*.ttf ${hackgen53_familyname}-*.ttf ${hackgen53_familyname}${hackgen_console_suffix}-*.ttf
 do
-  ttfautohint -l 6 -r 50 -x 10 -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -l 6 -r 50 -x 10 -X "15-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
 
 echo 'Start merge'
