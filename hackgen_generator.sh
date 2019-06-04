@@ -1171,7 +1171,7 @@ $fontforge_command -script ${tmpdir}/${hackgen53_console_generator} 2> $redirect
 
 for f in ${hackgen_familyname}-*.ttf ${hackgen_familyname}${hackgen_console_suffix}-*.ttf ${hackgen53_familyname}-*.ttf ${hackgen53_familyname}${hackgen_console_suffix}-*.ttf
 do
-  ttfautohint -l 6 -r 50 -x 8 -X "8-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
 
 echo 'Start merge'
