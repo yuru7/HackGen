@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.8.0"
+hackgen_version="0.8.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -82,6 +82,14 @@ modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.sfd"
 modified_genjyuu53_generator="modified_genjyuu53_generator.pe"
 modified_genjyuu53_regular="Modified-GenJyuuGothicL53-Monospace-regular.sfd"
 modified_genjyuu53_bold="Modified-GenJyuuGothicL53-Monospace-bold.sfd"
+
+modified_genjyuu_console_generator="modified_genjyuu_console_generator.pe"
+modified_genjyuu_console_regular="Modified-GenJyuuGothicL-Monospace-regular_console.sfd"
+modified_genjyuu_console_bold="Modified-GenJyuuGothicL-Monospace-bold_console.sfd"
+
+modified_genjyuu53_console_generator="modified_genjyuu53_console_generator.pe"
+modified_genjyuu53_console_regular="Modified-GenJyuuGothicL53-Monospace-regular_console.sfd"
+modified_genjyuu53_console_bold="Modified-GenJyuuGothicL53-Monospace-bold_console.sfd"
 
 hackgen_generator="hackgen_generator.pe"
 hackgen_console_generator="hackgen_console_generator.pe"
@@ -512,6 +520,7 @@ cat > ${tmpdir}/${modified_genjyuu_generator} << _EOT_
 Print("Generate modified GenJyuuGothicL")
 
 # Set parameters
+hack = "${tmpdir}/${modified_hack_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
@@ -520,6 +529,24 @@ fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
 
+Print("Get trim target glyph from Hack")
+Open(hack)
+i = 0
+end_hack = 65535
+hack_exist_glyph_array = Array(end_hack)
+while (i < end_hack)
+  if (i % 5000 == 0)
+    Print("Processing progress: " + i)
+  endif
+  if (WorthOutputting(i))
+    hack_exist_glyph_array[i] = 1
+  else
+    hack_exist_glyph_array[i] = 0
+  endif
+  i++
+endloop
+Close()
+
 # Begin loop of regular and bold
 i = 0
 while (i < SizeOf(input_list))
@@ -527,30 +554,33 @@ while (i < SizeOf(input_list))
   Print("Open " + input_list[i])
   Open(papipupepo_list[i])
   MergeFonts(input_list[i])
+
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
 
   ii = 0
-  end_genjyuu = 65535
+  end_genjyuu = end_hack
   halfwidth_array = Array(end_genjyuu)
   i_halfwidth = 0
-  Print("Half width check loop start")    
-  while ( ii <= end_genjyuu )
+  Print("Half width check loop start")
+  while ( ii < end_genjyuu )
       if ( ii % 5000 == 0 )
         Print("Processing progress: " + ii)
       endif
       if (WorthOutputting(ii))
         Select(ii)
-        if (GlyphInfo("Width")<768)
+        if (hack_exist_glyph_array[ii] == 1)
+          Clear()
+        elseif (GlyphInfo("Width")<768)
           halfwidth_array[i_halfwidth] = ii
           i_halfwidth = i_halfwidth + 1
         endif
       endif
       ii = ii + 1
   endloop
-  Print("Half width check loop end")    
-    
+  Print("Half width check loop end")
+
   Print("Full SetWidth start")
   move_pt = $(((${hackgen_full_width} - ${genjyuu_width}) / 2)) # 26
   width_pt = ${hackgen_full_width} # 1076
@@ -563,7 +593,7 @@ while (i < SizeOf(input_list))
   Move(move_pt, 0)
   SetWidth(width_pt)
   Print("Full SetWidth end")
-    
+
   SelectNone()
 
   Print("Half SetWidth start")
@@ -602,29 +632,7 @@ while (i < SizeOf(input_list))
   Reencode("unicode")
   # Set configuration
   SetFontNames("modified-genjyuu" + fontstyle_list[i])
-  # SetTTFName(0x409, 2, fontstyle_list[i])
-  # SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
   ScaleToEm(${em_ascent}, ${em_descent})
-   SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
-   SetOS2Value("Width",                   5) # Medium
-   SetOS2Value("FSType",                  0)
-   SetOS2Value("VendorID",           "PfEd")
-   SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
-   SetOS2Value("WinAscentIsOffset",       0)
-   SetOS2Value("WinDescentIsOffset",      0)
-   SetOS2Value("TypoAscentIsOffset",      0)
-   SetOS2Value("TypoDescentIsOffset",     0)
-   SetOS2Value("HHeadAscentIsOffset",     0)
-   SetOS2Value("HHeadDescentIsOffset",    0)
-   SetOS2Value("WinAscent",             ${hackgen_ascent})
-   SetOS2Value("WinDescent",            ${hackgen_descent})
-   SetOS2Value("TypoAscent",            ${em_ascent})
-   SetOS2Value("TypoDescent",          -${em_descent})
-   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-   SetOS2Value("HHeadAscent",           ${hackgen_ascent})
-   SetOS2Value("HHeadDescent",         -${hackgen_descent})
-   SetOS2Value("HHeadLineGap",            0)
-   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
   MergeFonts("${tmpdir}/" + output_list[i])
   Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
   Close()
@@ -642,9 +650,10 @@ _EOT_
 cat > ${tmpdir}/${modified_genjyuu53_generator} << _EOT_
 #!$fontforge_command -script
 
-Print("Generate modified GenJyuuGothicL")
+Print("Generate modified GenJyuuGothicL - 53")
 
 # Set parameters
+hack = "${tmpdir}/${modified_hack53_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
 output_list = ["${modified_genjyuu53_regular}", "${modified_genjyuu53_bold}"]
@@ -653,29 +662,48 @@ fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
 
+Print("Get trim target glyph from Hack")
+Open(hack)
+i = 0
+end_hack = 65535
+hack_exist_glyph_array = Array(end_hack)
+while (i < end_hack)
+  if (i % 5000 == 0)
+    Print("Processing progress: " + i)
+  endif
+  if (WorthOutputting(i))
+    hack_exist_glyph_array[i] = 1
+  else
+    hack_exist_glyph_array[i] = 0
+  endif
+  i++
+endloop
+Close()
+
 # Begin loop of regular and bold
 i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(papipupepo_list[i])
-  MergeFonts(input_list[i])
+  Open(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
 
   ii = 0
-  end_genjyuu = 65535
+  end_genjyuu = end_hack
   halfwidth_array = Array(end_genjyuu)
   i_halfwidth = 0
   Print("Half width check loop start")
-  while ( ii <= end_genjyuu )
+  while ( ii < end_genjyuu )
       if ( ii % 5000 == 0 )
         Print("Processing progress: " + ii)
       endif
       if (WorthOutputting(ii))
         Select(ii)
-        if (GlyphInfo("Width")<768)
+        if (hack_exist_glyph_array[ii] == 1)
+          Clear()
+        elseif (GlyphInfo("Width")<768)
           halfwidth_array[i_halfwidth] = ii
           i_halfwidth = i_halfwidth + 1
         endif
@@ -696,7 +724,7 @@ while (i < SizeOf(input_list))
   Move(move_pt, 0)
   SetWidth(width_pt)
   Print("Full SetWidth end")
-    
+
   SelectNone()
 
   Print("Half SetWidth start")
@@ -735,30 +763,138 @@ while (i < SizeOf(input_list))
   Reencode("unicode")
   # Set configuration
   SetFontNames("modified-genjyuu" + fontstyle_list[i])
-  # SetTTFName(0x409, 2, fontstyle_list[i])
-  # SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
   ScaleToEm(${em_ascent}, ${em_descent})
-   SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
-   SetOS2Value("Width",                   5) # Medium
-   SetOS2Value("FSType",                  0)
-   SetOS2Value("VendorID",           "PfEd")
-   SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
-   SetOS2Value("WinAscentIsOffset",       0)
-   SetOS2Value("WinDescentIsOffset",      0)
-   SetOS2Value("TypoAscentIsOffset",      0)
-   SetOS2Value("TypoDescentIsOffset",     0)
-   SetOS2Value("HHeadAscentIsOffset",     0)
-   SetOS2Value("HHeadDescentIsOffset",    0)
-   SetOS2Value("WinAscent",             ${hackgen_ascent})
-   SetOS2Value("WinDescent",            ${hackgen_descent})
-   SetOS2Value("TypoAscent",            ${em_ascent})
-   SetOS2Value("TypoDescent",          -${em_descent})
-   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-   SetOS2Value("HHeadAscent",           ${hackgen_ascent})
-   SetOS2Value("HHeadDescent",         -${hackgen_descent})
-   SetOS2Value("HHeadLineGap",            0)
-   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
   MergeFonts("${tmpdir}/" + output_list[i])
+  Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
+  Close()
+
+  i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified GenJyuuGothicL Console
+########################################
+
+cat > ${tmpdir}/${modified_genjyuu_console_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified GenJyuuGothicL Console")
+
+# Set parameters
+hack = "${tmpdir}/${modified_hack_console_regular}"
+input_list  = ["${tmpdir}/${modified_genjyuu_regular}.ttf", "${tmpdir}/${modified_genjyuu_bold}.ttf"]
+output_list = ["${modified_genjyuu_console_regular}", "${modified_genjyuu_console_bold}"]
+
+Print("Get trim target glyph from Hack")
+Open(hack)
+i = 0
+end_hack = 65535
+hack_exist_glyph_array = Array(end_hack)
+while (i < end_hack)
+  if (i % 5000 == 0)
+    Print("Processing progress: " + i)
+  endif
+  if (WorthOutputting(i))
+    hack_exist_glyph_array[i] = 1
+  else
+    hack_exist_glyph_array[i] = 0
+  endif
+  i++
+endloop
+Close()
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+  # Open GenJyuuGothicL
+  Print("Open " + input_list[i])
+  Open(input_list[i])
+
+  ii = 0
+  end_genjyuu = end_hack
+  Print("Begin delete the glyphs contained in Hack")
+  while ( ii < end_genjyuu )
+      if ( ii % 5000 == 0 )
+        Print("Processing progress: " + ii)
+      endif
+      if (WorthOutputting(ii) && hack_exist_glyph_array[ii] == 1)
+        Select(ii)
+        Clear()
+      endif
+      ii = ii + 1
+  endloop
+  Print("End delete the glyphs contained in Hack")
+
+  # Save modified GenJyuuGothicL
+  Print("Generate " + output_list[i])
+  Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
+  Close()
+
+  i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for modified GenJyuuGothicL Console for HackGen53
+########################################
+
+cat > ${tmpdir}/${modified_genjyuu53_console_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate modified GenJyuuGothicL Console - 53")
+
+# Set parameters
+hack = "${tmpdir}/${modified_hack53_console_regular}"
+input_list  = ["${tmpdir}/${modified_genjyuu53_regular}.ttf", "${tmpdir}/${modified_genjyuu53_bold}.ttf"]
+output_list = ["${modified_genjyuu53_console_regular}", "${modified_genjyuu53_console_bold}"]
+
+Print("Get trim target glyph from Hack")
+Open(hack)
+i = 0
+end_hack = 65535
+hack_exist_glyph_array = Array(end_hack)
+while (i < end_hack)
+  if (i % 5000 == 0)
+    Print("Processing progress: " + i)
+  endif
+  if (WorthOutputting(i))
+    hack_exist_glyph_array[i] = 1
+  else
+    hack_exist_glyph_array[i] = 0
+  endif
+  i++
+endloop
+Close()
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+  # Open GenJyuuGothicL
+  Print("Open " + input_list[i])
+  Open(input_list[i])
+
+  ii = 0
+  end_genjyuu = end_hack
+  Print("Begin delete the glyphs contained in Hack")
+  while ( ii < end_genjyuu )
+      if ( ii % 5000 == 0 )
+        Print("Processing progress: " + ii)
+      endif
+      if (WorthOutputting(ii) && hack_exist_glyph_array[ii] == 1)
+        Select(ii)
+        Clear()
+      endif
+      ii = ii + 1
+  endloop
+  Print("End delete the glyphs contained in Hack")
+
+  # Save modified GenJyuuGothicL
+  Print("Generate " + output_list[i])
   Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
   Close()
 
@@ -781,8 +917,6 @@ Print("Generate HackGen")
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hack_regular}", \\
                      "${tmpdir}/${modified_hack_bold}"]
-genjyuu_list       = ["${tmpdir}/${modified_genjyuu_regular}", \\
-                     "${tmpdir}/${modified_genjyuu_bold}"]
 fontfamily        = "${hackgen_familyname}"
 fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
@@ -839,10 +973,8 @@ while (i < SizeOf(fontstyle_list))
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack with GenJyuuGothicL
-  Print("Merge " + hack_list[i]:t \\
-          + " with " + genjyuu_list[i]:t)
+  Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
-  # MergeFonts(genjyuu_list[i])
 
   # Save HackGen
   if (fontfamilysuffix != "")
@@ -873,8 +1005,6 @@ Print("Generate HackGen Console")
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hack_console_regular}", \\
                      "${tmpdir}/${modified_hack_console_bold}"]
-genjyuu_list       = ["${tmpdir}/${modified_genjyuu_regular}", \\
-                     "${tmpdir}/${modified_genjyuu_bold}"]
 fontfamily        = "${hackgen_familyname}"
 fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
@@ -931,10 +1061,8 @@ while (i < SizeOf(fontstyle_list))
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack with GenJyuuGothicL
-  Print("Merge " + hack_list[i]:t \\
-          + " with " + genjyuu_list[i]:t)
+  Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
-  # MergeFonts(genjyuu_list[i])
 
   # Save HackGen
   if (fontfamilysuffix != "")
@@ -967,8 +1095,6 @@ Print("Generate HackGen")
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hack53_regular}", \\
                      "${tmpdir}/${modified_hack53_bold}"]
-genjyuu_list       = ["${tmpdir}/${modified_genjyuu53_regular}", \\
-                     "${tmpdir}/${modified_genjyuu53_bold}"]
 fontfamily        = "${hackgen53_familyname}"
 fontfamilysuffix  = "${hackgen53_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
@@ -1025,10 +1151,8 @@ while (i < SizeOf(fontstyle_list))
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack with GenJyuuGothicL
-  Print("Merge " + hack_list[i]:t \\
-          + " with " + genjyuu_list[i]:t)
+  Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
-  # MergeFonts(genjyuu_list[i])
 
   # Save HackGen
   if (fontfamilysuffix != "")
@@ -1059,8 +1183,6 @@ Print("Generate HackGen Console")
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hack53_console_regular}", \\
                      "${tmpdir}/${modified_hack53_console_bold}"]
-genjyuu_list       = ["${tmpdir}/${modified_genjyuu53_regular}", \\
-                     "${tmpdir}/${modified_genjyuu53_bold}"]
 fontfamily        = "${hackgen53_familyname}"
 fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
@@ -1117,10 +1239,8 @@ while (i < SizeOf(fontstyle_list))
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack with GenJyuuGothicL
-  Print("Merge " + hack_list[i]:t \\
-          + " with " + genjyuu_list[i]:t)
+  Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
-  # MergeFonts(genjyuu_list[i])
 
   # Save HackGen
   if (fontfamilysuffix != "")
@@ -1156,11 +1276,8 @@ $fontforge_command -script ${tmpdir}/${modified_hack_generator} 2> $redirection_
 # Generate Modified GenJyuu
 $fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} 2> $redirection_stderr || exit 4
 
-# Generate HackGen
-$fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
-
-# Generate HackGen Console
-$fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
+# Generate Modified GenJyuu Console
+$fontforge_command -script ${tmpdir}/${modified_genjyuu_console_generator} 2> $redirection_stderr || exit 4
 
 # Generate Console - 53
 $fontforge_command -script ${tmpdir}/${modified_hack53_console_generator} 2> $redirection_stderr || exit 4
@@ -1170,6 +1287,15 @@ $fontforge_command -script ${tmpdir}/${modified_hack53_generator} 2> $redirectio
 
 # Generate Modified GenJyuu - 53
 $fontforge_command -script ${tmpdir}/${modified_genjyuu53_generator} 2> $redirection_stderr || exit 4
+
+# Generate Modified GenJyuu Console - 53
+$fontforge_command -script ${tmpdir}/${modified_genjyuu53_console_generator} 2> $redirection_stderr || exit 4
+
+# Generate HackGen
+$fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
+
+# Generate HackGen Console
+$fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
 
 # Generate HackGen - 53
 $fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stderr || exit 4
@@ -1182,48 +1308,46 @@ do
   ttfautohint -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
 
-echo 'Start merge'
 for style in Regular Bold
 do
   if [ "${style}" = 'Regular' ]; then
     pyftmerge "hinted_${hackgen_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu_regular}.ttf"
     mv merged.ttf "${hackgen_familyname}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_regular}.ttf"
+    pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_console_regular}.ttf"
     mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
 
     pyftmerge "hinted_${hackgen53_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_regular}.ttf"
     mv merged.ttf "${hackgen53_familyname}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_regular}.ttf"
+    pyftmerge "hinted_${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_console_regular}.ttf"
     mv merged.ttf "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
   fi
   if [ "${style}" = 'Bold' ]; then
     pyftmerge "hinted_${hackgen_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu_bold}.ttf"
     mv merged.ttf "${hackgen_familyname}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_bold}.ttf"
+    pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_console_bold}.ttf"
     mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
 
     pyftmerge "hinted_${hackgen53_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_bold}.ttf"
     mv merged.ttf "${hackgen53_familyname}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_bold}.ttf"
+    pyftmerge "hinted_${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_console_bold}.ttf"
     mv merged.ttf "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
   fi
 done
-rm hinted_*.ttf
+rm -f hinted_*.ttf
 
 # powerline patch
- for style in Regular Bold
- do
-   $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
-   mv "${hackgen_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
+for style in Regular Bold
+do
+  $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
+  mv "${hackgen_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
 
-   $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
-   mv "${hackgen53_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen53_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
-
- done
+  $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
+  mv "${hackgen53_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen53_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
+done
 
 # Remove temporary directory
 if [ "${leaving_tmp_flag}" = "false" ]
@@ -1235,4 +1359,3 @@ fi
 # Exit
 echo "Succeeded in generating HackGen!"
 exit 0
-
