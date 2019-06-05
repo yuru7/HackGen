@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.7.4"
+hackgen_version="0.8.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -117,6 +117,10 @@ then
   echo "Error: GenJyuuGothicL-Monospace-regular.ttf and/or GenJyuuGothicL-Monospace-bold.ttf not found" >&2
   exit 1
 fi
+
+input_papipupepo_regular=`find $fonts_directories -follow -iname papipupepo-Regular.sfd | head -n 1`
+input_papipupepo_bold=`find $fonts_directories -follow -iname papipupepo-Bold.sfd    | head -n 1`
+
 # Check filename
 [ "$(basename $input_hack_regular)" != "Hack-Regular.ttf" ] &&
   echo "Warning: ${input_hack_regular} does not seem to be Hack Regular" >&2
@@ -509,6 +513,7 @@ Print("Generate modified GenJyuuGothicL")
 
 # Set parameters
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
+papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -520,7 +525,8 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(input_list[i])
+  Open(papipupepo_list[i])
+  MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
@@ -640,6 +646,7 @@ Print("Generate modified GenJyuuGothicL")
 
 # Set parameters
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
+papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
 output_list = ["${modified_genjyuu53_regular}", "${modified_genjyuu53_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -651,7 +658,8 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(input_list[i])
+  Open(papipupepo_list[i])
+  MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
