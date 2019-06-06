@@ -685,7 +685,8 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(input_list[i])
+  Open(papipupepo_list[i])
+  MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
