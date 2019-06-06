@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.8.1"
+hackgen_version="0.8.2"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -405,6 +405,9 @@ while (i < SizeOf(input_list))
   SelectFewer(0u25d8)
   SelectFewer(0u25e6)
 
+  ## 結合分音記号は全て Hack ベースにする
+  SelectFewer(0u0300, 0u036f)
+
   ## 選択中の文字を削除
   Clear()
 
@@ -496,6 +499,9 @@ while (i < SizeOf(input_list))
   SelectFewer(0u2219)
   SelectFewer(0u25d8)
   SelectFewer(0u25e6)
+
+  ## 結合分音記号は全て Hack ベースにする
+  SelectFewer(0u0300, 0u036f)
 
   ## 選択中の文字を削除
   Clear()
@@ -620,6 +626,9 @@ while (i < SizeOf(input_list))
         endif
   endif
 
+  # 結合分音記号は全て Hack ベースにする
+  Select(0u0300, 0u036f); Clear()
+
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
   Save("${tmpdir}/" + output_list[i])
@@ -633,6 +642,27 @@ while (i < SizeOf(input_list))
   # Set configuration
   SetFontNames("modified-genjyuu" + fontstyle_list[i])
   ScaleToEm(${em_ascent}, ${em_descent})
+  SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
+  SetOS2Value("Width",                   5) # Medium
+  SetOS2Value("FSType",                  0)
+  SetOS2Value("VendorID",           "PfEd")
+  SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
+  SetOS2Value("WinAscentIsOffset",       0)
+  SetOS2Value("WinDescentIsOffset",      0)
+  SetOS2Value("TypoAscentIsOffset",      0)
+  SetOS2Value("TypoDescentIsOffset",     0)
+  SetOS2Value("HHeadAscentIsOffset",     0)
+  SetOS2Value("HHeadDescentIsOffset",    0)
+  SetOS2Value("WinAscent",             ${hackgen_ascent})
+  SetOS2Value("WinDescent",            ${hackgen_descent})
+  SetOS2Value("TypoAscent",            ${em_ascent})
+  SetOS2Value("TypoDescent",          -${em_descent})
+  SetOS2Value("TypoLineGap",           ${typo_line_gap})
+  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen_descent})
+  SetOS2Value("HHeadLineGap",            0)
+  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+
   MergeFonts("${tmpdir}/" + output_list[i])
   Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
   Close()
@@ -752,6 +782,9 @@ while (i < SizeOf(input_list))
         endif
   endif
 
+  # 結合分音記号は全て Hack ベースにする
+  Select(0u0300, 0u036f); Clear()
+
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
   Save("${tmpdir}/" + output_list[i])
@@ -765,6 +798,27 @@ while (i < SizeOf(input_list))
   # Set configuration
   SetFontNames("modified-genjyuu" + fontstyle_list[i])
   ScaleToEm(${em_ascent}, ${em_descent})
+  SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
+  SetOS2Value("Width",                   5) # Medium
+  SetOS2Value("FSType",                  0)
+  SetOS2Value("VendorID",           "PfEd")
+  SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
+  SetOS2Value("WinAscentIsOffset",       0)
+  SetOS2Value("WinDescentIsOffset",      0)
+  SetOS2Value("TypoAscentIsOffset",      0)
+  SetOS2Value("TypoDescentIsOffset",     0)
+  SetOS2Value("HHeadAscentIsOffset",     0)
+  SetOS2Value("HHeadDescentIsOffset",    0)
+  SetOS2Value("WinAscent",             ${hackgen_ascent})
+  SetOS2Value("WinDescent",            ${hackgen_descent})
+  SetOS2Value("TypoAscent",            ${em_ascent})
+  SetOS2Value("TypoDescent",          -${em_descent})
+  SetOS2Value("TypoLineGap",           ${typo_line_gap})
+  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen_descent})
+  SetOS2Value("HHeadLineGap",            0)
+  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+
   MergeFonts("${tmpdir}/" + output_list[i])
   Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
   Close()
