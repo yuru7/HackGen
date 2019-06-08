@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.8.2"
+hackgen_version="0.8.3"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -204,6 +204,10 @@ while (i < SizeOf(input_list))
   SelectMore(0u0027)
   SelectMore(0u0060)
   Scale(110, 105)
+
+  # ; の位置合わせ
+  Select(0u003b)
+  Move(0, 28)
 
   # ; : , . の拡大
   Select(0u003a)
