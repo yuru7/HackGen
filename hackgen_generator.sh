@@ -203,7 +203,7 @@ while (i < SizeOf(input_list))
   Select(0u0022)
   SelectMore(0u0027)
   SelectMore(0u0060)
-  Scale(108, 103)
+  Scale(109, 106)
 
   # ; : , . の拡大
   Select(0u003a)
@@ -213,7 +213,7 @@ while (i < SizeOf(input_list))
   Scale(108)
   ## 拡大後の位置合わせ
   Select(0u003b); Move(0, 18) # ;
-  Select(0u002e); Move(0, 5) # .
+  Select(0u002e); Move(0, 5)  # .
   Select(0u002c); Move(0, -8) # ,
 
   # クォーテーションの拡大
