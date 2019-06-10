@@ -668,7 +668,7 @@ while (i < SizeOf(input_list))
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
   MergeFonts("${tmpdir}/" + output_list[i])
-  Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
+  Generate("${tmpdir}/" + output_list[i] + ".ttf", "")
   Close()
 
   i += 1
@@ -824,7 +824,7 @@ while (i < SizeOf(input_list))
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
   MergeFonts("${tmpdir}/" + output_list[i])
-  Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
+  Generate("${tmpdir}/" + output_list[i] + ".ttf", "")
   Close()
 
   i += 1
@@ -889,7 +889,7 @@ while (i < SizeOf(input_list))
 
   # Save modified GenJyuuGothicL
   Print("Generate " + output_list[i])
-  Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
+  Generate("${tmpdir}/" + output_list[i] + ".ttf", "")
   Close()
 
   i += 1
@@ -954,7 +954,7 @@ while (i < SizeOf(input_list))
 
   # Save modified GenJyuuGothicL
   Print("Generate " + output_list[i])
-  Generate("${tmpdir}/" + output_list[i] + ".ttf", "", 4)
+  Generate("${tmpdir}/" + output_list[i] + ".ttf", "")
   Close()
 
   i += 1
@@ -1038,10 +1038,10 @@ while (i < SizeOf(fontstyle_list))
   # Save HackGen
   if (fontfamilysuffix != "")
         Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
   else
         Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
   endif
   Close()
 
@@ -1126,12 +1126,10 @@ while (i < SizeOf(fontstyle_list))
   # Save HackGen
   if (fontfamilysuffix != "")
         Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        #Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
-        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
   else
         Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        #Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
-        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
   endif
   Close()
 
@@ -1216,10 +1214,10 @@ while (i < SizeOf(fontstyle_list))
   # Save HackGen
   if (fontfamilysuffix != "")
         Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
   else
         Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
   endif
   Close()
 
@@ -1304,12 +1302,10 @@ while (i < SizeOf(fontstyle_list))
   # Save HackGen
   if (fontfamilysuffix != "")
         Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        #Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
-        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
   else
         Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        #Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 0x84)
-        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "", 4)
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
   endif
   Close()
 
@@ -1362,9 +1358,25 @@ $fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stde
 # Generate HackGen Console - 53
 $fontforge_command -script ${tmpdir}/${hackgen53_console_generator} 2> $redirection_stderr || exit 4
 
-for f in ${hackgen_familyname}-*.ttf ${hackgen_familyname}${hackgen_console_suffix}-*.ttf ${hackgen53_familyname}-*.ttf ${hackgen53_familyname}${hackgen_console_suffix}-*.ttf
+# Add hinting HackGen Regular
+for f in ${hackgen_familyname}-Regular.ttf ${hackgen_familyname}${hackgen_console_suffix}-Regular.ttf
 do
-  ttfautohint -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -m hinting_post_processing/hackgen-regular-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+done
+# Add hinting HackGen Bold
+for f in ${hackgen_familyname}-Bold.ttf ${hackgen_familyname}${hackgen_console_suffix}-Bold.ttf
+do
+  ttfautohint -m hinting_post_processing/hackgen-bold-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+done
+# Add hinting HackGen53 Regular
+for f in ${hackgen53_familyname}-Regular.ttf ${hackgen53_familyname}${hackgen_console_suffix}-Regular.ttf
+do
+  ttfautohint -m hinting_post_processing/hackgen53-regular-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+done
+# Add hinting HackGen53 Bold
+for f in ${hackgen53_familyname}-Bold.ttf ${hackgen53_familyname}${hackgen_console_suffix}-Bold.ttf
+do
+  ttfautohint -m hinting_post_processing/hackgen53-bold-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
 
 for style in Regular Bold
@@ -1396,6 +1408,7 @@ do
     mv merged.ttf "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
   fi
 done
+cp hinted_*.ttf work/
 rm -f hinted_*.ttf
 
 # powerline patch
