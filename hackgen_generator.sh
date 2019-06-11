@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.8.4"
+hackgen_version="0.9.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -229,7 +229,6 @@ while (i < SizeOf(input_list))
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
-  Simplify()
   RoundToInt()
 
   # Save modified Hack
@@ -274,7 +273,6 @@ while (i < SizeOf(input_list))
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
-  Simplify()
   RoundToInt()
 
   # Save modified Hack
@@ -317,7 +315,6 @@ while (i < SizeOf(input_list))
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
-  Simplify()
   RoundToInt()
 
   # Save modified Hack
@@ -1408,7 +1405,6 @@ do
     mv merged.ttf "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
   fi
 done
-cp hinted_*.ttf work/
 rm -f hinted_*.ttf
 
 # powerline patch
