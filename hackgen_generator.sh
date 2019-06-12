@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.9.0"
+hackgen_version="0.9.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -24,10 +24,10 @@ typo_line_gap=80
 hack_width=616
 genjyuu_width=1024
 
-hackgen_half_width=539
+hackgen_half_width=540
 hackgen_full_width=$((${hackgen_half_width} * 2))
-hack_shrink_x=90
-hack_shrink_y=94
+hack_shrink_x=91
+hack_shrink_y=97
 
 hackgen53_half_width=618
 hackgen53_full_width=$((${hackgen53_half_width} * 5 / 3))
@@ -1331,6 +1331,12 @@ $fontforge_command -script ${tmpdir}/${modified_genjyuu_generator} 2> $redirecti
 # Generate Modified GenJyuu Console
 $fontforge_command -script ${tmpdir}/${modified_genjyuu_console_generator} 2> $redirection_stderr || exit 4
 
+# Generate HackGen
+$fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
+
+# Generate HackGen Console
+$fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
+
 # Generate Console - 53
 $fontforge_command -script ${tmpdir}/${modified_hack53_console_generator} 2> $redirection_stderr || exit 4
 
@@ -1342,12 +1348,6 @@ $fontforge_command -script ${tmpdir}/${modified_genjyuu53_generator} 2> $redirec
 
 # Generate Modified GenJyuu Console - 53
 $fontforge_command -script ${tmpdir}/${modified_genjyuu53_console_generator} 2> $redirection_stderr || exit 4
-
-# Generate HackGen
-$fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
-
-# Generate HackGen Console
-$fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
 
 # Generate HackGen - 53
 $fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stderr || exit 4
