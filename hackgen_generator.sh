@@ -27,7 +27,7 @@ genjyuu_width=1024
 hackgen_half_width=540
 hackgen_full_width=$((${hackgen_half_width} * 2))
 hack_shrink_x=91
-hack_shrink_y=97
+hack_shrink_y=96
 
 hackgen53_half_width=618
 hackgen53_full_width=$((${hackgen53_half_width} * 5 / 3))
