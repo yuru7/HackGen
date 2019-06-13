@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.9.1"
+hackgen_version="0.9.2"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -222,10 +222,10 @@ while (i < SizeOf(input_list))
   SelectMore(0u0060)
   Scale(108, 104)
 
-  # Eclipse Pleiades 半角スペース記号 (u+054d) 対策
+  # Eclipse Pleiades 半角スペース記号 (U+1d1c) 対策
   Select(0u054d); Copy()
   Select(0u1d1c); Paste()
-  Scale(100, 60)
+  Scale(85, 60)
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
