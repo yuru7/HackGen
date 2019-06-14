@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.9.2"
+hackgen_version="0.9.3"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -26,8 +26,8 @@ genjyuu_width=1024
 
 hackgen_half_width=540
 hackgen_full_width=$((${hackgen_half_width} * 2))
-hack_shrink_x=91
-hack_shrink_y=96
+hack_shrink_x=88
+hack_shrink_y=93
 
 hackgen53_half_width=618
 hackgen53_full_width=$((${hackgen53_half_width} * 5 / 3))
