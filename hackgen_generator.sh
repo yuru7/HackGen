@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="0.9.3"
+hackgen_version="0.9.4"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -12,8 +12,10 @@ hackgen53_familyname_suffix=""
 hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
-hackgen_ascent=951
-hackgen_descent=253
+hackgen_ascent=931
+hackgen_descent=213
+hackgen53_ascent=951
+hackgen53_descent=243
 
 em_ascent=881
 em_descent=143
@@ -810,13 +812,13 @@ while (i < SizeOf(input_list))
   SetOS2Value("TypoDescentIsOffset",     0)
   SetOS2Value("HHeadAscentIsOffset",     0)
   SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen_ascent})
-  SetOS2Value("WinDescent",            ${hackgen_descent})
+  SetOS2Value("WinAscent",             ${hackgen53_ascent})
+  SetOS2Value("WinDescent",            ${hackgen53_descent})
   SetOS2Value("TypoAscent",            ${em_ascent})
   SetOS2Value("TypoDescent",          -${em_descent})
   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen_descent})
+  SetOS2Value("HHeadAscent",           ${hackgen53_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen53_descent})
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
@@ -1194,13 +1196,13 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("TypoDescentIsOffset",     0)
   SetOS2Value("HHeadAscentIsOffset",     0)
   SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen_ascent})
-  SetOS2Value("WinDescent",            ${hackgen_descent})
+  SetOS2Value("WinAscent",             ${hackgen53_ascent})
+  SetOS2Value("WinDescent",            ${hackgen53_descent})
   SetOS2Value("TypoAscent",            ${em_ascent})
   SetOS2Value("TypoDescent",          -${em_descent})
   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen_descent})
+  SetOS2Value("HHeadAscent",           ${hackgen53_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen53_descent})
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
@@ -1282,13 +1284,13 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("TypoDescentIsOffset",     0)
   SetOS2Value("HHeadAscentIsOffset",     0)
   SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen_ascent})
-  SetOS2Value("WinDescent",            ${hackgen_descent})
+  SetOS2Value("WinAscent",             ${hackgen53_ascent})
+  SetOS2Value("WinDescent",            ${hackgen53_descent})
   SetOS2Value("TypoAscent",            ${em_ascent})
   SetOS2Value("TypoDescent",          -${em_descent})
   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen_descent})
+  SetOS2Value("HHeadAscent",           ${hackgen53_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen53_descent})
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
