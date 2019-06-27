@@ -2,20 +2,20 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="1.0.0"
+hackgen_version="1.1.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
 hackgen_familyname_suffix=""
-hackgen53_familyname="HackGen53"
-hackgen53_familyname_suffix=""
+hackgen35_familyname="HackGen35"
+hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
 hackgen_ascent=931
 hackgen_descent=213
-hackgen53_ascent=951
-hackgen53_descent=243
+hackgen35_ascent=951
+hackgen35_descent=243
 
 em_ascent=881
 em_descent=143
@@ -31,8 +31,8 @@ hackgen_full_width=$((${hackgen_half_width} * 2))
 hack_shrink_x=88
 hack_shrink_y=93
 
-hackgen53_half_width=618
-hackgen53_full_width=$((${hackgen53_half_width} * 5 / 3))
+hackgen35_half_width=618
+hackgen35_full_width=$((${hackgen35_half_width} * 5 / 3))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
@@ -65,39 +65,39 @@ modified_hack_console_generator="modified_hack_console_generator.pe"
 modified_hack_console_regular="Modified-Hack-Console-Regular.sfd"
 modified_hack_console_bold="Modified-Hack-Console-Bold.sfd"
 
-modified_hack53_console_generator="modified_hack53_console_generator.pe"
-modified_hack53_console_regular="Modified-Hack53-Console-Regular.sfd"
-modified_hack53_console_bold="Modified-Hack53-Console-Bold.sfd"
+modified_hack35_console_generator="modified_hack35_console_generator.pe"
+modified_hack35_console_regular="Modified-Hack35-Console-Regular.sfd"
+modified_hack35_console_bold="Modified-Hack35-Console-Bold.sfd"
 
 modified_hack_generator="modified_hack_generator.pe"
 modified_hack_regular="Modified-Hack-Regular.sfd"
 modified_hack_bold="Modified-Hack-Bold.sfd"
 
-modified_hack53_generator="modified_hack53_generator.pe"
-modified_hack53_regular="Modified-Hack53-Regular.sfd"
-modified_hack53_bold="Modified-Hack53-Bold.sfd"
+modified_hack35_generator="modified_hack35_generator.pe"
+modified_hack35_regular="Modified-Hack35-Regular.sfd"
+modified_hack35_bold="Modified-Hack35-Bold.sfd"
 
 modified_genjyuu_generator="modified_genjyuu_generator.pe"
 modified_genjyuu_regular="Modified-GenJyuuGothicL-Monospace-regular.sfd"
 modified_genjyuu_bold="Modified-GenJyuuGothicL-Monospace-bold.sfd"
 
-modified_genjyuu53_generator="modified_genjyuu53_generator.pe"
-modified_genjyuu53_regular="Modified-GenJyuuGothicL53-Monospace-regular.sfd"
-modified_genjyuu53_bold="Modified-GenJyuuGothicL53-Monospace-bold.sfd"
+modified_genjyuu35_generator="modified_genjyuu35_generator.pe"
+modified_genjyuu35_regular="Modified-GenJyuuGothicL35-Monospace-regular.sfd"
+modified_genjyuu35_bold="Modified-GenJyuuGothicL35-Monospace-bold.sfd"
 
 modified_genjyuu_console_generator="modified_genjyuu_console_generator.pe"
 modified_genjyuu_console_regular="Modified-GenJyuuGothicL-Monospace-regular_console.sfd"
 modified_genjyuu_console_bold="Modified-GenJyuuGothicL-Monospace-bold_console.sfd"
 
-modified_genjyuu53_console_generator="modified_genjyuu53_console_generator.pe"
-modified_genjyuu53_console_regular="Modified-GenJyuuGothicL53-Monospace-regular_console.sfd"
-modified_genjyuu53_console_bold="Modified-GenJyuuGothicL53-Monospace-bold_console.sfd"
+modified_genjyuu35_console_generator="modified_genjyuu35_console_generator.pe"
+modified_genjyuu35_console_regular="Modified-GenJyuuGothicL35-Monospace-regular_console.sfd"
+modified_genjyuu35_console_bold="Modified-GenJyuuGothicL35-Monospace-bold_console.sfd"
 
 hackgen_generator="hackgen_generator.pe"
 hackgen_console_generator="hackgen_console_generator.pe"
 
-hackgen53_generator="hackgen53_generator.pe"
-hackgen53_console_generator="hackgen53_console_generator.pe"
+hackgen35_generator="hackgen35_generator.pe"
+hackgen35_console_generator="hackgen35_console_generator.pe"
 
 # hackgen_discord_generator="hackgen_discord_generator.pe"
 
@@ -288,17 +288,17 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for modified Hack53 console
+# Generate script for modified Hack35 console
 ########################################
 
-cat > ${tmpdir}/${modified_hack53_console_generator} << _EOT_
+cat > ${tmpdir}/${modified_hack35_console_generator} << _EOT_
 #!$fontforge_command -script
 
-Print("Generate modified Hack53 Console")
+Print("Generate modified Hack35 Console")
 
 # Set parameters
 input_list  = ["${tmpdir}/${modified_hack_material_regular}", "${tmpdir}/${modified_hack_material_bold}"]
-output_list = ["${modified_hack53_console_regular}", "${modified_hack53_console_bold}"]
+output_list = ["${modified_hack35_console_regular}", "${modified_hack35_console_bold}"]
 
 # Begin loop of regular and bold
 i = 0
@@ -310,8 +310,8 @@ while (i < SizeOf(input_list))
   UnlinkReference()
 
   # 幅の変更 (Move で文字幅も変わることに注意)
-  move_pt = $(((${hackgen53_half_width} - ${hack_width}) / 2)) # -8
-  width_pt = ${hackgen53_half_width}
+  move_pt = $(((${hackgen35_half_width} - ${hack_width}) / 2)) # -8
+  width_pt = ${hackgen35_half_width}
   Move(move_pt, 0)
   SetWidth(width_pt, 0)
 
@@ -425,17 +425,17 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for modified Hack53
+# Generate script for modified Hack35
 ########################################
 
-cat > ${tmpdir}/${modified_hack53_generator} << _EOT_
+cat > ${tmpdir}/${modified_hack35_generator} << _EOT_
 #!$fontforge_command -script
 
 Print("Generate modified Hack")
 
 # Set parameters
-input_list  = ["${tmpdir}/${modified_hack53_console_regular}", "${tmpdir}/${modified_hack53_console_bold}"]
-output_list = ["${modified_hack53_regular}", "${modified_hack53_bold}"]
+input_list  = ["${tmpdir}/${modified_hack35_console_regular}", "${tmpdir}/${modified_hack35_console_bold}"]
+output_list = ["${modified_hack35_regular}", "${modified_hack35_bold}"]
 
 # Begin loop of regular and bold
 i = 0
@@ -607,7 +607,7 @@ while (i < SizeOf(input_list))
 
   Print("Half SetWidth start")
   move_pt = $(((${hackgen_half_width} - ${genjyuu_width} / 2) / 2)) # 13
-  width_pt = ${hackgen_half_width} # 538
+  width_pt = ${hackgen_half_width} # 358
   ii=0
   while (ii < i_halfwidth)
       SelectMore(halfwidth_array[ii])
@@ -677,19 +677,19 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for modified GenJyuuGothicL for HackGen53
+# Generate script for modified GenJyuuGothicL for HackGen35
 ########################################
 
-cat > ${tmpdir}/${modified_genjyuu53_generator} << _EOT_
+cat > ${tmpdir}/${modified_genjyuu35_generator} << _EOT_
 #!$fontforge_command -script
 
-Print("Generate modified GenJyuuGothicL - 53")
+Print("Generate modified GenJyuuGothicL - 35")
 
 # Set parameters
-hack = "${tmpdir}/${modified_hack53_regular}"
+hack = "${tmpdir}/${modified_hack35_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
-output_list = ["${modified_genjyuu53_regular}", "${modified_genjyuu53_bold}"]
+output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
@@ -747,8 +747,8 @@ while (i < SizeOf(input_list))
   Print("Half width check loop end")
 
   Print("Full SetWidth start")
-  move_pt = $(((${hackgen53_full_width} - ${genjyuu_width}) / 2)) # 3
-  width_pt = ${hackgen53_full_width} # 1030
+  move_pt = $(((${hackgen35_full_width} - ${genjyuu_width}) / 2)) # 3
+  width_pt = ${hackgen35_full_width} # 1030
   SelectWorthOutputting()
   ii=0
   while (ii < i_halfwidth)
@@ -762,8 +762,8 @@ while (i < SizeOf(input_list))
   SelectNone()
 
   Print("Half SetWidth start")
-  move_pt = $(((${hackgen53_half_width} - ${genjyuu_width} / 2) / 2)) # 53
-  width_pt = ${hackgen53_half_width} # 618
+  move_pt = $(((${hackgen35_half_width} - ${genjyuu_width} / 2) / 2)) # 35
+  width_pt = ${hackgen35_half_width} # 618
   ii=0
   while (ii < i_halfwidth)
       SelectMore(halfwidth_array[ii])
@@ -812,13 +812,13 @@ while (i < SizeOf(input_list))
   SetOS2Value("TypoDescentIsOffset",     0)
   SetOS2Value("HHeadAscentIsOffset",     0)
   SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen53_ascent})
-  SetOS2Value("WinDescent",            ${hackgen53_descent})
+  SetOS2Value("WinAscent",             ${hackgen35_ascent})
+  SetOS2Value("WinDescent",            ${hackgen35_descent})
   SetOS2Value("TypoAscent",            ${em_ascent})
   SetOS2Value("TypoDescent",          -${em_descent})
   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen53_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen53_descent})
+  SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
@@ -898,18 +898,18 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for modified GenJyuuGothicL Console for HackGen53
+# Generate script for modified GenJyuuGothicL Console for HackGen35
 ########################################
 
-cat > ${tmpdir}/${modified_genjyuu53_console_generator} << _EOT_
+cat > ${tmpdir}/${modified_genjyuu35_console_generator} << _EOT_
 #!$fontforge_command -script
 
-Print("Generate modified GenJyuuGothicL Console - 53")
+Print("Generate modified GenJyuuGothicL Console - 35")
 
 # Set parameters
-hack = "${tmpdir}/${modified_hack53_console_regular}"
-input_list  = ["${tmpdir}/${modified_genjyuu53_regular}.ttf", "${tmpdir}/${modified_genjyuu53_bold}.ttf"]
-output_list = ["${modified_genjyuu53_console_regular}", "${modified_genjyuu53_console_bold}"]
+hack = "${tmpdir}/${modified_hack35_console_regular}"
+input_list  = ["${tmpdir}/${modified_genjyuu35_regular}.ttf", "${tmpdir}/${modified_genjyuu35_bold}.ttf"]
+output_list = ["${modified_genjyuu35_console_regular}", "${modified_genjyuu35_console_bold}"]
 
 Print("Get trim target glyph from Hack")
 Open(hack)
@@ -1139,20 +1139,20 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for HackGen53
+# Generate script for HackGen35
 ########################################
 
-cat > ${tmpdir}/${hackgen53_generator} << _EOT_
+cat > ${tmpdir}/${hackgen35_generator} << _EOT_
 #!$fontforge_command -script
 
 # Print message
 Print("Generate HackGen")
 
 # Set parameters
-hack_list  = ["${tmpdir}/${modified_hack53_regular}", \\
-                     "${tmpdir}/${modified_hack53_bold}"]
-fontfamily        = "${hackgen53_familyname}"
-fontfamilysuffix  = "${hackgen53_familyname_suffix}"
+hack_list  = ["${tmpdir}/${modified_hack35_regular}", \\
+                     "${tmpdir}/${modified_hack35_bold}"]
+fontfamily        = "${hackgen35_familyname}"
+fontfamilysuffix  = "${hackgen35_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
@@ -1196,13 +1196,13 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("TypoDescentIsOffset",     0)
   SetOS2Value("HHeadAscentIsOffset",     0)
   SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen53_ascent})
-  SetOS2Value("WinDescent",            ${hackgen53_descent})
+  SetOS2Value("WinAscent",             ${hackgen35_ascent})
+  SetOS2Value("WinDescent",            ${hackgen35_descent})
   SetOS2Value("TypoAscent",            ${em_ascent})
   SetOS2Value("TypoDescent",          -${em_descent})
   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen53_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen53_descent})
+  SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
@@ -1227,19 +1227,19 @@ Quit()
 _EOT_
 
 ########################################
-# Generate script for HackGen53 Console
+# Generate script for HackGen35 Console
 ########################################
 
-cat > ${tmpdir}/${hackgen53_console_generator} << _EOT_
+cat > ${tmpdir}/${hackgen35_console_generator} << _EOT_
 #!$fontforge_command -script
 
 # Print message
 Print("Generate HackGen Console")
 
 # Set parameters
-hack_list  = ["${tmpdir}/${modified_hack53_console_regular}", \\
-                     "${tmpdir}/${modified_hack53_console_bold}"]
-fontfamily        = "${hackgen53_familyname}"
+hack_list  = ["${tmpdir}/${modified_hack35_console_regular}", \\
+                     "${tmpdir}/${modified_hack35_console_bold}"]
+fontfamily        = "${hackgen35_familyname}"
 fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
@@ -1284,13 +1284,13 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("TypoDescentIsOffset",     0)
   SetOS2Value("HHeadAscentIsOffset",     0)
   SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen53_ascent})
-  SetOS2Value("WinDescent",            ${hackgen53_descent})
+  SetOS2Value("WinAscent",             ${hackgen35_ascent})
+  SetOS2Value("WinDescent",            ${hackgen35_descent})
   SetOS2Value("TypoAscent",            ${em_ascent})
   SetOS2Value("TypoDescent",          -${em_descent})
   SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen53_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen53_descent})
+  SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
@@ -1339,23 +1339,23 @@ $fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr
 # Generate HackGen Console
 $fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
 
-# Generate Console - 53
-$fontforge_command -script ${tmpdir}/${modified_hack53_console_generator} 2> $redirection_stderr || exit 4
+# Generate Console - 35
+$fontforge_command -script ${tmpdir}/${modified_hack35_console_generator} 2> $redirection_stderr || exit 4
 
-# Generate Modiifed Hack - 53
-$fontforge_command -script ${tmpdir}/${modified_hack53_generator} 2> $redirection_stderr || exit 4
+# Generate Modiifed Hack - 35
+$fontforge_command -script ${tmpdir}/${modified_hack35_generator} 2> $redirection_stderr || exit 4
 
-# Generate Modified GenJyuu - 53
-$fontforge_command -script ${tmpdir}/${modified_genjyuu53_generator} 2> $redirection_stderr || exit 4
+# Generate Modified GenJyuu - 35
+$fontforge_command -script ${tmpdir}/${modified_genjyuu35_generator} 2> $redirection_stderr || exit 4
 
-# Generate Modified GenJyuu Console - 53
-$fontforge_command -script ${tmpdir}/${modified_genjyuu53_console_generator} 2> $redirection_stderr || exit 4
+# Generate Modified GenJyuu Console - 35
+$fontforge_command -script ${tmpdir}/${modified_genjyuu35_console_generator} 2> $redirection_stderr || exit 4
 
-# Generate HackGen - 53
-$fontforge_command -script ${tmpdir}/${hackgen53_generator} 2> $redirection_stderr || exit 4
+# Generate HackGen - 35
+$fontforge_command -script ${tmpdir}/${hackgen35_generator} 2> $redirection_stderr || exit 4
 
-# Generate HackGen Console - 53
-$fontforge_command -script ${tmpdir}/${hackgen53_console_generator} 2> $redirection_stderr || exit 4
+# Generate HackGen Console - 35
+$fontforge_command -script ${tmpdir}/${hackgen35_console_generator} 2> $redirection_stderr || exit 4
 
 # Add hinting HackGen Regular
 for f in ${hackgen_familyname}-Regular.ttf ${hackgen_familyname}${hackgen_console_suffix}-Regular.ttf
@@ -1367,15 +1367,15 @@ for f in ${hackgen_familyname}-Bold.ttf ${hackgen_familyname}${hackgen_console_s
 do
   ttfautohint -m hinting_post_processing/hackgen-bold-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
-# Add hinting HackGen53 Regular
-for f in ${hackgen53_familyname}-Regular.ttf ${hackgen53_familyname}${hackgen_console_suffix}-Regular.ttf
+# Add hinting HackGen35 Regular
+for f in ${hackgen35_familyname}-Regular.ttf ${hackgen35_familyname}${hackgen_console_suffix}-Regular.ttf
 do
-  ttfautohint -m hinting_post_processing/hackgen53-regular-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -m hinting_post_processing/hackgen35-regular-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
-# Add hinting HackGen53 Bold
-for f in ${hackgen53_familyname}-Bold.ttf ${hackgen53_familyname}${hackgen_console_suffix}-Bold.ttf
+# Add hinting HackGen35 Bold
+for f in ${hackgen35_familyname}-Bold.ttf ${hackgen35_familyname}${hackgen_console_suffix}-Bold.ttf
 do
-  ttfautohint -m hinting_post_processing/hackgen53-bold-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -m hinting_post_processing/hackgen35-bold-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
 done
 
 for style in Regular Bold
@@ -1387,11 +1387,11 @@ do
     pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_console_regular}.ttf"
     mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen53_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_regular}.ttf"
-    mv merged.ttf "${hackgen53_familyname}-${style}.ttf"
+    pyftmerge "hinted_${hackgen35_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu35_regular}.ttf"
+    mv merged.ttf "${hackgen35_familyname}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_console_regular}.ttf"
-    mv merged.ttf "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
+    pyftmerge "hinted_${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu35_console_regular}.ttf"
+    mv merged.ttf "${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf"
   fi
   if [ "${style}" = 'Bold' ]; then
     pyftmerge "hinted_${hackgen_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu_bold}.ttf"
@@ -1400,11 +1400,11 @@ do
     pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_console_bold}.ttf"
     mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen53_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_bold}.ttf"
-    mv merged.ttf "${hackgen53_familyname}-${style}.ttf"
+    pyftmerge "hinted_${hackgen35_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu35_bold}.ttf"
+    mv merged.ttf "${hackgen35_familyname}-${style}.ttf"
 
-    pyftmerge "hinted_${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu53_console_bold}.ttf"
-    mv merged.ttf "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
+    pyftmerge "hinted_${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu35_console_bold}.ttf"
+    mv merged.ttf "${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf"
   fi
 done
 rm -f hinted_*.ttf
@@ -1415,8 +1415,8 @@ do
   $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
   mv "${hackgen_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
 
-  $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen53_familyname}${hackgen_console_suffix}-${style}.ttf"
-  mv "${hackgen53_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen53_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
+  $fontforge_command -lang=py -script "${powerline_patch_path}" "${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf"
+  mv "${hackgen35_familyname} ${hackgen_console_suffix} ${style} for Powerline.ttf" "${hackgen35_familyname}${hackgen_console_suffix}-${style}-forPowerline.ttf"
 done
 
 # Remove temporary directory
