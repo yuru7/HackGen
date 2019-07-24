@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="1.1.0"
+hackgen_version="1.2.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -632,6 +632,15 @@ while (i < SizeOf(input_list))
   # 結合分音記号は全て Hack ベースにする
   Select(0u0300, 0u036f); Clear()
 
+  # Edit zenkaku brackets
+  Print("Edit zenkaku brackets")
+  Select(0uff08); Move(-$((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width}) # (
+  Select(0uff09); Move($((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width})  # )
+  Select(0uff3b); Move(-$((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width}) # [
+  Select(0uff3d); Move($((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width})  # ]
+  Select(0uff5b); Move(-$((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width}) # {
+  Select(0uff5d); Move($((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width})  # }
+
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
   Save("${tmpdir}/" + output_list[i])
@@ -787,6 +796,15 @@ while (i < SizeOf(input_list))
 
   # 結合分音記号は全て Hack ベースにする
   Select(0u0300, 0u036f); Clear()
+
+  # Edit zenkaku brackets
+  Print("Edit zenkaku brackets")
+  Select(0uff08); Move(-$((${hackgen35_half_width} / 2 + 20)), 0); SetWidth(${hackgen35_full_width}) # (
+  Select(0uff09); Move($((${hackgen35_half_width} / 2 + 20)), 0);  SetWidth(${hackgen35_full_width})  # )
+  Select(0uff3b); Move(-$((${hackgen35_half_width} / 2 + 20)), 0); SetWidth(${hackgen35_full_width}) # [
+  Select(0uff3d); Move($((${hackgen35_half_width} / 2 + 20)), 0);  SetWidth(${hackgen35_full_width})  # ]
+  Select(0uff5b); Move(-$((${hackgen35_half_width} / 2 + 20)), 0); SetWidth(${hackgen35_full_width}) # {
+  Select(0uff5d); Move($((${hackgen35_half_width} / 2 + 20)), 0);  SetWidth(${hackgen35_full_width})  # }
 
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
