@@ -634,12 +634,13 @@ while (i < SizeOf(input_list))
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
-  Select(0uff08); Move(-$((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width}) # (
-  Select(0uff09); Move($((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width})  # )
-  Select(0uff3b); Move(-$((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width}) # [
-  Select(0uff3d); Move($((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width})  # ]
-  Select(0uff5b); Move(-$((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width}) # {
-  Select(0uff5d); Move($((${hackgen_half_width} / 2 + 30)), 0); SetWidth(${hackgen_full_width})  # }
+  bracket_move = $((${hackgen_half_width} / 2 + ${hackgen_half_width} / 30))
+  Select(0uff08); Move(-bracket_move, 0); SetWidth(${hackgen_full_width}) # (
+  Select(0uff09); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # )
+  Select(0uff3b); Move(-bracket_move, 0); SetWidth(${hackgen_full_width}) # [
+  Select(0uff3d); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # ]
+  Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen_full_width}) # {
+  Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # }
 
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
@@ -799,12 +800,13 @@ while (i < SizeOf(input_list))
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
-  Select(0uff08); Move(-$((${hackgen35_half_width} / 2 + 20)), 0); SetWidth(${hackgen35_full_width}) # (
-  Select(0uff09); Move($((${hackgen35_half_width} / 2 + 20)), 0);  SetWidth(${hackgen35_full_width})  # )
-  Select(0uff3b); Move(-$((${hackgen35_half_width} / 2 + 20)), 0); SetWidth(${hackgen35_full_width}) # [
-  Select(0uff3d); Move($((${hackgen35_half_width} / 2 + 20)), 0);  SetWidth(${hackgen35_full_width})  # ]
-  Select(0uff5b); Move(-$((${hackgen35_half_width} / 2 + 20)), 0); SetWidth(${hackgen35_full_width}) # {
-  Select(0uff5d); Move($((${hackgen35_half_width} / 2 + 20)), 0);  SetWidth(${hackgen35_full_width})  # }
+  bracket_move = $((${hackgen35_half_width} / 2 + ${hackgen35_half_width} / 30))
+  Select(0uff08); Move(-bracket_move, 0); SetWidth(${hackgen35_full_width}) # (
+  Select(0uff09); Move( bracket_move, 0); SetWidth(${hackgen35_full_width}) # )
+  Select(0uff3b); Move(-bracket_move, 0); SetWidth(${hackgen35_full_width}) # [
+  Select(0uff3d); Move( bracket_move, 0); SetWidth(${hackgen35_full_width}) # ]
+  Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen35_full_width}) # {
+  Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen35_full_width}) # }
 
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
