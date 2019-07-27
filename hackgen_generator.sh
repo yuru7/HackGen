@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="1.2.0"
+hackgen_version="1.2.1"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -12,8 +12,8 @@ hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
 
 # Set ascent and descent (line width parameters)
-hackgen_ascent=931
-hackgen_descent=213
+hackgen_ascent=901
+hackgen_descent=243
 hackgen35_ascent=951
 hackgen35_descent=243
 
