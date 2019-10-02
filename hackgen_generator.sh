@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="1.2.1"
+hackgen_version="1.3.0"
 
 # Set familyname
 hackgen_familyname="HackGen"
@@ -10,6 +10,7 @@ hackgen_familyname_suffix=""
 hackgen35_familyname="HackGen35"
 hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
+hackgen_box_drawing_lights_suffix="BoxDrawingLights"
 
 # Set ascent and descent (line width parameters)
 hackgen_ascent=901
@@ -61,6 +62,10 @@ modified_hack_material_generator="modified_hack_material_generator.pe"
 modified_hack_material_regular="Modified-Hack-Material-Regular.sfd"
 modified_hack_material_bold="Modified-Hack-Material-Bold.sfd"
 
+modified_hack_box_drawing_lights_generator="modified_hack_box_drawing_lights_generator.pe"
+modified_hack_box_drawing_lights_regular="Modified-Hack-Box-Drawing-Lights-Regular.sfd"
+modified_hack_box_drawing_lights_bold="Modified-Hack-Box-Drawing-Lights-Bold.sfd"
+
 modified_hack_console_generator="modified_hack_console_generator.pe"
 modified_hack_console_regular="Modified-Hack-Console-Regular.sfd"
 modified_hack_console_bold="Modified-Hack-Console-Bold.sfd"
@@ -95,6 +100,7 @@ modified_genjyuu35_console_bold="Modified-GenJyuuGothicL35-Monospace-bold_consol
 
 hackgen_generator="hackgen_generator.pe"
 hackgen_console_generator="hackgen_console_generator.pe"
+hackgen_box_drawing_lights_generator="hackgen_box_drawing_lights_generator.pe"
 
 hackgen35_generator="hackgen35_generator.pe"
 hackgen35_console_generator="hackgen35_console_generator.pe"
@@ -243,6 +249,60 @@ endloop
 Quit()
 _EOT_
 
+select_box_drawing_lights='
+  Select(0u2500, 0u259f)
+'
+
+########################################
+# Generate script for extracting Box Drawings Lights on Hack Console
+########################################
+
+cat > ${tmpdir}/${modified_hack_box_drawing_lights_generator} << _EOT_
+#!$fontforge_command -script
+
+Print("Generate Box Drawings Lights on Hack")
+
+# Set parameters
+input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
+output_list = ["${modified_hack_box_drawing_lights_regular}", "${modified_hack_box_drawing_lights_bold}"]
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(input_list))
+  # Open Hack
+  Print("Open " + input_list[i])
+  Open(input_list[i])
+  SelectWorthOutputting()
+  UnlinkReference()
+  ScaleToEm(${em_ascent}, ${em_descent})
+
+  Scale(${hack_shrink_x}, ${hack_shrink_y}, 0, 0)
+
+  # 幅の変更 (Move で文字幅も変わることに注意)
+  move_pt = $(((${hackgen_half_width} - ${hack_width} * ${hack_shrink_x} / 100) / 2)) # -8
+  width_pt = ${hackgen_half_width}
+  Move(move_pt, 0)
+  SetWidth(width_pt, 0)
+
+  # 罫線記号のみを残し、残りを削除
+  ${select_box_drawing_lights}
+  SelectInvert()
+  Clear()
+
+  # パスの小数点以下を切り捨て
+  SelectWorthOutputting()
+  RoundToInt()
+
+  # Save modified Hack
+  Print("Save " + output_list[i])
+  Save("${tmpdir}/" + output_list[i])
+
+  i += 1
+endloop
+
+Quit()
+_EOT_
+
 ########################################
 # Generate script for modified Hack console
 ########################################
@@ -272,6 +332,10 @@ while (i < SizeOf(input_list))
   width_pt = ${hackgen_half_width}
   Move(move_pt, 0)
   SetWidth(width_pt, 0)
+
+  # 罫線記号の削除
+  ${select_box_drawing_lights}
+  Clear()
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
@@ -862,7 +926,7 @@ cat > ${tmpdir}/${modified_genjyuu_console_generator} << _EOT_
 Print("Generate modified GenJyuuGothicL Console")
 
 # Set parameters
-hack = "${tmpdir}/${modified_hack_console_regular}"
+hack = "${tmpdir}/${modified_hack_material_regular}"
 input_list  = ["${tmpdir}/${modified_genjyuu_regular}.ttf", "${tmpdir}/${modified_genjyuu_bold}.ttf"]
 output_list = ["${modified_genjyuu_console_regular}", "${modified_genjyuu_console_bold}"]
 
@@ -927,7 +991,7 @@ cat > ${tmpdir}/${modified_genjyuu35_console_generator} << _EOT_
 Print("Generate modified GenJyuuGothicL Console - 35")
 
 # Set parameters
-hack = "${tmpdir}/${modified_hack35_console_regular}"
+hack = "${tmpdir}/${modified_hack_material_regular}"
 input_list  = ["${tmpdir}/${modified_genjyuu35_regular}.ttf", "${tmpdir}/${modified_genjyuu35_bold}.ttf"]
 output_list = ["${modified_genjyuu35_console_regular}", "${modified_genjyuu35_console_bold}"]
 
@@ -1050,7 +1114,95 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
-  # Merge Hack with GenJyuuGothicL
+  # Merge Hack font
+  Print("Merge " + hack_list[i]:t)
+  MergeFonts(hack_list[i])
+
+  # Save HackGen
+  if (fontfamilysuffix != "")
+        Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
+        Generate(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
+  else
+        Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
+        Generate(fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
+  endif
+  Close()
+
+  i += 1
+endloop
+
+Quit()
+_EOT_
+
+########################################
+# Generate script for Box Drawing Lights for HackGen Console
+########################################
+
+cat > ${tmpdir}/${hackgen_box_drawing_lights_generator} << _EOT_
+#!$fontforge_command -script
+
+# Print message
+Print("Generate Box Drawing Lights for HackGen Console")
+
+# Set parameters
+hack_list  = ["${tmpdir}/${modified_hack_box_drawing_lights_regular}", \\
+                     "${tmpdir}/${modified_hack_box_drawing_lights_bold}"]
+fontfamily        = "${hackgen_familyname}"
+fontfamilysuffix  = "${hackgen_box_drawing_lights_suffix}"
+fontstyle_list    = ["Regular", "Bold"]
+fontweight_list   = [400,       700]
+panoseweight_list = [5,         8]
+copyright         = "Copyright (c) 2019, Yuko Otawara"
+version           = "${hackgen_version}"
+
+# Begin loop of regular and bold
+i = 0
+while (i < SizeOf(fontstyle_list))
+  # Open new file
+  New()
+
+  # Set encoding to Unicode-bmp
+  Reencode("unicode")
+
+  # Set configuration
+  if (fontfamilysuffix != "")
+        SetFontNames(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i], \\
+                     fontfamily + " " + fontfamilysuffix, \\
+                     fontfamily + " " + fontfamilysuffix + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+  else
+        SetFontNames(fontfamily + "-" + fontstyle_list[i], \\
+                     fontfamily, \\
+                     fontfamily + " " + fontstyle_list[i], \\
+                     fontstyle_list[i], \\
+                     copyright, version)
+  endif
+  SetTTFName(0x409, 2, fontstyle_list[i])
+  SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
+  ScaleToEm(${em_ascent}, ${em_descent})
+  SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
+  SetOS2Value("Width",                   5) # Medium
+  SetOS2Value("FSType",                  0)
+  SetOS2Value("VendorID",           "PfEd")
+  SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
+  SetOS2Value("WinAscentIsOffset",       0)
+  SetOS2Value("WinDescentIsOffset",      0)
+  SetOS2Value("TypoAscentIsOffset",      0)
+  SetOS2Value("TypoDescentIsOffset",     0)
+  SetOS2Value("HHeadAscentIsOffset",     0)
+  SetOS2Value("HHeadDescentIsOffset",    0)
+  SetOS2Value("WinAscent",             ${hackgen_ascent})
+  SetOS2Value("WinDescent",            ${hackgen_descent})
+  SetOS2Value("TypoAscent",            ${em_ascent})
+  SetOS2Value("TypoDescent",          -${em_descent})
+  SetOS2Value("TypoLineGap",           ${typo_line_gap})
+  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
+  SetOS2Value("HHeadDescent",         -${hackgen_descent})
+  SetOS2Value("HHeadLineGap",            0)
+  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+
+  # Merge Hack font
   Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
 
@@ -1138,7 +1290,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
-  # Merge Hack with GenJyuuGothicL
+  # Merge Hack font
   Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
 
@@ -1226,7 +1378,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
-  # Merge Hack with GenJyuuGothicL
+  # Merge Hack font
   Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
 
@@ -1314,7 +1466,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadLineGap",            0)
   SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
 
-  # Merge Hack with GenJyuuGothicL
+  # Merge Hack font
   Print("Merge " + hack_list[i]:t)
   MergeFonts(hack_list[i])
 
@@ -1341,6 +1493,9 @@ _EOT_
 # Generate Material
 $fontforge_command -script ${tmpdir}/${modified_hack_material_generator} 2> $redirection_stderr || exit 4
 
+# Generate Hack Box Drawing Lights for Console
+$fontforge_command -script ${tmpdir}/${modified_hack_box_drawing_lights_generator} 2> $redirection_stderr || exit 4
+
 # Generate Console
 $fontforge_command -script ${tmpdir}/${modified_hack_console_generator} 2> $redirection_stderr || exit 4
 
@@ -1355,6 +1510,9 @@ $fontforge_command -script ${tmpdir}/${modified_genjyuu_console_generator} 2> $r
 
 # Generate HackGen
 $fontforge_command -script ${tmpdir}/${hackgen_generator} 2> $redirection_stderr || exit 4
+
+# Generate Box Drawing Lights for HackGen Console
+$fontforge_command -script ${tmpdir}/${hackgen_box_drawing_lights_generator} 2> $redirection_stderr || exit 4
 
 # Generate HackGen Console
 $fontforge_command -script ${tmpdir}/${hackgen_console_generator} 2> $redirection_stderr || exit 4
@@ -1405,6 +1563,7 @@ do
     mv merged.ttf "${hackgen_familyname}-${style}.ttf"
 
     pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_console_regular}.ttf"
+    pyftmerge merged.ttf "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}-${style}.ttf" && rm "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}-${style}.ttf"
     mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
 
     pyftmerge "hinted_${hackgen35_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu35_regular}.ttf"
@@ -1418,6 +1577,7 @@ do
     mv merged.ttf "${hackgen_familyname}-${style}.ttf"
 
     pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "${tmpdir}/${modified_genjyuu_console_bold}.ttf"
+    pyftmerge merged.ttf "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}-${style}.ttf" && rm "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}-${style}.ttf"
     mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
 
     pyftmerge "hinted_${hackgen35_familyname}-${style}.ttf" "${tmpdir}/${modified_genjyuu35_bold}.ttf"
