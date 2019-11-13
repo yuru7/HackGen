@@ -2,12 +2,13 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="1.3.0"
+hackgen_version="1.3.1"
 
 # Set familyname
-hackgen_familyname="HackGen"
+familyname_preffix="$1"
+hackgen_familyname=${familyname_preffix}"HackGen"
 hackgen_familyname_suffix=""
-hackgen35_familyname="HackGen35"
+hackgen35_familyname=${hackgen_familyname}"35"
 hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
 hackgen_box_drawing_lights_suffix="BoxDrawingLights"
@@ -201,9 +202,9 @@ while (i < SizeOf(input_list))
 
   # 0 生成
   Select(0u004f); Copy()
-  Select(0u0030); Paste(); Scale(97, 100)
+  Select(0u0030); Paste(); Scale(99, 100)
   Select(0u00b7); Copy()
-  Select(0ufff0); Paste(); Scale(80, 130); Copy()
+  Select(0ufff0); Paste(); Scale(75, 100); Copy()
   Select(0u0030); PasteInto()
   Select(0ufff0); Clear()
 
