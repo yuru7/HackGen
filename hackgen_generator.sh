@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="1.3.1"
+hackgen_version="1.4.0"
 
 # Set familyname
 familyname_preffix="$1"
@@ -137,6 +137,9 @@ fi
 
 input_papipupepo_regular=`find $fonts_directories -follow -iname papipupepo-Regular.sfd | head -n 1`
 input_papipupepo_bold=`find $fonts_directories -follow -iname papipupepo-Bold.sfd    | head -n 1`
+
+input_chouon_ichi_regular=`find $fonts_directories -follow -iname chouon-ichi-Regular.sfd | head -n 1`
+input_chouon_ichi_bold=`find $fonts_directories -follow -iname chouon-ichi-Bold.sfd    | head -n 1`
 
 # Check filename
 [ "$(basename $input_hack_regular)" != "Hack-Regular.ttf" ] &&
@@ -597,6 +600,7 @@ Print("Generate modified GenJyuuGothicL")
 hack = "${tmpdir}/${modified_hack_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
+chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -627,6 +631,7 @@ while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
   Open(papipupepo_list[i])
+  MergeFonts(chouon_ichi_list[i])
   MergeFonts(input_list[i])
 
   SelectWorthOutputting()
@@ -764,6 +769,7 @@ Print("Generate modified GenJyuuGothicL - 35")
 hack = "${tmpdir}/${modified_hack35_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
+chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
 output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -794,6 +800,7 @@ while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
   Open(papipupepo_list[i])
+  MergeFonts(chouon_ichi_list[i])
   MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
