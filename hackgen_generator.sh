@@ -63,8 +63,8 @@ non_discorded_characters=""
 # Set filenames
 hack_regular_src="Hack-Regular.ttf"
 hack_bold_src="Hack-Bold.ttf"
-nerd_patched_hack_regular_src="Hack Regular Nerd Font Complete Mono.ttf"
-nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete Mono.ttf"
+nerd_patched_hack_regular_src="Hack Regular Nerd Font Complete.ttf"
+nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete.ttf"
 genjyuu_regular_src="GenJyuuGothicL-Monospace-Regular.ttf"
 genjyuu_bold_src="GenJyuuGothicL-Monospace-Bold.ttf"
 
@@ -396,7 +396,7 @@ while (i < SizeOf(input_list))
 
   # 幅の変更 (Move で文字幅も変わることに注意)
   move_pt = $(((${hackgen_half_width} - ${hack_width} * ${hack_shrink_x} / 100) / 2)) # -8
-  width_pt = ${hackgen_half_width}
+  width_pt = ${hackgen_full_width}
   Move(move_pt, 0)
   SetWidth(width_pt, 0)
 
@@ -446,7 +446,7 @@ while (i < SizeOf(input_list))
 
   # 幅の変更 (Move で文字幅も変わることに注意)
   move_pt = $(((${hackgen35_half_width} - ${hack_width}) / 2)) # -8
-  width_pt = ${hackgen35_half_width}
+  width_pt = ${hackgen35_full_width}
   Move(move_pt, 0)
   SetWidth(width_pt, 0)
 
