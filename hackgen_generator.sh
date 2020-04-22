@@ -12,6 +12,8 @@ hackgen35_familyname=${hackgen_familyname}"35"
 hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
 hackgen_box_drawing_lights_suffix="BoxDrawingLights"
+hackgen_evacuation_nerd_familyname="Evacuation${hackgen_familyname}Nerd"
+hackgen35_evacuation_nerd_familyname="Evacuation${hackgen35_familyname}Nerd"
 hackgen_nerd_familyname=${hackgen_familyname}"Nerd"
 hackgen35_nerd_familyname=${hackgen35_familyname}"Nerd"
 hackgen_evacuation_symbol_familyname=${hackgen_familyname}"EvacuationSymbol"
@@ -1536,7 +1538,7 @@ Print("Generate extraction nerd symbols script for HackGen")
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hackgen_nerd_symbol_regular}", \\
                      "${tmpdir}/${modified_hackgen_nerd_symbol_bold}"]
-fontfamily        = "${hackgen_nerd_familyname}"
+fontfamily        = "${hackgen_evacuation_nerd_familyname}"
 fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
@@ -1624,7 +1626,7 @@ Print("Generate extraction nerd symbols script for HackGen")
 # Set parameters
 hack_list  = ["${tmpdir}/${modified_hackgen35_nerd_symbol_regular}", \\
                      "${tmpdir}/${modified_hackgen35_nerd_symbol_bold}"]
-fontfamily        = "${hackgen35_nerd_familyname}"
+fontfamily        = "${hackgen35_evacuation_nerd_familyname}"
 fontfamilysuffix  = "${hackgen35_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
@@ -2248,76 +2250,87 @@ do
     marge_genjyuu35_console_regular="${tmpdir}/${modified_genjyuu35_console_bold}.ttf"
   fi
 
+  hackgen_filename="${hackgen_familyname}-${style}.ttf"
+  hackgen_console_filename="${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
+  hackgen35_filename="${hackgen35_familyname}-${style}.ttf"
+  hackgen35_console_filename="${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf"
+
+  hackgen_nerd_filename="${hackgen_nerd_familyname}-${style}.ttf"
+  hackgen_nerd_console_filename="${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+  hackgen35_nerd_filename="${hackgen35_nerd_familyname}-${style}.ttf"
+  hackgen35_nerd_console_filename="${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+
   # HackGen
-  pyftmerge "hinted_${hackgen_familyname}-${style}.ttf" "$marge_genjyuu_regular"
-  pyftmerge merged.ttf "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen_familyname}-${style}.ttf"
+  echo "pyftmerge: ${hackgen_filename}"
+  pyftmerge "hinted_${hackgen_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu_regular"
+  mv merged.ttf "${hackgen_filename}"
 
   # HackGen Console
-  pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "$marge_genjyuu_console_regular"
-  pyftmerge merged.ttf "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  echo "pyftmerge: ${hackgen_console_filename}"
+  pyftmerge "hinted_${hackgen_console_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
   pyftmerge merged.ttf "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu_console_regular"
+  mv merged.ttf "${hackgen_console_filename}"
 
   # HackGen35
-  pyftmerge "hinted_${hackgen35_familyname}-${style}.ttf" "$marge_genjyuu35_regular"
-  pyftmerge merged.ttf "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen35_familyname}-${style}.ttf"
+  echo "pyftmerge: ${hackgen35_filename}"
+  pyftmerge "hinted_${hackgen35_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu35_regular"
+  mv merged.ttf "${hackgen35_filename}"
 
   # HackGen35 Console
-  pyftmerge "hinted_${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf" "$marge_genjyuu35_console_regular"
-  pyftmerge merged.ttf "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf"
+  echo "pyftmerge: ${hackgen35_console_filename}"
+  pyftmerge "hinted_${hackgen35_console_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
+  mv merged.ttf "${hackgen35_console_filename}"
 
   # HackGen Nerd
-  pyftmerge "hinted_${hackgen_familyname}-${style}.ttf" "$marge_genjyuu_regular"
-  pyftmerge merged.ttf "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen_nerd_familyname}-${style}.ttf"
-  ttx -t name "${hackgen_nerd_familyname}-${style}.ttf"
-  sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_familyname}-${style}.ttx"
-  mv "${hackgen_nerd_familyname}-${style}.ttf" "${hackgen_nerd_familyname}-${style}.ttf_orig"
-  ttx -m "${hackgen_nerd_familyname}-${style}.ttf_orig" "${hackgen_nerd_familyname}-${style}.ttx"
+  echo "pyftmerge: ${hackgen_nerd_filename}"
+  pyftmerge "${hackgen_filename}" "${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  mv merged.ttf "${hackgen_nerd_filename}"
+  ttx -t name "${hackgen_nerd_filename}"
+  sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_filename%%.ttf}.ttx"
+  mv "${hackgen_nerd_filename}" "${hackgen_nerd_filename}_orig"
+  ttx -m "${hackgen_nerd_filename}_orig" "${hackgen_nerd_filename%%.ttf}.ttx"
 
   # HackGen Nerd Console
-  pyftmerge "hinted_${hackgen_familyname}${hackgen_console_suffix}-${style}.ttf" "$marge_genjyuu_console_regular"
-  pyftmerge merged.ttf "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  ttx -t name "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttx"
-  mv "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf" "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf_orig"
-  ttx -m "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf_orig" "${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttx"
+  echo "pyftmerge: ${hackgen_nerd_console_filename}"
+  pyftmerge "${hackgen_console_filename}" "${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  mv merged.ttf "${hackgen_nerd_console_filename}"
+  ttx -t name "${hackgen_nerd_console_filename}"
+  sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
+  mv "${hackgen_nerd_console_filename}" "${hackgen_nerd_console_filename}_orig"
+  ttx -m "${hackgen_nerd_console_filename}_orig" "${hackgen_nerd_console_filename%%.ttf}.ttx"
 
   # HackGen35 Nerd
-  pyftmerge "hinted_${hackgen35_familyname}-${style}.ttf" "$marge_genjyuu35_regular"
-  pyftmerge merged.ttf "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen35_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen35_nerd_familyname}-${style}.ttf"
-  ttx -t name "${hackgen35_nerd_familyname}-${style}.ttf"
-  sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_familyname}-${style}.ttx"
-  mv "${hackgen35_nerd_familyname}-${style}.ttf" "${hackgen35_nerd_familyname}-${style}.ttf_orig"
-  ttx -m "${hackgen35_nerd_familyname}-${style}.ttf_orig" "${hackgen35_nerd_familyname}-${style}.ttx"
+  echo "pyftmerge: ${hackgen35_nerd_filename}"
+  pyftmerge "${hackgen35_filename}" "${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  mv merged.ttf "${hackgen35_nerd_filename}"
+  ttx -t name "${hackgen35_nerd_filename}"
+  sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_filename%%.ttf}.ttx"
+  mv "${hackgen35_nerd_filename}" "${hackgen35_nerd_filename}_orig"
+  ttx -m "${hackgen35_nerd_filename}_orig" "${hackgen35_nerd_filename%%.ttf}.ttx"
 
   # HackGen35 Nerd Console
-  pyftmerge "hinted_${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf" "$marge_genjyuu35_console_regular"
-  pyftmerge merged.ttf "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen35_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  mv merged.ttf "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  ttx -t name "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttx"
-  mv "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf" "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf_orig"
-  ttx -m "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf_orig" "${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttx"
+  echo "pyftmerge: ${hackgen35_nerd_console_filename}"
+  pyftmerge "${hackgen35_console_filename}" "${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  mv merged.ttf "${hackgen35_nerd_console_filename}"
+  ttx -t name "${hackgen35_nerd_console_filename}"
+  sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
+  mv "${hackgen35_nerd_console_filename}" "${hackgen35_nerd_console_filename}_orig"
+  ttx -m "${hackgen35_nerd_console_filename}_orig" "${hackgen35_nerd_console_filename%%.ttf}.ttx"
 
 done
 
 rm -f hinted_*.ttf
 rm -f "${hackgen_familyname}${hackgen_box_drawing_lights_suffix}"-*.ttf
+rm -f "${hackgen_evacuation_symbol_familyname}"*.ttf
+rm -f "${hackgen35_evacuation_symbol_familyname}"*.ttf
+rm -f "${hackgen_evacuation_nerd_familyname}"*.ttf
+rm -f "${hackgen35_evacuation_nerd_familyname}"*.ttf
 rm -f "${hackgen_nerd_familyname}"*.ttx
 rm -f "${hackgen35_nerd_familyname}"*.ttx
-rm -f "${hackgen_evacuation_symbol_familyname}"*.ttx
-rm -f "${hackgen35_evacuation_symbol_familyname}"*.ttx
 
 # Remove temporary directory
 if [ "${leaving_tmp_flag}" = "false" ]
