@@ -291,6 +291,13 @@ select_nerd_symbols="
   SelectFewer(0ue000, 0ue00d)
 "
 
+select_evacuate_from_hinting="
+  ${powerline_symbols}
+
+  # Lock Icon etc...
+  SelectMore(0ue0a0, 0ue0a2)
+"
+
 ########################################
 # Generate script for modified Hack Material
 ########################################
@@ -354,11 +361,6 @@ while (i < SizeOf(input_list))
   Select(0u054d); Copy()
   Select(0u1d1c); Paste()
   Scale(85, 60)
-
-  # Powerline 記号は Nerd Fonts から合成するため削除
-  SelectNone()
-  ${powerline_symbols}
-  Clear()
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
@@ -427,11 +429,6 @@ _EOT_
 ########################################
 # Generate script for extracting evacuation symbol from hinting for HackGen
 ########################################
-
-select_evacuate_from_hinting='
-  # Lock Icon etc...
-  SelectMore(0ue0a0, 0ue0a2)
-'
 
 cat > ${tmpdir}/${modified_hack_evacuate_from_hinting_generator} << _EOT_
 #!$fontforge_command -script
@@ -551,9 +548,8 @@ while (i < SizeOf(input_list))
   Print("Open " + input_list[i])
   Open(input_list[i])
 
-  # powerline の記号を残し、残りを削除
+  # powerline extra の記号を残し、残りを削除
   SelectNone()
-  ${powerline_symbols}
   ${powerline_extra_symbols}
   SelectInvert()
   Clear()
@@ -608,9 +604,8 @@ while (i < SizeOf(input_list))
   Print("Open " + input_list[i])
   Open(input_list[i])
 
-  # powerline の記号を残し、残りを削除
+  # powerline extra の記号を残し、残りを削除
   SelectNone()
-  ${powerline_symbols}
   ${powerline_extra_symbols}
   SelectInvert()
   Clear()
