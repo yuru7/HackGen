@@ -6,7 +6,7 @@ PREFIX="$1"
 xAvgCharWidth_SETVAL=540
 HACKGEN_PATTERN=${PREFIX}'HackGen[^3]*.ttf'
 
-xAvgCharWidth53_SETVAL=515
+xAvgCharWidth53_SETVAL=1030
 HACKGEN53_PATTERN=${PREFIX}'HackGen35*.ttf'
 
 for P in ${BASE_DIR}/${HACKGEN_PATTERN}; do
