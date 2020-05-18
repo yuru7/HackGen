@@ -285,7 +285,7 @@ select_evacuate_from_hinting="
   ${powerline_symbols}
 
   # Box drawing lights
-  Select(0u2500, 0u259f)
+  SelectMore(0u2500, 0u259f)
 
   # Lock Icon etc...
   SelectMore(0ue0a0, 0ue0a2)
@@ -819,6 +819,7 @@ while (i < SizeOf(input_list))
   SetWidth(width_pt, 0)
 
   # ヒンティング回避のため特定記号の削除
+  SelectNone()
   ${select_evacuate_from_hinting}
   Clear()
 
