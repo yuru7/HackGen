@@ -230,10 +230,12 @@ else
   trap "echo 'Abnormally terminated'; exit 3" HUP INT QUIT
 fi
 
+# Powerline フォント (Hack に標準で含まれている)
 powerline_symbols='
   SelectMore(0ue0b0, 0ue0b3)
 '
 
+# 拡張版 Powerline フォント
 powerline_extra_symbols='
   SelectMore(0ue0a3)
   SelectMore(0ue0b4, 0ue0c8)
@@ -242,6 +244,7 @@ powerline_extra_symbols='
   SelectMore(0ue0d4)
 '
 
+# Nerd Fonts から適用するグリフ
 select_nerd_symbols="
   # IEC Power Symbols
   SelectMore(0u23fb, 0u23fe)
@@ -281,6 +284,7 @@ select_nerd_symbols="
   SelectFewer(0ue000, 0ue00d)
 "
 
+# ヒンティング処理から除外するグリフ
 select_evacuate_from_hinting="
   ${powerline_symbols}
 
@@ -290,6 +294,68 @@ select_evacuate_from_hinting="
   # Lock Icon etc...
   SelectMore(0ue0a0, 0ue0a2)
 "
+
+# console 版と通常版の Hack から合成するグリフ差分
+select_glyph_is_not_console="
+  # 記号
+  SelectMore(0u00bc, 0u0522)
+  SelectMore(0u0e3f)
+  SelectMore(0u2010, 0u2021)
+  SelectMore(0u2024, 0u2026)
+  SelectMore(0u202f, 0u204b)
+  SelectMore(0u2070, 0u208e)
+  SelectMore(0u20a0, 0u20b9)
+  SelectMore(0u2116, 0u215f)
+  SelectMore(0u2200, 0u2215)
+  SelectMore(0u221a, 0u222d)
+
+  # 矢印
+  SelectMore(0u2190, 0u2199)
+  SelectMore(0u21a8)
+  SelectMore(0u21b0, 0u21b5)
+  SelectMore(0u21b8, 0u21b9)
+  SelectMore(0u21c4, 0u21cc)
+  SelectMore(0u21d0, 0u21d9)
+  SelectMore(0u21e4, 0u21ed)
+  SelectMore(0u21f5)
+  SelectMore(0u27a1)
+  SelectMore(0u2b05, 0u2b07)
+
+  # 数学記号
+  SelectMore(0u2252)
+  SelectMore(0u2260)
+  SelectMore(0u2261)
+
+  # 罫線、図形
+  SelectMore(0u2500, 0u25af)
+  SelectMore(0u25b1, 0u25b3)
+  SelectMore(0u25b6, 0u25b7)
+  SelectMore(0u25ba, 0u25bd)
+  SelectMore(0u25c0, 0u25c1)
+  SelectMore(0u25c4, 0u25cc)
+  SelectMore(0u25ce, 0u25d3)
+  SelectMore(0u25d8, 0u25d9)
+  SelectMore(0u25e2, 0u25e5)
+  SelectMore(0u25af)
+  SelectMore(0u25e6)
+  SelectMore(0u25ef)
+  SelectMore(0u266a)
+  SelectMore(0u2756)
+  SelectMore(0u29fa, 0u29fb)
+  SelectMore(0u2A2F)
+  SelectMore(0u2b1a)
+
+  # 一部 Hack ベースにする
+  ## 各エディタの可視化文字対策
+  SelectFewer(0u2022)
+  SelectFewer(0u00b7)
+  SelectFewer(0u2024)
+  SelectFewer(0u2219)
+  SelectFewer(0u25d8)
+  SelectFewer(0u25e6)
+  ## 結合分音記号
+  SelectFewer(0u0300, 0u036f)
+  "
 
 ########################################
 # Generate script for modified Hack Material
@@ -906,70 +972,7 @@ while (i < SizeOf(input_list))
 
   # Remove ambiguous glyphs
   SelectNone()
-
-  ## 記号
-  SelectMore(0u00bc, 0u0522)
-  SelectMore(0u0E3F)
-  SelectMore(0u2010, 0u2021)
-  SelectMore(0u2024, 0u2026)
-  SelectMore(0u202f, 0u204b)
-  SelectMore(0u2070, 0u208e)
-  SelectMore(0u20a0, 0u20b9)
-  SelectMore(0u2116, 0u215f)
-  SelectMore(0u2200, 0u2215)
-  SelectMore(0u221a, 0u222d)
-
-  ## 矢印
-  SelectMore(0u2190, 0u2199)
-  SelectMore(0u21a8)
-  SelectMore(0u21b0, 0u21b5)
-  SelectMore(0u21b8, 0u21b9)
-  SelectMore(0u21c4, 0u21cc)
-  SelectMore(0u21d0, 0u21d9)
-  SelectMore(0u21e4, 0u21ed)
-  SelectMore(0u21f5)
-  SelectMore(0u27a1)
-  SelectMore(0u2b05, 0u2b07)
-
-  ## ≒≠≡
-  SelectMore(0u2252)
-  SelectMore(0u2260)
-  SelectMore(0u2261)
-
-  ## 罫線、図形
-  SelectMore(0u2500, 0u25af)
-  SelectMore(0u25b1, 0u25b3)
-  SelectMore(0u25b6, 0u25b7)
-  SelectMore(0u25ba, 0u25bd)
-  SelectMore(0u25c0, 0u25c1)
-  SelectMore(0u25c4, 0u25cc)
-  SelectMore(0u25ce, 0u25d3)
-  SelectMore(0u25d8, 0u25d9)
-  SelectMore(0u25e2, 0u25e5)
-  SelectMore(0u25af)
-  SelectMore(0u25e6)
-  SelectMore(0u25ef)
-  SelectMore(0u266a)
-  SelectMore(0u2756)
-  SelectMore(0u29fa, 0u29fb)
-  SelectMore(0u2A2F)
-  SelectMore(0u2b1a)
-
-  ## 可視化文字対策
-  SelectFewer(0u2022)
-  SelectFewer(0u00b7)
-  SelectFewer(0u2024)
-  SelectFewer(0u2219)
-  SelectFewer(0u25d8)
-  SelectFewer(0u25e6)
-
-  ## 結合分音記号は全て Hack ベースにする
-  SelectFewer(0u0300, 0u036f)
-
-  # ヒンティング回避のため特定記号の削除
-  ${select_evacuate_from_hinting}
-
-  ## 選択中の文字を削除
+  ${select_glyph_is_not_console}
   Clear()
 
   # Save modified Hack
@@ -1004,70 +1007,7 @@ while (i < SizeOf(input_list))
 
   # Remove ambiguous glyphs
   SelectNone()
-
-  ## 記号
-  SelectMore(0u00bc, 0u0522)
-  SelectMore(0u0E3F)
-  SelectMore(0u2010, 0u2021)
-  SelectMore(0u2024, 0u2026)
-  SelectMore(0u202f, 0u204b)
-  SelectMore(0u2070, 0u208e)
-  SelectMore(0u20a0, 0u20b9)
-  SelectMore(0u2116, 0u215f)
-  SelectMore(0u2200, 0u2215)
-  SelectMore(0u221a, 0u222d)
-
-  ## 矢印
-  SelectMore(0u2190, 0u2199)
-  SelectMore(0u21a8)
-  SelectMore(0u21b0, 0u21b5)
-  SelectMore(0u21b8, 0u21b9)
-  SelectMore(0u21c4, 0u21cc)
-  SelectMore(0u21d0, 0u21d9)
-  SelectMore(0u21e4, 0u21ed)
-  SelectMore(0u21f5)
-  SelectMore(0u27a1)
-  SelectMore(0u2b05, 0u2b07)
-
-  ## ≒≠≡
-  SelectMore(0u2252)
-  SelectMore(0u2260)
-  SelectMore(0u2261)
-
-  ## 罫線、図形
-  SelectMore(0u2500, 0u25af)
-  SelectMore(0u25b1, 0u25b3)
-  SelectMore(0u25b6, 0u25b7)
-  SelectMore(0u25ba, 0u25bd)
-  SelectMore(0u25c0, 0u25c1)
-  SelectMore(0u25c4, 0u25cc)
-  SelectMore(0u25ce, 0u25d3)
-  SelectMore(0u25d8, 0u25d9)
-  SelectMore(0u25e2, 0u25e5)
-  SelectMore(0u25af)
-  SelectMore(0u25e6)
-  SelectMore(0u25ef)
-  SelectMore(0u266a)
-  SelectMore(0u2756)
-  SelectMore(0u29fa, 0u29fb)
-  SelectMore(0u2A2F)
-  SelectMore(0u2b1a)
-
-  ## 可視化文字対策
-  SelectFewer(0u2022)
-  SelectFewer(0u00b7)
-  SelectFewer(0u2024)
-  SelectFewer(0u2219)
-  SelectFewer(0u25d8)
-  SelectFewer(0u25e6)
-
-  ## 結合分音記号は全て Hack ベースにする
-  SelectFewer(0u0300, 0u036f)
-
-  # ヒンティング回避のため特定記号の削除
-  ${select_evacuate_from_hinting}
-
-  ## 選択中の文字を削除
+  ${select_glyph_is_not_console}
   Clear()
 
   # Save modified Hack
