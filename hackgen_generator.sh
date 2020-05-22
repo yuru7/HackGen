@@ -298,7 +298,7 @@ select_evacuate_from_hinting="
 # console 版と通常版の Hack から合成するグリフ差分
 select_glyph_is_not_console="
   # 記号
-  SelectMore(0u00bc, 0u0522)
+  SelectMore(0u00a1, 0u0522)
   SelectMore(0u0e3f)
   SelectMore(0u2010, 0u2021)
   SelectMore(0u2024, 0u2026)
@@ -322,9 +322,30 @@ select_glyph_is_not_console="
   SelectMore(0u2b05, 0u2b07)
 
   # 数学記号
-  SelectMore(0u2252)
+  SelectMore(0u2234, 0u2237)
+  SelectMore(0u223c, 0u223d)
+  SelectMore(0u2242, 0u2243)
+  SelectMore(0u2245)
+  SelectMore(0u2248)
+  SelectMore(0u224c)
+  SelectMore(0u2250, 0u2253)
   SelectMore(0u2260)
-  SelectMore(0u2261)
+  SelectMore(0u2260, 0u2262)
+  SelectMore(0u2264, 0u2267)
+  SelectMore(0u226a, 0u226b)
+  SelectMore(0u226e, 0u226f)
+  SelectMore(0u2272, 0u2273)
+  SelectMore(0u2276, 0u2277)
+  SelectMore(0u2282, 0u228b)
+  SelectMore(0u2295, 0u2299)
+  SelectMore(0u229d)
+  SelectMore(0u22a0)
+  SelectMore(0u22a2, 0u22a5)
+  SelectMore(0u22bb, 0u22bd)
+  SelectMore(0u22bf, 0u22c3)
+  SelectMore(0u22c5)
+  SelectMore(0u22da, 0u22db)
+  SelectMore(0u22ee, 0u22ef)
 
   # 罫線、図形
   SelectMore(0u2500, 0u25af)
