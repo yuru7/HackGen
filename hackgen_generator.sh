@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.0.0"
+hackgen_version="2.0.1"
 
 # Set familyname
 familyname_preffix="$1"
@@ -21,8 +21,8 @@ hackgen_box_drawing_light_familyname=${hackgen_familyname}"BoxDrawingLight"
 hackgen35_box_drawing_light_familyname=${hackgen35_familyname}"BoxDrawingLight"
 
 # Set ascent and descent (line width parameters)
-hackgen_ascent=901
-hackgen_descent=243
+hackgen_ascent=938
+hackgen_descent=210
 hackgen35_ascent=951
 hackgen35_descent=243
 
@@ -1268,6 +1268,10 @@ while (i < SizeOf(input_list))
   Select(0uff3d); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # ]
   Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen_full_width}) # {
   Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # }
+
+  # 下限で見切れているグリフの調整
+  Select(0uff47); Scale(100, 91) # ｇ
+  Select(0uff4a); Scale(100, 91) # ｊ
 
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
