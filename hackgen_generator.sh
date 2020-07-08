@@ -603,7 +603,7 @@ while (i < SizeOf(input_list))
   # 細かな幅合わせ
   Scale(99, 100, 0, 0)
   Scale(100, 101)
-  Scale(100, 103, 0, 0)
+  Scale(100, 105, 0, 0)
 
   # 幅の変更 (Move で文字幅も変わることに注意)
   move_pt = $(((${hackgen_half_width} - ${hack_width} * ${hack_shrink_x} / 100) / 2)) # -8
