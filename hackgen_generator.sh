@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.0.1"
+hackgen_version="2.1.0"
 
 # Set familyname
 familyname_preffix="$1"
@@ -193,6 +193,10 @@ fi
 # Search papipupepo
 input_papipupepo_regular=`find $fonts_directories -follow -iname papipupepo-Regular.sfd | head -n 1`
 input_papipupepo_bold=`find $fonts_directories -follow -iname papipupepo-Bold.sfd    | head -n 1`
+
+# Search dakuon
+input_dakuon_regular=`find $fonts_directories -follow -iname dakuon-Regular.sfd | head -n 1`
+input_dakuon_bold=`find $fonts_directories -follow -iname dakuon-Bold.sfd | head -n 1`
 
 # Search chouon and ichi
 input_chouon_ichi_regular=`find $fonts_directories -follow -iname chouon-ichi-Regular.sfd | head -n 1`
@@ -1157,6 +1161,7 @@ Print("Generate modified GenJyuuGothicL")
 hack = "${tmpdir}/${modified_hack_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
+dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
 chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
@@ -1188,6 +1193,7 @@ while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
   Open(papipupepo_list[i])
+  MergeFonts(dakuon_list[i])
   MergeFonts(chouon_ichi_list[i])
   MergeFonts(input_list[i])
 
@@ -1330,6 +1336,7 @@ Print("Generate modified GenJyuuGothicL - 35")
 hack = "${tmpdir}/${modified_hack35_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
+dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
 chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
 output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
@@ -1361,6 +1368,7 @@ while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
   Open(papipupepo_list[i])
+  MergeFonts(dakuon_list[i])
   MergeFonts(chouon_ichi_list[i])
   MergeFonts(input_list[i])
   SelectWorthOutputting()
