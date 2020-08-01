@@ -39,5 +39,5 @@ HackGen は以下の環境でビルドしています。
 * ttfautohint: `sudo apt install ttfautohint`
 * fonttools: Python 2 の pip で `pip install fonttools`
   * fonttools に含まれるサブツール `pyftmerge` と `ttx` をコマンドとして利用しているため、fonttools インストール後、該当コマンドがインストールされているディレクトリに PATH を通すこと (一般ユーザー権限でインストールした場合は `~/.local/bin/` 内に展開されている)
-  * Python 3 の pip を使ったものは fonttools 4.13.0 がインストールされる (2020/08/01 時点)。 fonttools 4.13.0 では post テーブルの構造が変わってしまうため、macOS 10.15 にてインストール不可となる (#12)
+  * Python 3 の pip を使ったものは fonttools 4.13.0 がインストールされる (2020/08/01 時点)。 fonttools 4.13.0 では post テーブルの構造が変わってしまうため、macOS 10.15 にてインストール不可となる ([#12](https://github.com/yuru7/HackGen/issues/12))
 * fontforge: Personal Package Archive (PPA) を追加した後に `sudo apt-get install fontforge` (詳細は [こちら](http://designwithfontforge.com/en-US/Installing_Fontforge.html))
