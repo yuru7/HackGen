@@ -12,12 +12,13 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 [Release - HackGen](https://github.com/yuru7/HackGen/releases)
 
-Mac の Homebrew ユーザは以下のコマンドでインストールすることができます。  
-※Homebrew リポジトリに追加してくださったのはユーザさんなので、使用方法などをリポジトリオーナーはサポートできません。悪しからずご了承ください。
+Mac の Homebrew ユーザーは以下のコマンドでインストールすることができます。  
+※Homebrew リポジトリに追加してくださったのはユーザーさんなので、使用方法などをリポジトリオーナーはサポートできません。悪しからずご了承ください。
 
 ```
 $ brew tap homebrew/cask-fonts
 $ brew cask install font-hackgen
+$ brew cask install font-hackgen-nerd
 ```
 
 特徴などの詳しい説明は以下の記事を参照してください。
