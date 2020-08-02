@@ -67,6 +67,8 @@ non_discorded_characters=""
 # Set filenames
 hack_regular_src="Hack-Regular.ttf"
 hack_bold_src="Hack-Bold.ttf"
+mod_arrow_regular_src="modify_arrow_Hack-Regular.sfd"
+mod_arrow_bold_src="modify_arrow_Hack-Bold.sfd"
 nerd_patched_hack_regular_src="Hack Regular Nerd Font Complete.ttf"
 nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete.ttf"
 nerd_patched_hack_regular_mono_src="Hack Regular Nerd Font Complete Mono.ttf"
@@ -174,10 +176,17 @@ fonts_directories="${tmp}"
 # Search Hack
 input_hack_regular=`find $fonts_directories -follow -name "$hack_regular_src" | head -n 1`
 input_hack_bold=`find $fonts_directories -follow -name "$hack_bold_src" | head -n 1`
+input_mod_arrow_regular=`find $fonts_directories -follow -name "$mod_arrow_regular_src" | head -n 1`
+input_mod_arrow_bold=`find $fonts_directories -follow -name "$mod_arrow_bold_src" | head -n 1`
 
 if [ -z "${input_hack_regular}" -o -z "${input_hack_bold}" ]
 then
   echo "Error: $hack_regular_src and/or $hack_bold_src not found" >&2
+  exit 1
+fi
+if [ -z "${input_mod_arrow_regular}" -o -z "${input_mod_arrow_bold}" ]
+then
+  echo "Error: $input_mod_arrow_regular and/or $input_mod_arrow_bold not found" >&2
   exit 1
 fi
 
@@ -405,6 +414,7 @@ Print("Generate modified Hack Material")
 
 # Set parameters
 input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
+input_mod_arrow_list  = ["${input_mod_arrow_regular}",    "${input_mod_arrow_bold}"]
 output_list = ["${modified_hack_material_regular}", "${modified_hack_material_bold}"]
 
 # Begin loop of regular and bold
@@ -413,6 +423,13 @@ while (i < SizeOf(input_list))
   # Open Hack
   Print("Open " + input_list[i])
   Open(input_list[i])
+
+  # 修正した矢印記号グリフの取り込み
+  Select(0u2190, 0u2199)
+  SelectMore(0u21E0, 0u21E3) # Dashed Arrow
+  Clear()
+  MergeFonts(input_mod_arrow_list[i])
+
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
