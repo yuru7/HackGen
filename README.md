@@ -4,15 +4,25 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 白源 (はくげん／HackGen) は、プログラミング向け英文フォント Hack と、源ノ角ゴシックの派生フォント源柔ゴシックを合成したプログラミングフォントです。
 
+特徴などの詳しい説明は以下の記事を参照してください。  
+**[Ricty を神フォントだと崇める僕が、フリーライセンスのプログラミングフォント「白源」を作った話](https://qiita.com/tawara_/items/374f3ca0a386fab8b305)**
+
 |**白源 通常版**|**白源 半角3:全角5 版**|
 |:------------------------:|:------------------------:|
 |![hackgen](https://github.com/yuru7/HackGen/raw/image/sc_hackgen.png)|![hackgen35](https://github.com/yuru7/HackGen/raw/image/sc_hackgen35.png)|
 
-ビルド済みの ttf ファイルは GitHub のリリースページからダウンロードできます。
+## インストール
+
+ビルド済みの ttf ファイルは GitHub のリリースページからダウンロードできます。  
 
 [Release - HackGen](https://github.com/yuru7/HackGen/releases)
 
-Mac の Homebrew ユーザーは以下のコマンドでインストールすることができます。  
+* `HackGen_バージョン.zip` は従来の HackGen/HackGen35
+* `HackGenNerd_バージョン.zip` は従来の HackGen/HackGen35 に更に [Nerd Fonts](https://www.nerdfonts.com/) を合成したもの
+
+### Homebrew によるインストール
+
+Mac の Homebrew ユーザーは以下のコマンドでもインストールすることができます。  
 ※Homebrew リポジトリに追加してくださったのはユーザーさんなので、使用方法などをリポジトリオーナーはサポートできません。悪しからずご了承ください。
 
 ```
@@ -21,11 +31,7 @@ $ brew cask install font-hackgen
 $ brew cask install font-hackgen-nerd
 ```
 
-特徴などの詳しい説明は以下の記事を参照してください。
-
-[Ricty を神フォントだと崇める僕が、フリーライセンスのプログラミングフォント「白源」を作った話](https://qiita.com/tawara_/items/374f3ca0a386fab8b305)
-
-# ビルド環境
+## ビルド環境
 
 HackGen は以下の環境でビルドしています。
 
@@ -35,7 +41,7 @@ HackGen は以下の環境でビルドしています。
   * fonttools: 3.44.0
   * fontforge: fontforge 11:21 UTC 24-Sep-2017
 
-## インストール方法と注意点
+### インストール方法と注意点
 
 * ttfautohint: `sudo apt install ttfautohint`
 * fonttools: Python 2 の pip で `pip install fonttools`
