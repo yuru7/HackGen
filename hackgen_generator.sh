@@ -211,6 +211,10 @@ input_dakuon_bold=`find $fonts_directories -follow -iname dakuon-Bold.sfd | head
 input_chouon_ichi_regular=`find $fonts_directories -follow -iname chouon-ichi-Regular.sfd | head -n 1`
 input_chouon_ichi_bold=`find $fonts_directories -follow -iname chouon-ichi-Bold.sfd    | head -n 1`
 
+# Search REIWA
+input_reiwa_regular=`find $fonts_directories -follow -iname reiwa-Regular.sfd | head -n 1`
+input_reiwa_bold=`find $fonts_directories -follow -iname reiwa-Bold.sfd    | head -n 1`
+
 # Search nerd patched hack
 input_nerd_patched_hack_regular=`find $fonts_directories -follow -iname "$nerd_patched_hack_regular_src" | head -n 1`
 input_nerd_patched_hack_bold=`find $fonts_directories -follow -iname "$nerd_patched_hack_bold_src"    | head -n 1`
@@ -1190,6 +1194,7 @@ input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
 dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
 chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
+reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -1222,6 +1227,7 @@ while (i < SizeOf(input_list))
   Open(papipupepo_list[i])
   MergeFonts(dakuon_list[i])
   MergeFonts(chouon_ichi_list[i])
+  MergeFonts(reiwa_list[i])
   MergeFonts(input_list[i])
 
   SelectWorthOutputting()
@@ -1368,6 +1374,7 @@ input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
 dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
 chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
+reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
 output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -1400,6 +1407,7 @@ while (i < SizeOf(input_list))
   Open(papipupepo_list[i])
   MergeFonts(dakuon_list[i])
   MergeFonts(chouon_ichi_list[i])
+  MergeFonts(reiwa_list[i])
   MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
