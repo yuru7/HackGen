@@ -323,7 +323,8 @@ select_glyph_is_not_console="
   ${box_drawing_light_symbols}
 
   # 記号
-  SelectMore(0u00a1, 0u0522)
+  SelectMore(0u00a1, 0u00a5)
+  SelectMore(0u00a7, 0u0522)
   SelectMore(0u0e3f)
   SelectMore(0u2010, 0u2021)
   SelectMore(0u2024, 0u2026)
@@ -434,10 +435,19 @@ while (i < SizeOf(input_list))
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
 
-  # パイプの破断線化
+  # broken bar に貼り付ける素材準備 (パイプ記号を使うため、後述のパイプ破断線化より前に処理する)
+  Select(0u007c); Copy()
+  Select(0u0090); Paste(); Scale(100, 25)
+
+  # パイプの破断線化 (broken bar を縦に拡大)
   Select(0u00a6); Copy()
   Select(0u007c); Paste()
   Scale(100, 114)
+
+  # 破断線化したパイプ記号と broken bar の区別を付きやすくする
+  Select(0u0090); Copy()
+  Select(0u00a6); Paste(); PasteWithOffset(0, 350); PasteWithOffset(0, -350)
+  Select(0u0090); Clear()
 
   # 0 生成
   Select(0u004f); Copy()
@@ -1282,6 +1292,9 @@ while (i < SizeOf(input_list))
   # 結合分音記号は全て Hack ベースにする
   Select(0u0300, 0u036f); Clear()
 
+  # broken bar は Hack ベースにする
+  Select(0u00a6); Clear()
+
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
   bracket_move = $((${hackgen_half_width} / 2 + ${hackgen_half_width} / 30))
@@ -1455,6 +1468,9 @@ while (i < SizeOf(input_list))
 
   # 結合分音記号は全て Hack ベースにする
   Select(0u0300, 0u036f); Clear()
+
+  # broken bar は Hack ベースにする
+  Select(0u00a6); Clear()
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
