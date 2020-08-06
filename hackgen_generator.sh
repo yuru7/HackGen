@@ -432,6 +432,7 @@ while (i < SizeOf(input_list))
   # 修正した矢印記号グリフの取り込み
   Select(0u2190, 0u2199)
   SelectMore(0u21E0, 0u21E3) # Dashed Arrow
+  SelectMore(0u21D0, 0u21D9) # Double Arrow
   Clear()
   MergeFonts(input_mod_arrow_list[i])
 
