@@ -11,16 +11,17 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 |:------------------------:|:------------------------:|
 |![hackgen](https://github.com/yuru7/HackGen/raw/image/sc_hackgen.png)|![hackgen35](https://github.com/yuru7/HackGen/raw/image/sc_hackgen35.png)|
 
-## インストール
+## フォントのインストール
 
 ビルド済みの ttf ファイルは GitHub のリリースページからダウンロードできます。  
+ダウンロードした ttf ファイルは、各 OS に応じた手順でインストールしてください。
 
 [Release - HackGen](https://github.com/yuru7/HackGen/releases)
 
 * `HackGen_バージョン.zip` は従来の HackGen/HackGen35
 * `HackGenNerd_バージョン.zip` は従来の HackGen/HackGen35 に更に [Nerd Fonts](https://www.nerdfonts.com/) を合成したもの
 
-### Homebrew によるインストール
+### Homebrew によるフォントのインストール
 
 Mac の Homebrew ユーザーは以下のコマンドでもインストールすることができます。  
 ※Homebrew リポジトリに追加してくださったのはユーザーさんなので、使用方法などをリポジトリオーナーはサポートできません。悪しからずご了承ください。
@@ -41,7 +42,7 @@ HackGen は以下の環境でビルドしています。
   * fonttools: 3.44.0
   * fontforge: fontforge 11:21 UTC 24-Sep-2017
 
-### インストール方法と注意点
+### ビルドツールのインストール方法と注意点
 
 * ttfautohint: `sudo apt install ttfautohint`
 * fonttools: Python 2 の pip で `pip install fonttools`
