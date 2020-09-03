@@ -32,6 +32,17 @@ $ brew cask install font-hackgen
 $ brew cask install font-hackgen-nerd
 ```
 
+### Chocolatey によるフォントのインストール
+
+Windows の [Chocolatey](https://chocolatey.org/) ユーザーは以下のコマンドでもインストールすることができます。  
+[font-hackgen](https://chocolatey.org/packages/font-hackgen) が Nerd Fonts を含まないフォント、[font-hackgen-nerd](https://chocolatey.org/packages/font-hackgen-nerd) が Nerd Fonts を含むフォントです。  
+※インストールに失敗する場合は、[パッケージのリポジトリ](https://github.com/kai2nenobu/chocolatey-packages/)にissueを投稿してください。
+
+```
+> choco install font-hackgen
+> choco install font-hackgen-nerd
+```
+
 ## ビルド環境
 
 HackGen は以下の環境でビルドしています。
