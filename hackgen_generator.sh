@@ -199,17 +199,9 @@ then
   exit 1
 fi
 
-# Search papipupepo
-input_papipupepo_regular=`find $fonts_directories -follow -iname papipupepo-Regular.sfd | head -n 1`
-input_papipupepo_bold=`find $fonts_directories -follow -iname papipupepo-Bold.sfd    | head -n 1`
-
-# Search dakuon
-input_dakuon_regular=`find $fonts_directories -follow -iname dakuon-Regular.sfd | head -n 1`
-input_dakuon_bold=`find $fonts_directories -follow -iname dakuon-Bold.sfd | head -n 1`
-
-# Search chouon and ichi
-input_chouon_ichi_regular=`find $fonts_directories -follow -iname chouon-ichi-Regular.sfd | head -n 1`
-input_chouon_ichi_bold=`find $fonts_directories -follow -iname chouon-ichi-Bold.sfd    | head -n 1`
+# Search improved legibility file
+input_improved_legibility_regular=`find $fonts_directories -follow -iname improved_legibility-Regular.sfd | head -n 1`
+input_improved_legibility_bold=`find $fonts_directories -follow -iname improved_legibility-Bold.sfd    | head -n 1`
 
 # Search REIWA
 input_reiwa_regular=`find $fonts_directories -follow -iname reiwa-Regular.sfd | head -n 1`
@@ -1192,9 +1184,7 @@ Print("Generate modified GenJyuuGothicL")
 # Set parameters
 hack = "${tmpdir}/${modified_hack_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
-papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
-dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
-chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
+improved_legibility_list  = ["${input_improved_legibility_regular}",    "${input_improved_legibility_bold}"]
 reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
@@ -1225,9 +1215,7 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(papipupepo_list[i])
-  MergeFonts(dakuon_list[i])
-  MergeFonts(chouon_ichi_list[i])
+  Open(improved_legibility_list[i])
   MergeFonts(reiwa_list[i])
   MergeFonts(input_list[i])
 
@@ -1372,9 +1360,7 @@ Print("Generate modified GenJyuuGothicL - 35")
 # Set parameters
 hack = "${tmpdir}/${modified_hack35_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
-papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
-dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
-chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
+improved_legibility_list  = ["${input_improved_legibility_regular}",    "${input_improved_legibility_bold}"]
 reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
 output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
@@ -1405,9 +1391,7 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(papipupepo_list[i])
-  MergeFonts(dakuon_list[i])
-  MergeFonts(chouon_ichi_list[i])
+  Open(improved_legibility_list[i])
   MergeFonts(reiwa_list[i])
   MergeFonts(input_list[i])
   SelectWorthOutputting()
