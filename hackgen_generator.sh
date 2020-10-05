@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.1.1"
+hackgen_version="2.2.0"
 
 # Set familyname
 familyname_preffix="$1"
@@ -67,6 +67,8 @@ non_discorded_characters=""
 # Set filenames
 hack_regular_src="Hack-Regular.ttf"
 hack_bold_src="Hack-Bold.ttf"
+mod_arrow_regular_src="modify_arrow_Hack-Regular.sfd"
+mod_arrow_bold_src="modify_arrow_Hack-Bold.sfd"
 nerd_patched_hack_regular_src="Hack Regular Nerd Font Complete.ttf"
 nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete.ttf"
 nerd_patched_hack_regular_mono_src="Hack Regular Nerd Font Complete Mono.ttf"
@@ -174,10 +176,17 @@ fonts_directories="${tmp}"
 # Search Hack
 input_hack_regular=`find $fonts_directories -follow -name "$hack_regular_src" | head -n 1`
 input_hack_bold=`find $fonts_directories -follow -name "$hack_bold_src" | head -n 1`
+input_mod_arrow_regular=`find $fonts_directories -follow -name "$mod_arrow_regular_src" | head -n 1`
+input_mod_arrow_bold=`find $fonts_directories -follow -name "$mod_arrow_bold_src" | head -n 1`
 
 if [ -z "${input_hack_regular}" -o -z "${input_hack_bold}" ]
 then
   echo "Error: $hack_regular_src and/or $hack_bold_src not found" >&2
+  exit 1
+fi
+if [ -z "${input_mod_arrow_regular}" -o -z "${input_mod_arrow_bold}" ]
+then
+  echo "Error: $input_mod_arrow_regular and/or $input_mod_arrow_bold not found" >&2
   exit 1
 fi
 
@@ -190,17 +199,13 @@ then
   exit 1
 fi
 
-# Search papipupepo
-input_papipupepo_regular=`find $fonts_directories -follow -iname papipupepo-Regular.sfd | head -n 1`
-input_papipupepo_bold=`find $fonts_directories -follow -iname papipupepo-Bold.sfd    | head -n 1`
+# Search improved legibility file
+input_improved_legibility_regular=`find $fonts_directories -follow -iname improved_legibility-Regular.sfd | head -n 1`
+input_improved_legibility_bold=`find $fonts_directories -follow -iname improved_legibility-Bold.sfd    | head -n 1`
 
-# Search dakuon
-input_dakuon_regular=`find $fonts_directories -follow -iname dakuon-Regular.sfd | head -n 1`
-input_dakuon_bold=`find $fonts_directories -follow -iname dakuon-Bold.sfd | head -n 1`
-
-# Search chouon and ichi
-input_chouon_ichi_regular=`find $fonts_directories -follow -iname chouon-ichi-Regular.sfd | head -n 1`
-input_chouon_ichi_bold=`find $fonts_directories -follow -iname chouon-ichi-Bold.sfd    | head -n 1`
+# Search REIWA
+input_reiwa_regular=`find $fonts_directories -follow -iname reiwa-Regular.sfd | head -n 1`
+input_reiwa_bold=`find $fonts_directories -follow -iname reiwa-Bold.sfd    | head -n 1`
 
 # Search nerd patched hack
 input_nerd_patched_hack_regular=`find $fonts_directories -follow -iname "$nerd_patched_hack_regular_src" | head -n 1`
@@ -314,7 +319,8 @@ select_glyph_is_not_console="
   ${box_drawing_light_symbols}
 
   # 記号
-  SelectMore(0u00a1, 0u0522)
+  SelectMore(0u00a1, 0u00a5)
+  SelectMore(0u00a7, 0u0522)
   SelectMore(0u0e3f)
   SelectMore(0u2010, 0u2021)
   SelectMore(0u2024, 0u2026)
@@ -405,6 +411,7 @@ Print("Generate modified Hack Material")
 
 # Set parameters
 input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
+input_mod_arrow_list  = ["${input_mod_arrow_regular}",    "${input_mod_arrow_bold}"]
 output_list = ["${modified_hack_material_regular}", "${modified_hack_material_bold}"]
 
 # Begin loop of regular and bold
@@ -413,14 +420,31 @@ while (i < SizeOf(input_list))
   # Open Hack
   Print("Open " + input_list[i])
   Open(input_list[i])
+
+  # 修正した矢印記号グリフの取り込み
+  Select(0u2190, 0u2199)
+  SelectMore(0u21E0, 0u21E3) # Dashed Arrow
+  SelectMore(0u21D0, 0u21D9) # Double Arrow
+  Clear()
+  MergeFonts(input_mod_arrow_list[i])
+
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
 
-  # パイプの破断線化
+  # broken bar に貼り付ける素材準備 (パイプ記号を使うため、後述のパイプ破断線化より前に処理する)
+  Select(0u007c); Copy()
+  Select(0u0090); Paste(); Scale(100, 25)
+
+  # パイプの破断線化 (broken bar を縦に拡大)
   Select(0u00a6); Copy()
   Select(0u007c); Paste()
   Scale(100, 114)
+
+  # 破断線化したパイプ記号と broken bar の区別を付きやすくする
+  Select(0u0090); Copy()
+  Select(0u00a6); Paste(); PasteWithOffset(0, 350); PasteWithOffset(0, -350)
+  Select(0u0090); Clear()
 
   # 0 生成
   Select(0u004f); Copy()
@@ -1160,9 +1184,8 @@ Print("Generate modified GenJyuuGothicL")
 # Set parameters
 hack = "${tmpdir}/${modified_hack_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
-papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
-dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
-chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
+improved_legibility_list  = ["${input_improved_legibility_regular}",    "${input_improved_legibility_bold}"]
+reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -1192,9 +1215,8 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(papipupepo_list[i])
-  MergeFonts(dakuon_list[i])
-  MergeFonts(chouon_ichi_list[i])
+  Open(improved_legibility_list[i])
+  MergeFonts(reiwa_list[i])
   MergeFonts(input_list[i])
 
   SelectWorthOutputting()
@@ -1264,6 +1286,9 @@ while (i < SizeOf(input_list))
 
   # 結合分音記号は全て Hack ベースにする
   Select(0u0300, 0u036f); Clear()
+
+  # broken bar は Hack ベースにする
+  Select(0u00a6); Clear()
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
@@ -1335,9 +1360,8 @@ Print("Generate modified GenJyuuGothicL - 35")
 # Set parameters
 hack = "${tmpdir}/${modified_hack35_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
-papipupepo_list  = ["${input_papipupepo_regular}",    "${input_papipupepo_bold}"]
-dakuon_list  = ["${input_dakuon_regular}",    "${input_dakuon_bold}"]
-chouon_ichi_list  = ["${input_chouon_ichi_regular}",    "${input_chouon_ichi_bold}"]
+improved_legibility_list  = ["${input_improved_legibility_regular}",    "${input_improved_legibility_bold}"]
+reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
 output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -1367,9 +1391,8 @@ i = 0
 while (i < SizeOf(input_list))
   # Open GenJyuuGothicL
   Print("Open " + input_list[i])
-  Open(papipupepo_list[i])
-  MergeFonts(dakuon_list[i])
-  MergeFonts(chouon_ichi_list[i])
+  Open(improved_legibility_list[i])
+  MergeFonts(reiwa_list[i])
   MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
@@ -1438,6 +1461,9 @@ while (i < SizeOf(input_list))
 
   # 結合分音記号は全て Hack ベースにする
   Select(0u0300, 0u036f); Clear()
+
+  # broken bar は Hack ベースにする
+  Select(0u00a6); Clear()
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
