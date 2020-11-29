@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.2.1"
+hackgen_version="2.2.2"
 
 # Set familyname
 familyname_preffix="$1"
@@ -481,6 +481,11 @@ while (i < SizeOf(input_list))
   Select(0u054d); Copy()
   Select(0u1d1c); Paste()
   Scale(85, 60)
+
+  # 左右の波括弧の縦位置合わせ (Regular だけ)
+  if (i == 0)
+    Select(0u007D); Move(0, 5)
+  endif
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
