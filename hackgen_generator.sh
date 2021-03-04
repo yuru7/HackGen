@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.2.3"
+hackgen_version="2.3.0"
 
 # Set familyname
 familyname_preffix="$1"
@@ -1305,6 +1305,13 @@ while (i < SizeOf(input_list))
   Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen_full_width}) # {
   Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # }
 
+  # 全角 ，．’” の調整
+  Select(0uff0e)     # ．
+  SelectMore(0uff0c) # ，
+  SelectMore(0u2019) # ’
+  SelectMore(0u201d) # ”
+  Scale(145); SetWidth(${hackgen_full_width})
+
   # 下限で見切れているグリフの調整
   Select(0uff47); Scale(100, 91) # ｇ
   Select(0uff4a); Scale(100, 91) # ｊ
@@ -1479,6 +1486,13 @@ while (i < SizeOf(input_list))
   Select(0uff3d); Move( bracket_move, 0); SetWidth(${hackgen35_full_width}) # ]
   Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen35_full_width}) # {
   Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen35_full_width}) # }
+
+  # 全角 ，．’” の調整
+  Select(0uff0e)     # ．
+  SelectMore(0uff0c) # ，
+  SelectMore(0u2019) # ’
+  SelectMore(0u201d) # ”
+  Scale(145); SetWidth(${hackgen35_full_width})
 
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
