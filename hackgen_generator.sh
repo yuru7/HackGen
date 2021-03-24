@@ -1305,10 +1305,12 @@ while (i < SizeOf(input_list))
   Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen_full_width}) # {
   Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen_full_width}) # }
 
-  # 全角 ，．’” の調整
+  # 全角 ，．‘’“” の調整
   Select(0uff0e);Scale(155) ; SetWidth(${hackgen_full_width}) # ．
   Select(0uff0c);Scale(145) ; SetWidth(${hackgen_full_width}) # ，
+  Select(0u2018);Scale(145) ; SetWidth(${hackgen_full_width}) # ‘
   Select(0u2019);Scale(145) ; SetWidth(${hackgen_full_width}) # ’
+  Select(0u201c);Scale(145) ; SetWidth(${hackgen_full_width}) # “
   Select(0u201d);Scale(145) ; SetWidth(${hackgen_full_width}) # ”
 
   # 下限で見切れているグリフの調整
@@ -1486,10 +1488,12 @@ while (i < SizeOf(input_list))
   Select(0uff5b); Move(-bracket_move, 0); SetWidth(${hackgen35_full_width}) # {
   Select(0uff5d); Move( bracket_move, 0); SetWidth(${hackgen35_full_width}) # }
 
-  # 全角 ，．’” の調整
+  # 全角 ，．‘’“” の調整
   Select(0uff0e);Scale(155) ; SetWidth(${hackgen35_full_width}) # ．
   Select(0uff0c);Scale(145) ; SetWidth(${hackgen35_full_width}) # ，
+  Select(0u2018);Scale(145) ; SetWidth(${hackgen35_full_width}) # ‘
   Select(0u2019);Scale(145) ; SetWidth(${hackgen35_full_width}) # ’
+  Select(0u201c);Scale(145) ; SetWidth(${hackgen35_full_width}) # “
   Select(0u201d);Scale(145) ; SetWidth(${hackgen35_full_width}) # ”
 
   # Save modified GenJyuuGothicL
