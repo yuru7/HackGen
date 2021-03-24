@@ -48,8 +48,8 @@ Mac の Homebrew ユーザーは以下のコマンドでもインストールす
 
 ```
 $ brew tap homebrew/cask-fonts
-$ brew cask install font-hackgen
-$ brew cask install font-hackgen-nerd
+$ brew install font-hackgen
+$ brew install font-hackgen-nerd
 ```
 
 ### Chocolatey によるフォントのインストール
