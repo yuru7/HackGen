@@ -15,12 +15,12 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 **※いずれのフォントにも Powerline 記号が含まれています。**
 
-|**フォント ファミリー**|**説明**|
-|:------------:|:---|
-|**HackGen**|文字幅比率「半角1:全角2」の通常版の白源。主にASCIIコードに載っている英数字記号のみに Hack ベースの字体を使い、その他の記号類やかな文字・漢字を源柔ゴシックベースにしている|
-|**HackGen Console**|Hack ベースの字体を除外せずに全て適用したフォントファミリー。矢印記号などの多くの記号が半角で表示されるため、コンソールでの利用や記号類は可能な限り半角で表示したい人にオススメ|
-|**HackGen35**|通常版の白源の文字幅比率を「半角3:全角5」にしたフォントファミリー。英数字が通常版の白源よりも大きく表示される。日本語が少ない文書の場合、こちらの方が見やすいと感じるかもしれない。|
-|**HackGen35 Console**|HackGen Console  の文字幅比率を 半角3:全角5 にしたフォントファミリー|
+|**フォント ファミリー**|**説明**||
+|:------------:|:---|:---|
+|**HackGen**|文字幅比率「半角1:全角2」の通常版の白源。主にASCIIコードに載っている英数字記号のみに Hack ベースの字体を使い、その他の記号類やかな文字・漢字を源柔ゴシックベースにしている| ![hackgen](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen.png) |
+|**HackGen Console**|Hack ベースの字体を除外せずに全て適用したフォントファミリー。矢印記号などの多くの記号が半角で表示されるため、コンソールでの利用や記号類は可能な限り半角で表示したい人にオススメ|![hackgen console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen-console.png)|
+|**HackGen35**|通常版の白源の文字幅比率を「半角3:全角5」にしたフォントファミリー。英数字が通常版の白源よりも大きく表示される。日本語が少ない文書の場合、こちらの方が見やすいと感じるかもしれない。|![hackgen35](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35.png)|
+|**HackGen35 Console**|HackGen Console  の文字幅比率を 半角3:全角5 にしたフォントファミリー|![hackgen35 console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35-console.png)|
 
 **※以下のフォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加で合成しており、Font Awesome を初めとした多くのアイコンフォントが表示できるようになります。**
 
