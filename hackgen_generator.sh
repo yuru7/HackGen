@@ -487,6 +487,9 @@ while (i < SizeOf(input_list))
     Select(0u007D); Move(0, 5)
   endif
 
+  # 結合分音記号は全て源柔ゴシックをベースにするため削除する
+  Select(0u0300, 0u036f); Clear()
+
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
   RoundToInt()
@@ -1289,9 +1292,6 @@ while (i < SizeOf(input_list))
         endif
   endif
 
-  # 結合分音記号は全て Hack ベースにする
-  Select(0u0300, 0u036f); Clear()
-
   # broken bar は Hack ベースにする
   Select(0u00a6); Clear()
 
@@ -1472,9 +1472,6 @@ while (i < SizeOf(input_list))
         endif
   endif
 
-  # 結合分音記号は全て Hack ベースにする
-  Select(0u0300, 0u036f); Clear()
-
   # broken bar は Hack ベースにする
   Select(0u00a6); Clear()
 
@@ -1596,6 +1593,12 @@ while (i < SizeOf(input_list))
   Clear()
   Print("End delete the glyphs contained in Hack")
 
+  # 結合分音記号は全て源柔ゴシック収録のものを使用する
+  Select(0u0300, 0u036f)
+  move_pt = $(((${hackgen_half_width} - ${hackgen_full_width}) / 2))
+  Move(move_pt, 0)
+  SetWidth(${hackgen_half_width}, 0)
+
   # Save modified GenJyuuGothicL
   Print("Generate " + output_list[i])
   Generate("${tmpdir}/" + output_list[i] + ".ttf", "")
@@ -1662,6 +1665,12 @@ while (i < SizeOf(input_list))
   endloop
   Clear()
   Print("End delete the glyphs contained in Hack")
+
+  # 結合分音記号は全て源柔ゴシック収録のものを使用する
+  Select(0u0300, 0u036f)
+  move_pt = $(((${hackgen35_half_width} - ${hackgen35_full_width}) / 2))
+  Move(move_pt, 0)
+  SetWidth(${hackgen35_half_width}, 0)
 
   # Save modified GenJyuuGothicL
   Print("Generate " + output_list[i])
