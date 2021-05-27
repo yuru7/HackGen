@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.3.3"
+hackgen_version="2.3.4"
 
 # Set familyname
 familyname_preffix="$1"
@@ -396,8 +396,6 @@ select_glyph_is_not_console="
   SelectFewer(0u2219)
   SelectFewer(0u25d8)
   SelectFewer(0u25e6)
-  ## 結合分音記号
-  SelectFewer(0u0300, 0u036f)
   "
 
 ########################################
