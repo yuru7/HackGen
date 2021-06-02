@@ -16,3 +16,6 @@ uni0061 touch 5-10,40-46 y -0.5 @13,17,19
 uni0069 touch 3-8 y 0.5 @11-
 uni006A touch 3-8 y 0.5 @11-
 
+# |
+bar touch 2-3 y -0.4 @13
+bar touch 4-5 y 0.4 @13
