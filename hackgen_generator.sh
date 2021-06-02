@@ -512,7 +512,7 @@ cat > ${tmpdir}/${modified_hack_evacuate_from_hinting_generator} << _EOT_
 Print("Generate evacuation symbol from hinting for HackGen")
 
 # Set parameters
-input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
+input_list  = ["${tmpdir}/${modified_hack_material_regular}", "${tmpdir}/${modified_hack_material_bold}"]
 output_list = ["${modified_hack_evacuate_from_hinting_regular}", "${modified_hack_evacuate_from_hinting_bold}"]
 
 # Begin loop of regular and bold
@@ -523,7 +523,6 @@ while (i < SizeOf(input_list))
   Open(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
-  ScaleToEm(${em_ascent}, ${em_descent})
 
   Scale(${hack_shrink_x}, ${hack_shrink_y}, 0, 0)
 
@@ -563,7 +562,7 @@ cat > ${tmpdir}/${modified_hack35_evacuate_from_hinting_generator} << _EOT_
 Print("Generate evacuation symbol from hinting for HackGen")
 
 # Set parameters
-input_list  = ["${input_hack_regular}",    "${input_hack_bold}"]
+input_list  = ["${tmpdir}/${modified_hack_material_regular}", "${tmpdir}/${modified_hack_material_bold}"]
 output_list = ["${modified_hack35_evacuate_from_hinting_regular}", "${modified_hack35_evacuate_from_hinting_bold}"]
 
 # Begin loop of regular and bold
@@ -574,7 +573,6 @@ while (i < SizeOf(input_list))
   Open(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
-  ScaleToEm(${em_ascent}, ${em_descent})
 
   # 幅の変更 (Move で文字幅も変わることに注意)
   move_pt = $(((${hackgen35_half_width} - ${hack_width}) / 2)) # -8
