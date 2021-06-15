@@ -7,6 +7,8 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 特徴などの詳しい説明は以下の記事を参照してください。  
 **[Ricty を神フォントだと崇める僕が、フリーライセンスのプログラミングフォント「白源」を作った話](https://qiita.com/tawara_/items/374f3ca0a386fab8b305)**
 
+英数字部分に Fira Mono を使った姉妹フォント [**Firge (ファージ)**](https://github.com/yuru7/Firge/releases) もどうぞ。
+
 |**白源 通常版**|**白源 半角3:全角5 版**|
 |:------------------------:|:------------------------:|
 |![hackgen](https://github.com/yuru7/HackGen/raw/image/sc_hackgen.png)|![hackgen35](https://github.com/yuru7/HackGen/raw/image/sc_hackgen35.png)|
@@ -27,7 +29,7 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 |`HackGen`<br/>![hackgen](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen.png)|`HackGen35`<br/>![hackgen35](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35.png)|
 |`HackGen Console`<br/>![hackgen console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen-console.png)|`HackGen35 Console`<br/>![hackgen35 console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35-console.png)|
 
-**※以下のフォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加で合成しており、Font Awesome を初めとした多くのアイコンフォントが表示できるようになります。**
+**※以下のフォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加で合成しており、Font Awesome をはじめとした多くのアイコンフォントが表示できるようになります。**
 
 |**フォント ファミリー**|**説明**|
 |:------------:|:---|
