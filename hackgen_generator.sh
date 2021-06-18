@@ -2918,7 +2918,9 @@ do
 
   # HackGen Nerd
   echo "pyftmerge: ${hackgen_nerd_filename}"
-  pyftmerge "${hackgen_filename}" "${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  pyftmerge "hinted_${hackgen_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu_regular"
   mv merged.ttf "${hackgen_nerd_filename}"
   ttx -t name "${hackgen_nerd_filename}"
   sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_filename%%.ttf}.ttx"
@@ -2927,7 +2929,10 @@ do
 
   # HackGen Nerd Console
   echo "pyftmerge: ${hackgen_nerd_console_filename}"
-  pyftmerge "${hackgen_console_filename}" "${hackgen_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+  pyftmerge "hinted_${hackgen_console_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "${hackgen_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu_console_regular"
   mv merged.ttf "${hackgen_nerd_console_filename}"
   ttx -t name "${hackgen_nerd_console_filename}"
   sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
@@ -2936,7 +2941,9 @@ do
 
   # HackGen35 Nerd
   echo "pyftmerge: ${hackgen35_nerd_filename}"
-  pyftmerge "${hackgen35_filename}" "${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge "hinted_${hackgen35_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu35_regular"
   mv merged.ttf "${hackgen35_nerd_filename}"
   ttx -t name "${hackgen35_nerd_filename}"
   sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_filename%%.ttf}.ttx"
@@ -2945,7 +2952,10 @@ do
 
   # HackGen35 Nerd Console
   echo "pyftmerge: ${hackgen35_nerd_console_filename}"
-  pyftmerge "${hackgen35_console_filename}" "${hackgen35_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+  pyftmerge "hinted_${hackgen35_console_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "${hackgen35_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+  pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
   mv merged.ttf "${hackgen35_nerd_console_filename}"
   ttx -t name "${hackgen35_nerd_console_filename}"
   sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
