@@ -1,6 +1,6 @@
 # plus
-#plus touch 4,5,10,11 y -0.5 @
-plus touch 4,5,10,11 y 0.5  @13,14,17,18
+#uni002B touch 4,5,10,11 y -0.5 @
+uni002B touch 4,5,10,11 y 0.5  @13,14,17,18
 
 # eight
 uni0038 touch 5-7,24-26,32-33,44,53-55 y -0.5 @14
@@ -19,5 +19,5 @@ uni0069 touch 3-8 y 0.5 @11-
 uni006A touch 3-8 y 0.5 @11-
 
 # |
-bar touch 2-3 y -0.4 @14
-bar touch 4-5 y 0.4 @14
+uni007C touch 2-3 y -0.4 @14
+uni007C touch 4-5 y 0.4 @14
