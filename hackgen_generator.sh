@@ -71,8 +71,6 @@ mod_arrow_regular_src="modify_arrow_Hack-Regular.sfd"
 mod_arrow_bold_src="modify_arrow_Hack-Bold.sfd"
 nerd_patched_hack_regular_src="Hack Regular Nerd Font Complete.ttf"
 nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete.ttf"
-nerd_patched_hack_regular_mono_src="Hack Regular Nerd Font Complete Mono.ttf"
-nerd_patched_hack_bold_mono_src="Hack Bold Nerd Font Complete Mono.ttf"
 genjyuu_regular_src="GenJyuuGothicL-Monospace-Regular.ttf"
 genjyuu_bold_src="GenJyuuGothicL-Monospace-Bold.ttf"
 
@@ -210,8 +208,6 @@ input_reiwa_bold=`find $fonts_directories -follow -iname reiwa-Bold.sfd    | hea
 # Search nerd patched hack
 input_nerd_patched_hack_regular=`find $fonts_directories -follow -iname "$nerd_patched_hack_regular_src" | head -n 1`
 input_nerd_patched_hack_bold=`find $fonts_directories -follow -iname "$nerd_patched_hack_bold_src"    | head -n 1`
-input_nerd_patched_hack_mono_regular=`find $fonts_directories -follow -iname "$nerd_patched_hack_regular_mono_src" | head -n 1`
-input_nerd_patched_hack_mono_bold=`find $fonts_directories -follow -iname "$nerd_patched_hack_bold_mono_src"    | head -n 1`
 
 # Check filename
 [ "$(basename $input_hack_regular)" != "$hack_regular_src" ] &&
@@ -249,6 +245,7 @@ fi
 
 # Powerline フォント (Hack に標準で含まれている)
 powerline_symbols='
+  SelectMore(0ue0a0, 0ue0a2)
   SelectMore(0ue0b0, 0ue0b3)
 '
 
@@ -309,9 +306,6 @@ box_drawing_light_symbols="
 # ヒンティング処理から除外するグリフ
 select_evacuate_from_hinting="
   ${powerline_symbols}
-
-  # Lock Icon etc...
-  SelectMore(0ue0a0, 0ue0a2)
 "
 
 # console 版と通常版の Hack から合成するグリフ差分
@@ -610,7 +604,7 @@ cat > ${tmpdir}/${modified_hack_powerline_generator} << _EOT_
 Print("Generate powerline symbol for HackGen")
 
 # Set parameters
-input_list  = ["${input_nerd_patched_hack_mono_regular}",    "${input_nerd_patched_hack_mono_bold}"]
+input_list  = ["${input_nerd_patched_hack_regular}",    "${input_nerd_patched_hack_bold}"]
 output_list = ["${modified_hack_powerline_regular}", "${modified_hack_powerline_bold}"]
 
 # Begin loop of regular and bold
@@ -631,11 +625,6 @@ while (i < SizeOf(input_list))
   ScaleToEm(${em_ascent}, ${em_descent})
 
   Scale(${hack_shrink_x}, ${hack_shrink_y}, 0, 0)
-
-  # 細かな幅合わせ
-  Scale(99, 100, 0, 0)
-  Scale(100, 101)
-  Scale(100, 105, 0, 0)
 
   # 幅の変更 (Move で文字幅も変わることに注意)
   move_pt = $(((${hackgen_half_width} - ${hack_width} * ${hack_shrink_x} / 100) / 2)) # -8
@@ -666,7 +655,7 @@ cat > ${tmpdir}/${modified_hack35_powerline_generator} << _EOT_
 Print("Generate powerline symbol for HackGen35")
 
 # Set parameters
-input_list  = ["${input_nerd_patched_hack_mono_regular}",    "${input_nerd_patched_hack_mono_bold}"]
+input_list  = ["${input_nerd_patched_hack_regular}",    "${input_nerd_patched_hack_bold}"]
 output_list = ["${modified_hack35_powerline_regular}", "${modified_hack35_powerline_bold}"]
 
 # Begin loop of regular and bold
