@@ -19,9 +19,9 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 |**フォント ファミリー**|**説明**|
 |:------------:|:---|
-|**HackGen**|文字幅比率「半角1:全角2」の通常版の白源。主にASCIIコードに載っている英数字記号のみに Hack ベースの字体を使い、その他の記号類やかな文字・漢字を源柔ゴシックベースにしている|
+|**HackGen**|文字幅比率「半角1:全角2」の通常版の白源。主にASCIIコードの英数字記号に Hack ベースの字体を使い、その他の記号類やかな文字・漢字を源柔ゴシックベースにしている|
 |**HackGen Console**|Hack ベースの字体を除外せずに全て適用したフォントファミリー。矢印記号などの多くの記号が半角で表示されるため、コンソールでの利用や記号類は可能な限り半角で表示したい人にオススメ|
-|**HackGen35**|通常版の白源の文字幅比率を「半角3:全角5」にしたフォントファミリー。英数字が通常版の白源よりも大きく表示される。日本語が少ない文書の場合、こちらの方が見やすいと感じるかもしれない。|
+|**HackGen35**|通常版の白源の文字幅比率を「半角3:全角5」にしたフォントファミリー。英数字が通常版の白源よりも大きく表示される。日本語が少ない文書やコードの場合にはこちらの方が読みやすいと感じるかもしれない|
 |**HackGen35 Console**|HackGen Console  の文字幅比率を 半角3:全角5 にしたフォントファミリー|
 
 |**HackGen 系統**|**HackGen35 系統**|
@@ -74,11 +74,11 @@ Windows の [Chocolatey](https://chocolatey.org/) ユーザーは以下のコマ
 
 HackGen は以下の環境でビルドしています。
 
-* OS: Ubuntu 18.04
+* OS: Ubuntu 20.04.2 (Kubuntu)
 * Tools
-  * ttfautohint: 1.8.1
+  * ttfautohint: 1.8.3
   * fonttools: 3.44.0
-  * fontforge: fontforge 11:21 UTC 24-Sep-2017
+  * fontforge: 20201107
 
 ### ビルドツールのインストール方法と注意点
 
@@ -86,4 +86,4 @@ HackGen は以下の環境でビルドしています。
 * fonttools: Python 2 の pip で `sudo pip2 install fonttools`
   * fonttools に含まれるサブツール `pyftmerge` と `ttx` をコマンドとして利用しているため、`sudo` を使ってシステム全体で使えるようにする
   * Python 3 の pip を使ったものは fonttools 4.13.0 がインストールされる (2020/08/01 時点)。 fonttools 4.13.0 では post テーブルの構造が変わってしまうため、macOS 10.15 にてインストール不可となる ([#12](https://github.com/yuru7/HackGen/issues/12))
-* fontforge: Personal Package Archive (PPA) を追加した後に `sudo apt-get install fontforge` (詳細は [こちら](http://designwithfontforge.com/en-US/Installing_Fontforge.html))
+* fontforge: [公式サイト](https://fontforge.org/en-US/downloads/) よりダウンロード
