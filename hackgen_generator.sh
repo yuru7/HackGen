@@ -831,6 +831,13 @@ while (i < SizeOf(input_list))
   SelectInvert()
   Clear()
 
+  # 罫線記号、ブロック記号が上下左右で繋がるように調整
+  SelectNone()
+  ${box_drawing_light_symbols}
+  SelectFewer(0u2580, 0u259F)
+  Scale(100, 110, 0, 0)
+  Select(0u2580, 0u259F); Scale(100, 114, 0, 250); Scale(115, 100); SetWidth(width_pt, 0)
+
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
   RoundToInt()
@@ -878,6 +885,13 @@ while (i < SizeOf(input_list))
   ${box_drawing_light_symbols}
   SelectInvert()
   Clear()
+
+  # 罫線記号、ブロック記号が上下左右で繋がるように調整
+  SelectNone()
+  ${box_drawing_light_symbols}
+  SelectFewer(0u2580, 0u259F)
+  Scale(100, 110, 0, 0)
+  Select(0u2580, 0u259F); Scale(100, 114, 0, 250); Scale(114, 100); SetWidth(width_pt, 0)
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
