@@ -1524,7 +1524,7 @@ while (i < SizeOf(input_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   MergeFonts("${tmpdir}/" + output_list[i])
   Generate("${tmpdir}/" + output_list[i] + ".ttf", "")
@@ -1929,7 +1929,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack font
   Print("Merge " + hack_list[i]:t)
@@ -2111,7 +2111,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack font
   Print("Merge " + hack_list[i]:t)
@@ -2288,7 +2288,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack font
   Print("Merge " + hack_list[i]:t)
@@ -2464,7 +2464,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack font
   Print("Merge " + hack_list[i]:t)
@@ -2640,7 +2640,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack font
   Print("Merge " + hack_list[i]:t)
@@ -2728,7 +2728,7 @@ while (i < SizeOf(fontstyle_list))
   SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
   SetOS2Value("HHeadDescent",         -${hackgen35_descent})
   SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
+  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
 
   # Merge Hack font
   Print("Merge " + hack_list[i]:t)
