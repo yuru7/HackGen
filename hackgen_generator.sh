@@ -205,6 +205,9 @@ input_improved_legibility_bold=`find $fonts_directories -follow -iname improved_
 input_reiwa_regular=`find $fonts_directories -follow -iname reiwa-Regular.sfd | head -n 1`
 input_reiwa_bold=`find $fonts_directories -follow -iname reiwa-Bold.sfd    | head -n 1`
 
+# Search Ideographic Space
+input_ideographic_space=`find $fonts_directories -follow -iname Ideographic_Space.sfd | head -n 1`
+
 # Search nerd patched hack
 input_nerd_patched_hack_regular=`find $fonts_directories -follow -iname "$nerd_patched_hack_regular_src" | head -n 1`
 input_nerd_patched_hack_bold=`find $fonts_directories -follow -iname "$nerd_patched_hack_bold_src"    | head -n 1`
@@ -1193,6 +1196,7 @@ hack = "${tmpdir}/${modified_hack_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 improved_legibility_list  = ["${input_improved_legibility_regular}",    "${input_improved_legibility_bold}"]
 reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
+ideographic_space = "$input_ideographic_space"
 output_list = ["${modified_genjyuu_regular}", "${modified_genjyuu_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -1224,6 +1228,7 @@ while (i < SizeOf(input_list))
   Print("Open " + input_list[i])
   Open(improved_legibility_list[i])
   MergeFonts(reiwa_list[i])
+  MergeFonts(ideographic_space)
   MergeFonts(input_list[i])
 
   SelectWorthOutputting()
@@ -1278,18 +1283,6 @@ while (i < SizeOf(input_list))
   Move(move_pt, 0)
   SetWidth(width_pt)
   Print("Half SetWidth end")
-
-  # Edit zenkaku space (from ballot box and heavy greek cross)
-  if ("${zenkaku_space_glyph}" != "0u3000")
-        Print("Edit zenkaku space")
-        if ("${zenkaku_space_glyph}" == "")
-            Select(0u2610); Copy(); Select(0u3000); Paste()
-            Select(0u271a); Copy(); Select(0u3000); PasteInto()
-            OverlapIntersect()
-        else
-            Select(${zenkaku_space_glyph}); Copy(); Select(0u3000); Paste()
-        endif
-  endif
 
   # broken bar は Hack ベースにする
   Select(0u00a6); Clear()
@@ -1374,6 +1367,7 @@ hack = "${tmpdir}/${modified_hack35_regular}"
 input_list  = ["${input_genjyuu_regular}",    "${input_genjyuu_bold}"]
 improved_legibility_list  = ["${input_improved_legibility_regular}",    "${input_improved_legibility_bold}"]
 reiwa_list  = ["${input_reiwa_regular}",    "${input_reiwa_bold}"]
+ideographic_space = "$input_ideographic_space"
 output_list = ["${modified_genjyuu35_regular}", "${modified_genjyuu35_bold}"]
 
 fontstyle_list    = ["Regular", "Bold"]
@@ -1405,6 +1399,7 @@ while (i < SizeOf(input_list))
   Print("Open " + input_list[i])
   Open(improved_legibility_list[i])
   MergeFonts(reiwa_list[i])
+  MergeFonts(ideographic_space)
   MergeFonts(input_list[i])
   SelectWorthOutputting()
   UnlinkReference()
@@ -1458,18 +1453,6 @@ while (i < SizeOf(input_list))
   Move(move_pt, 0)
   SetWidth(width_pt)
   Print("Half SetWidth end")
-
-  # Edit zenkaku space (from ballot box and heavy greek cross)
-  if ("${zenkaku_space_glyph}" != "0u3000")
-        Print("Edit zenkaku space")
-        if ("${zenkaku_space_glyph}" == "")
-            Select(0u2610); Copy(); Select(0u3000); Paste()
-            Select(0u271a); Copy(); Select(0u3000); PasteInto()
-            OverlapIntersect()
-        else
-            Select(${zenkaku_space_glyph}); Copy(); Select(0u3000); Paste()
-        endif
-  endif
 
   # broken bar は Hack ベースにする
   Select(0u00a6); Clear()
