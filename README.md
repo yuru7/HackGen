@@ -3,7 +3,8 @@
 HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 白源 (はくげん／HackGen) は、プログラミング向け英文フォント Hack と、源ノ角ゴシックの派生フォント源柔ゴシックを合成したプログラミングフォントです。  
-2つのフォントを合成しただけではなく、一部は独自改変により視認性の向上を図っています。
+
+2つのフォントを合成しただけではなく、一部の独自改変により更なる視認性向上を図っています。
 
 特徴などの詳しい説明は以下の記事を参照してください。  
 **[Ricty を神フォントだと崇める僕が、フリーライセンスのプログラミングフォント「白源」を作った話](https://qiita.com/tawara_/items/374f3ca0a386fab8b305)**
@@ -30,16 +31,8 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 |`HackGen`<br/>![hackgen](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen.png)|`HackGen35`<br/>![hackgen35](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35.png)|
 |`HackGen Console`<br/>![hackgen console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen-console.png)|`HackGen35 Console`<br/>![hackgen35 console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35-console.png)|
 
-**以下のフォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加で合成しており、Font Awesome をはじめとした多くのアイコンフォントが表示できるようになります。**
-
-|**フォント ファミリー**|**説明**|
-|:------------:|:---|
-|**HackGenNerd**|HackGen に Nerd Fonts を追加しているフォントファミリー|
-|**HackGenNerd Console**|HackGen Console に Nerd Fonts を追加しているフォントファミリー|
-|**HackGen35Nerd**|HackGen35 に Nerd Fonts を追加しているフォントファミリー|
-|**HackGen35Nerd Console**|HackGen35 Console に Nerd Fonts を追加しているフォントファミリー|
-
-※Nerd Fonts の仕様 ([Fix invalid code points for some glyphs](https://github.com/ryanoasis/nerd-fonts/issues/365)) により、一部のコードポイントにおいて漢字グリフが Nerd Fonts 収録グリフに置き換わっています。Nerd Fonts を必要とする用途以外は、通常の HackGen を利用することをオススメします。
+また、追加で提供している `HackGenNerd` `HackGen35Nerd` フォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加合成しており、Font Awesome をはじめとした多くのアイコンフォントが表示できるようになります。  
+**ただし、Nerd Fonts の仕様 ([Fix invalid code points for some glyphs](https://github.com/ryanoasis/nerd-fonts/issues/365)) により、一部のコードポイントにおいて漢字グリフが Nerd Fonts 収録グリフに置き換わっています。Nerd Fonts を必要とする用途以外は、通常の HackGen を利用することをオススメします。**
 
 ## フォントのインストール
 
@@ -49,7 +42,7 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 [Release - HackGen](https://github.com/yuru7/HackGen/releases)
 
 * `HackGen_バージョン.zip` は従来の HackGen/HackGen35
-* `HackGenNerd_バージョン.zip` は従来の HackGen/HackGen35 に更に [Nerd Fonts](https://www.nerdfonts.com/) を合成したもの
+* `HackGenNerd_バージョン.zip` は従来の HackGen/HackGen35 に [Nerd Fonts](https://www.nerdfonts.com/) を追加合成したもの
 
 ### Homebrew によるフォントのインストール
 
