@@ -15,7 +15,7 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 |**白源 通常版**|**白源 半角3:全角5 版**|
 |:------------------------:|:------------------------:|
-|![hackgen](https://github.com/yuru7/HackGen/raw/image/sc_hackgen.png)|![hackgen35](https://github.com/yuru7/HackGen/raw/image/sc_hackgen35.png)|
+|![hackgen](https://user-images.githubusercontent.com/13458509/133928601-cb1d3e00-6c4b-4ce5-a945-44ae2baa81e0.png)|![hackgen35](https://user-images.githubusercontent.com/13458509/133928624-77ed3d0b-8e6c-46c1-89e1-3e85f6d0c215.png)|
 
 ## フォントファミリーの種類
 
