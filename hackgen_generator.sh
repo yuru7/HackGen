@@ -393,6 +393,10 @@ select_glyph_is_not_console="
   SelectFewer(0u2219)
   SelectFewer(0u25d8)
   SelectFewer(0u25e6)
+  ## Cent Sign, Pound Sign, Yen Sign
+  SelectFewer(0u00A2)
+  SelectFewer(0u00A3)
+  SelectFewer(0u00A5)
   "
 
 ########################################
