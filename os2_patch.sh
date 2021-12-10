@@ -27,11 +27,10 @@ for P in ${BASE_DIR}/${HACKGEN_PATTERN}; do
   fi
   sed -i.bak -e 's,fsSelection value="'"$fsSelection_value"'",fsSelection value="'"$fsSelection_sed_value"'",' "${P%%.ttf}.ttx"
 
-  #sed -i.bak -e 's,version value="1",version value="4",' "${P%%.ttf}.ttx"
-  
   underlinePosition_value=$(grep 'underlinePosition value' "${P%%.ttf}.ttx" | awk -F\" '{print $2}')
-  #sed -i.bak -e 's,underlinePosition value="'$underlinePosition_value'",underlinePosition value="-125",' "${P%%.ttf}.ttx"
   sed -i.bak -e 's,underlinePosition value="'$underlinePosition_value'",underlinePosition value="-70",' "${P%%.ttf}.ttx"
+
+  sed -i.bak -e 's,<isFixedPitch value="0"/>,<isFixedPitch value="1"/>,' "${P%%.ttf}.ttx"
 
   mv "$P" "${P}_orig"
   ttx -m "${P}_orig" "${P%%.ttf}.ttx"
@@ -61,10 +60,7 @@ for P in ${BASE_DIR}/${HACKGEN53_PATTERN}; do
   fi
   sed -i.bak -e 's,fsSelection value="'"$fsSelection_value"'",fsSelection value="'"$fsSelection_sed_value"'",' "${P%%.ttf}.ttx"
 
-  #sed -i.bak -e 's,version value="1",version value="4",' "${P%%.ttf}.ttx"
-  
   underlinePosition_value=$(grep 'underlinePosition value' "${P%%.ttf}.ttx" | awk -F\" '{print $2}')
-  #sed -i.bak -e 's,underlinePosition value="'$underlinePosition_value'",underlinePosition value="-125",' "${P%%.ttf}.ttx"
   sed -i.bak -e 's,underlinePosition value="'$underlinePosition_value'",underlinePosition value="-70",' "${P%%.ttf}.ttx"
 
   mv "$P" "${P}_orig"
