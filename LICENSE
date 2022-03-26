@@ -1,13 +1,13 @@
-Copyright (c) 2019, Yuko Otawara with Reserved Font Name 白源
+# Licensing
 
-- The HackGen generate script (https://github.com/yuru7/HackGen) is licensed under the MIT License.
-- And HackGen Font Software is licensed under the SIL Open Font License v1.1.
-- Source font softwares are licensed under the
-    - SIL Open Font License, Version 1.1
-        - Hack : https://sourcefoundry.org/hack/
-        - 源柔ゴシック : http://jikasei.me/font/genjyuu/
+- Source fonts are licensed under SIL OPEN FONT LICENSE Version 1.1.
+  For more information, see "LICENSE_<FontName>" file contained in the "source" directory.
+- "白源/HackGen" are licensed under SIL OPEN FONT LICENSE Version 1.1.
+- Other source code, such as generating scripts, will use the MIT license.
 
-## SIL Open Font License
+## "白源/HackGen" licensing
+
+Copyright (c) 2019, Yuko OTAWARA. with Reserved Font Name "白源", "HackGen"
 
 Version 1.1 - 26 February 2007
 
@@ -95,9 +95,9 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 
-## MIT License
+## Other source licensing (MIT)
 
-Copyright (c) 2019 Yuko Otawara
+Copyright (c) 2019 Yuko OTAWARA
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
