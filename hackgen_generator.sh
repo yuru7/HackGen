@@ -20,6 +20,8 @@ hackgen35_evacuation_symbol_familyname=${hackgen35_familyname}"EvacuationSymbol"
 hackgen_box_drawing_light_familyname=${hackgen_familyname}"BoxDrawingLight"
 hackgen35_box_drawing_light_familyname=${hackgen35_familyname}"BoxDrawingLight"
 
+copyright='###COPYRIGHT###'
+
 # Set ascent and descent (line width parameters)
 hackgen_ascent=938
 hackgen_descent=210
@@ -1681,7 +1683,7 @@ fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -1771,7 +1773,7 @@ fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -1862,7 +1864,7 @@ fontfamilysuffix  = "${hackgen35_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -1953,7 +1955,7 @@ fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2044,7 +2046,7 @@ fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2133,7 +2135,7 @@ fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2221,7 +2223,7 @@ fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2309,7 +2311,7 @@ fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2397,7 +2399,7 @@ fontfamilysuffix  = "${hackgen_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2485,7 +2487,7 @@ fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2573,7 +2575,7 @@ fontfamilysuffix  = "${hackgen35_familyname_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
@@ -2661,7 +2663,7 @@ fontfamilysuffix  = "${hackgen_console_suffix}"
 fontstyle_list    = ["Regular", "Bold"]
 fontweight_list   = [400,       700]
 panoseweight_list = [5,         8]
-copyright         = "Copyright (c) 2019, Yuko Otawara"
+copyright         = "${copyright}"
 version           = "${hackgen_version}"
 
 # Begin loop of regular and bold
