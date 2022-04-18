@@ -395,6 +395,8 @@ select_glyph_is_not_console="
   SelectFewer(0u2219)
   SelectFewer(0u25d8)
   SelectFewer(0u25e6)
+  SelectFewer(0u00ab)
+  SelectFewer(0u00bb)
   ## Cent Sign, Pound Sign, Yen Sign
   SelectFewer(0u00A2)
   SelectFewer(0u00A3)
@@ -1309,6 +1311,20 @@ while (i < SizeOf(input_list))
   Select(0uff47); Scale(100, 91) # ｇ
   Select(0uff4a); Scale(100, 91) # ｊ
 
+  # カーニング情報を削除
+  lookups = GetLookups("GPOS"); numlookups = SizeOf(lookups); j = 0;
+  while (j < numlookups)
+    if (Strstr(lookups[j], 'halt') >= 0 \\
+        || Strstr(lookups[j], 'vhal') >= 0 \\
+        || Strstr(lookups[j], 'palt') >= 0 \\
+        || Strstr(lookups[j], 'vpal') >= 0 \\
+        || Strstr(lookups[j], 'kern') >= 0 \\
+      )
+      RemoveLookup(lookups[j]);
+    endif
+    j++
+  endloop
+
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
   Save("${tmpdir}/" + output_list[i])
@@ -1474,6 +1490,20 @@ while (i < SizeOf(input_list))
   Select(0u2019);Scale(145) ; SetWidth(${hackgen35_full_width}) # ’
   Select(0u201c);Scale(145) ; SetWidth(${hackgen35_full_width}) # “
   Select(0u201d);Scale(145) ; SetWidth(${hackgen35_full_width}) # ”
+
+  # カーニング情報を削除
+  lookups = GetLookups("GPOS"); numlookups = SizeOf(lookups); j = 0;
+  while (j < numlookups)
+    if (Strstr(lookups[j], 'halt') >= 0 \\
+        || Strstr(lookups[j], 'vhal') >= 0 \\
+        || Strstr(lookups[j], 'palt') >= 0 \\
+        || Strstr(lookups[j], 'vpal') >= 0 \\
+        || Strstr(lookups[j], 'kern') >= 0 \\
+      )
+      RemoveLookup(lookups[j]);
+    endif
+    j++
+  endloop
 
   # Save modified GenJyuuGothicL
   Print("Save " + output_list[i])
