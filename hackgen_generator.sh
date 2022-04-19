@@ -2,7 +2,7 @@
 
 base_dir=$(cd $(dirname $0); pwd)
 # HackGen Generator
-hackgen_version="2.6.2"
+hackgen_version="2.6.3"
 
 # Set familyname
 familyname_preffix="$1"
