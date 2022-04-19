@@ -76,6 +76,8 @@ nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete.ttf"
 genjyuu_regular_src="GenJyuuGothicL-Monospace-Regular.ttf"
 genjyuu_bold_src="GenJyuuGothicL-Monospace-Bold.ttf"
 
+fix_genjyuu_bold_src="fix_GenJyuuGothicL-Monospace-Bold.sfd"
+
 modified_hack_material_generator="modified_hack_material_generator.pe"
 modified_hack_material_regular="Modified-Hack-Material-Regular.sfd"
 modified_hack_material_bold="Modified-Hack-Material-Bold.sfd"
@@ -198,6 +200,8 @@ then
   echo "Error: $genjyuu_regular_src and/or $genjyuu_bold_src not found" >&2
   exit 1
 fi
+
+input_fix_genjyuu_bold=`find $fonts_directories -follow -iname "$fix_genjyuu_bold_src" | head -n 1`
 
 # Search improved legibility file
 input_improved_legibility_regular=`find $fonts_directories -follow -iname improved_legibility-Regular.sfd | head -n 1`
@@ -395,8 +399,6 @@ select_glyph_is_not_console="
   SelectFewer(0u2219)
   SelectFewer(0u25d8)
   SelectFewer(0u25e6)
-  SelectFewer(0u00ab)
-  SelectFewer(0u00bb)
   ## Cent Sign, Pound Sign, Yen Sign
   SelectFewer(0u00A2)
   SelectFewer(0u00A3)
@@ -1232,6 +1234,14 @@ while (i < SizeOf(input_list))
   MergeFonts(reiwa_list[i])
   MergeFonts(ideographic_space)
   MergeFonts(input_list[i])
+  if (fontstyle_list[i] == "Bold")
+    Select(0u00AB)
+    SelectMore(0u00AE)
+    SelectMore(0u00BB)
+    SelectMore(0u00BF)
+    Clear()
+    MergeFonts("$input_fix_genjyuu_bold")
+  endif
 
   SelectWorthOutputting()
   UnlinkReference()
@@ -1417,6 +1427,15 @@ while (i < SizeOf(input_list))
   MergeFonts(reiwa_list[i])
   MergeFonts(ideographic_space)
   MergeFonts(input_list[i])
+  if (fontstyle_list[i] == "Bold")
+    Select(0u00AB)
+    SelectMore(0u00AE)
+    SelectMore(0u00BB)
+    SelectMore(0u00BF)
+    Clear()
+    MergeFonts("$input_fix_genjyuu_bold")
+  endif
+
   SelectWorthOutputting()
   UnlinkReference()
   ScaleToEm(${em_ascent}, ${em_descent})
