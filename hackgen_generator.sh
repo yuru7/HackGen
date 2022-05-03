@@ -2925,77 +2925,137 @@ do
   hackgen35_nerd_filename="${hackgen35_nerd_familyname}-${style}.ttf"
   hackgen35_nerd_console_filename="${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
 
+  # pyftmergeの出力ファイル名が"merged.ttf"で固定なので、並列処理時に競合しないように、それぞれ別のフォルダで作業する
+
+  cdAutoMakeDir() {
+    mkdir -p "$1"
+    cd "$1"
+  }
+
   # HackGen
-  echo "pyftmerge: ${hackgen_filename}"
-  pyftmerge "hinted_${hackgen_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu_regular"
-  mv merged.ttf "${hackgen_filename}"
+  echo "Start pyftmerge: ${hackgen_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu_regular"
+    mv merged.ttf "${base_dir}/${hackgen_filename}"
+  ) > "${tmpdir}/${hackgen_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen Console
-  echo "pyftmerge: ${hackgen_console_filename}"
-  pyftmerge "hinted_${hackgen_console_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu_console_regular"
-  mv merged.ttf "${hackgen_console_filename}"
+  echo "Start pyftmerge: ${hackgen_console_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_console_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen_console_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu_console_regular"
+    mv merged.ttf "${base_dir}/${hackgen_console_filename}"
+  ) > "${tmpdir}/${hackgen_console_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen35
-  echo "pyftmerge: ${hackgen35_filename}"
-  pyftmerge "hinted_${hackgen35_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu35_regular"
-  mv merged.ttf "${hackgen35_filename}"
+  echo "Start pyftmerge: ${hackgen35_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen35_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu35_regular"
+    mv merged.ttf "${base_dir}/${hackgen35_filename}"
+  ) > "${tmpdir}/${hackgen35_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen35 Console
-  echo "pyftmerge: ${hackgen35_console_filename}"
-  pyftmerge "hinted_${hackgen35_console_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
-  mv merged.ttf "${hackgen35_console_filename}"
+  echo "Start pyftmerge: ${hackgen35_console_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_console_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen35_console_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
+    mv merged.ttf "${base_dir}/${hackgen35_console_filename}"
+  ) > "${tmpdir}/${hackgen35_console_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen Nerd
-  echo "pyftmerge: ${hackgen_nerd_filename}"
-  pyftmerge "hinted_${hackgen_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu_regular"
-  mv merged.ttf "${hackgen_nerd_filename}"
-  ttx -t name "${hackgen_nerd_filename}"
-  sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_filename%%.ttf}.ttx"
-  mv "${hackgen_nerd_filename}" "${hackgen_nerd_filename}_orig"
-  ttx -m "${hackgen_nerd_filename}_orig" "${hackgen_nerd_filename%%.ttf}.ttx"
+  echo "Start pyftmerge: ${hackgen_nerd_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_nerd_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu_regular"
+    mv merged.ttf "${base_dir}/${hackgen_nerd_filename}"
+    
+    cd "${base_dir}"
+    ttx -t name "${hackgen_nerd_filename}"
+    sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_filename%%.ttf}.ttx"
+    mv "${hackgen_nerd_filename}" "${hackgen_nerd_filename}_orig"
+    ttx -m "${hackgen_nerd_filename}_orig" "${hackgen_nerd_filename%%.ttf}.ttx"
+  ) > "${tmpdir}/${hackgen_nerd_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen Nerd Console
-  echo "pyftmerge: ${hackgen_nerd_console_filename}"
-  pyftmerge "hinted_${hackgen_console_filename}" "${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu_console_regular"
-  mv merged.ttf "${hackgen_nerd_console_filename}"
-  ttx -t name "${hackgen_nerd_console_filename}"
-  sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
-  mv "${hackgen_nerd_console_filename}" "${hackgen_nerd_console_filename}_orig"
-  ttx -m "${hackgen_nerd_console_filename}_orig" "${hackgen_nerd_console_filename%%.ttf}.ttx"
+  echo "Start pyftmerge: ${hackgen_nerd_console_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_nerd_console_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen_console_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu_console_regular"
+    mv merged.ttf "${base_dir}/${hackgen_nerd_console_filename}"
+    
+    cd "${base_dir}"
+    ttx -t name "${hackgen_nerd_console_filename}"
+    sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
+    mv "${hackgen_nerd_console_filename}" "${hackgen_nerd_console_filename}_orig"
+    ttx -m "${hackgen_nerd_console_filename}_orig" "${hackgen_nerd_console_filename%%.ttf}.ttx"
+  ) > "${tmpdir}/${hackgen_nerd_console_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen35 Nerd
-  echo "pyftmerge: ${hackgen35_nerd_filename}"
-  pyftmerge "hinted_${hackgen35_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu35_regular"
-  mv merged.ttf "${hackgen35_nerd_filename}"
-  ttx -t name "${hackgen35_nerd_filename}"
-  sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_filename%%.ttf}.ttx"
-  mv "${hackgen35_nerd_filename}" "${hackgen35_nerd_filename}_orig"
-  ttx -m "${hackgen35_nerd_filename}_orig" "${hackgen35_nerd_filename%%.ttf}.ttx"
+  echo "Start pyftmerge: ${hackgen35_nerd_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_nerd_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen35_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu35_regular"
+    mv merged.ttf "${base_dir}/${hackgen35_nerd_filename}"
+    
+    cd "${base_dir}"
+    ttx -t name "${hackgen35_nerd_filename}"
+    sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_filename%%.ttf}.ttx"
+    mv "${hackgen35_nerd_filename}" "${hackgen35_nerd_filename}_orig"
+    ttx -m "${hackgen35_nerd_filename}_orig" "${hackgen35_nerd_filename%%.ttf}.ttx"
+  ) > "${tmpdir}/${hackgen35_nerd_filename}.pyftmerge_output" 2>&1 &
 
   # HackGen35 Nerd Console
-  echo "pyftmerge: ${hackgen35_nerd_console_filename}"
-  pyftmerge "hinted_${hackgen35_console_filename}" "${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "${hackgen35_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
-  mv merged.ttf "${hackgen35_nerd_console_filename}"
-  ttx -t name "${hackgen35_nerd_console_filename}"
-  sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
-  mv "${hackgen35_nerd_console_filename}" "${hackgen35_nerd_console_filename}_orig"
-  ttx -m "${hackgen35_nerd_console_filename}_orig" "${hackgen35_nerd_console_filename%%.ttf}.ttx"
+  echo "Start pyftmerge: ${hackgen35_nerd_console_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_nerd_console_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen35_console_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen35_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
+    mv merged.ttf "${base_dir}/${hackgen35_nerd_console_filename}"
+    
+    cd "${base_dir}"
+    ttx -t name "${hackgen35_nerd_console_filename}"
+    sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
+    mv "${hackgen35_nerd_console_filename}" "${hackgen35_nerd_console_filename}_orig"
+    ttx -m "${hackgen35_nerd_console_filename}_orig" "${hackgen35_nerd_console_filename%%.ttf}.ttx"
+  ) > "${tmpdir}/${hackgen35_nerd_console_filename}.pyftmerge_output" 2>&1 &
+
+  wait
+  
+  # 並列処理からの出力内容をまとめて出力
+  pyftmerged_ttf_files="
+    ${hackgen_filename}
+    ${hackgen_console_filename}
+    ${hackgen35_filename}
+    ${hackgen35_console_filename}
+    ${hackgen_nerd_filename}
+    ${hackgen_nerd_console_filename}
+    ${hackgen35_nerd_filename}
+    ${hackgen35_nerd_console_filename}
+  "
+  for ttf_file in $pyftmerged_ttf_files
+  do
+    output_filename="${ttf_file}.pyftmerge_output"
+    echo "$output_filename" | sed -r "s/(.+)\.pyftmerge_output/# pyftmerge output: \1/"
+    cat "${tmpdir}/${output_filename}"
+    rm "${tmpdir}/${output_filename}"
+  done
 
 done
 
