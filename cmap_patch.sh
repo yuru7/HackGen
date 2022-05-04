@@ -57,12 +57,30 @@ function proc() {
 
 echo '### Start cmap_patch ###'
 
-for f in $(ls ${BASE_DIR}/${FONT_PATTERN}); do
-  proc "$f"
+font_list=$(ls ${BASE_DIR}/${FONT_PATTERN} ${BASE_DIR}/${FONT35_PATTERN})
+
+for f in $font_list; do
+  echo "Start cmap_patch: $f"
+  (
+    # 並列処理時に競合しないように各ファイル名に接頭辞を付ける（これら変数の変更はこのサブシェル下でのみ有効）
+    file_suffix="_$(basename "${f%%.ttf}")"
+    TMP_CMAP_MASTER+=$file_suffix
+    TMP_TTX+=$file_suffix
+    GENERATED_CMAP+=$file_suffix
+
+    proc "$f"
+
+  ) > "${f}.cmap_patch_output" 2>&1 &
 done
 
-for f in $(ls ${BASE_DIR}/${FONT35_PATTERN}); do
-  proc "$f"
+wait
+
+# 並列処理からの出力内容をまとめて出力
+for f in $font_list; do
+  output_filename="${f}.cmap_patch_output"
+  echo "$output_filename" | sed -r "s/(.+)\.cmap_patch_output/# cmap_patch output: \1/"
+  cat "$output_filename"
+  rm "$output_filename"
 done
 
-rm -f "$GENERATED_CMAP" "$TMP_CMAP_MASTER" "$TMP_TTX" *.ttx *.ttf_orig
+rm -f "$GENERATED_CMAP"_* "$TMP_CMAP_MASTER"_* "$TMP_TTX"_* *.ttx *.ttf_orig
