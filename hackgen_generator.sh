@@ -300,11 +300,11 @@ select_nerd_symbols="
   # Material Design Icons
   SelectMore(0uf500, 0ufd46)
 
+  # Pomicons -> 商用不可のため除外
+  SelectMore(0ue000, 0ue00d)
+
   # オリジナル Hack の未使用領域を一括選択 (拾い漏れ防止)
   SelectMore(0ue0d5, 0ufefd)
-
-  # Pomicons -> 商用不可のため除外
-  SelectFewer(0ue000, 0ue00d)
 "
 
 # 罫線記号
