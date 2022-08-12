@@ -11,10 +11,10 @@ hackgen_familyname_suffix=""
 hackgen35_familyname=${hackgen_familyname}"35"
 hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
+hackgen_nerd_suffix="NF"
+hackgen_nerd_jp_suffix="NFJ"
 hackgen_evacuation_nerd_familyname="Evacuation${hackgen_familyname}Nerd"
 hackgen35_evacuation_nerd_familyname="Evacuation${hackgen35_familyname}Nerd"
-hackgen_nerd_familyname=${hackgen_familyname}"Nerd"
-hackgen35_nerd_familyname=${hackgen35_familyname}"Nerd"
 hackgen_evacuation_symbol_familyname=${hackgen_familyname}"EvacuationSymbol"
 hackgen35_evacuation_symbol_familyname=${hackgen35_familyname}"EvacuationSymbol"
 hackgen_box_drawing_light_familyname=${hackgen_familyname}"BoxDrawingLight"
@@ -138,14 +138,6 @@ modified_genjyuu35_console_generator="modified_genjyuu35_console_generator.pe"
 modified_genjyuu35_console_regular="Modified-GenJyuuGothicL35-Monospace-regular_console.sfd"
 modified_genjyuu35_console_bold="Modified-GenJyuuGothicL35-Monospace-bold_console.sfd"
 
-modified_hackgen_nerd_symbol_generator="modified_hackgen_nerd_symbol_generator.pe"
-modified_hackgen_nerd_symbol_regular="Modified-HackGen-Nerd-Symbol-Regular.sfd"
-modified_hackgen_nerd_symbol_bold="Modified-HackGen-Nerd-Symbol-Bold.sfd"
-
-modified_hackgen35_nerd_symbol_generator="modified_hackgen35_nerd_symbol_generator.pe"
-modified_hackgen35_nerd_symbol_regular="Modified-HackGen35-Nerd-Symbol-Regular.sfd"
-modified_hackgen35_nerd_symbol_bold="Modified-HackGen35-Nerd-Symbol-Bold.sfd"
-
 modified_hackgen_nerd_console_symbol_generator="modified_hackgen_nerd_console_symbol_generator.pe"
 modified_hackgen_nerd_console_symbol_regular="Modified-HackGen-Nerd-Console-Symbol-Regular.sfd"
 modified_hackgen_nerd_console_symbol_bold="Modified-HackGen-Nerd-Console-Symbol-Bold.sfd"
@@ -158,14 +150,12 @@ hackgen_generator="hackgen_generator.pe"
 hackgen_console_generator="hackgen_console_generator.pe"
 hackgen_evacuate_from_hinting_generator="hackgen_evacuate_from_hinting_generator.pe"
 hackgen_box_drawing_light_generator="hackgen_box_drawing_light_generator.pe"
-hackgen_nerd_symbol_generator="hackgen_nerd_symbol_generator.pe"
 hackgen_nerd_console_symbol_generator="hackgen_nerd_console_symbol_generator.pe"
 
 hackgen35_generator="hackgen35_generator.pe"
 hackgen35_console_generator="hackgen35_console_generator.pe"
 hackgen35_evacuate_from_hinting_generator="hackgen35_evacuate_from_hinting_generator.pe"
 hackgen35_box_drawing_light_generator="hackgen35_box_drawing_light_generator.pe"
-hackgen35_nerd_symbol_generator="hackgen35_nerd_symbol_generator.pe"
 hackgen35_nerd_console_symbol_generator="hackgen35_nerd_console_symbol_generator.pe"
 
 # Get input fonts
@@ -684,106 +674,6 @@ while (i < SizeOf(input_list))
   width_pt = ${hackgen35_half_width}
   Move(move_pt, 0)
   SetWidth(width_pt, 0)
-
-  # パスの小数点以下を切り捨て
-  SelectWorthOutputting()
-  RoundToInt()
-
-  # Save modified Hack
-  Print("Save " + output_list[i])
-  Save("${tmpdir}/" + output_list[i])
-
-  i += 1
-endloop
-
-Quit()
-_EOT_
-
-########################################
-# Generate extraction Nerd Fonts script for HackGen
-########################################
-
-cat > ${tmpdir}/${modified_hackgen_nerd_symbol_generator} << _EOT_
-#!$fontforge_command -script
-
-Print("Generate Nerd Fonts symbol for HackGen")
-
-# Set parameters
-input_list  = ["${input_nerd_patched_hack_regular}",    "${input_nerd_patched_hack_bold}"]
-output_list = ["${modified_hackgen_nerd_symbol_regular}", "${modified_hackgen_nerd_symbol_bold}"]
-
-# Begin loop of regular and bold
-i = 0
-while (i < SizeOf(input_list))
-  # Open Hack
-  Print("Open " + input_list[i])
-  Open(input_list[i])
-  SelectWorthOutputting()
-  UnlinkReference()
-  ScaleToEm(${em_ascent}, ${em_descent})
-
-  Scale(${hack_shrink_x}, ${hack_shrink_y}, 0, 0)
-
-  # 幅の変更 (Move で文字幅も変わることに注意)
-  move_pt = $(((${hackgen_half_width} - ${hack_width} * ${hack_shrink_x} / 100) / 2)) # -8
-  width_pt = ${hackgen_full_width}
-  Move(move_pt, 0)
-  SetWidth(width_pt, 0)
-
-  # Nerd Fonts の記号を残し、残りを削除
-  SelectNone()
-  ${select_nerd_symbols}
-  SelectInvert()
-  Clear()
-
-  # パスの小数点以下を切り捨て
-  SelectWorthOutputting()
-  RoundToInt()
-
-  # Save modified Hack
-  Print("Save " + output_list[i])
-  Save("${tmpdir}/" + output_list[i])
-
-  i += 1
-endloop
-
-Quit()
-_EOT_
-
-########################################
-# Generate extraction Nerd Fonts script for HackGen35 symbols
-########################################
-
-cat > ${tmpdir}/${modified_hackgen35_nerd_symbol_generator} << _EOT_
-#!$fontforge_command -script
-
-Print("Generate Nerd Fonts symbol for HackGen35")
-
-# Set parameters
-input_list  = ["${input_nerd_patched_hack_regular}",    "${input_nerd_patched_hack_bold}"]
-output_list = ["${modified_hackgen35_nerd_symbol_regular}", "${modified_hackgen35_nerd_symbol_bold}"]
-
-# Begin loop of regular and bold
-i = 0
-while (i < SizeOf(input_list))
-  # Open Hack
-  Print("Open " + input_list[i])
-  Open(input_list[i])
-  SelectWorthOutputting()
-  UnlinkReference()
-  ScaleToEm(${em_ascent}, ${em_descent})
-
-  # 幅の変更 (Move で文字幅も変わることに注意)
-  move_pt = $(((${hackgen35_half_width} - ${hack_width}) / 2)) # -8
-  width_pt = ${hackgen35_full_width}
-  Move(move_pt, 0)
-  SetWidth(width_pt, 0)
-
-  # Nerd Fonts の記号を残し、残りを削除
-  SelectNone()
-  ${select_nerd_symbols}
-  SelectInvert()
-  Clear()
 
   # パスの小数点以下を切り捨て
   SelectWorthOutputting()
@@ -1799,187 +1689,6 @@ endloop
 Quit()
 _EOT_
 
-########################################
-# Generate extraction nerd symbols script for HackGen
-########################################
-
-cat > ${tmpdir}/${hackgen_nerd_symbol_generator} << _EOT_
-#!$fontforge_command -script
-
-# Print message
-Print("Generate extraction nerd symbols script for HackGen")
-
-# Set parameters
-hack_list  = ["${tmpdir}/${modified_hackgen_nerd_symbol_regular}", \\
-                     "${tmpdir}/${modified_hackgen_nerd_symbol_bold}"]
-powerline_list = ["${tmpdir}/${modified_hack_powerline_regular}", \\
-                      "${tmpdir}/${modified_hack_powerline_bold}"]
-fontfamily        = "${hackgen_evacuation_nerd_familyname}"
-fontfamilysuffix  = "${hackgen_familyname_suffix}"
-fontstyle_list    = ["Regular", "Bold"]
-fontweight_list   = [400,       700]
-panoseweight_list = [5,         8]
-copyright         = "${copyright}"
-version           = "${hackgen_version}"
-
-# Begin loop of regular and bold
-i = 0
-while (i < SizeOf(fontstyle_list))
-  # Open new file
-  New()
-
-  # Set encoding to Unicode-bmp
-  Reencode("unicode")
-
-  # Set configuration
-  if (fontfamilysuffix != "")
-        SetFontNames(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i], \\
-                     fontfamily + " " + fontfamilysuffix, \\
-                     fontfamily + " " + fontfamilysuffix + " " + fontstyle_list[i], \\
-                     fontstyle_list[i], \\
-                     copyright, version)
-  else
-        SetFontNames(fontfamily + "-" + fontstyle_list[i], \\
-                     fontfamily, \\
-                     fontfamily + " " + fontstyle_list[i], \\
-                     fontstyle_list[i], \\
-                     copyright, version)
-  endif
-  SetTTFName(0x409, 2, fontstyle_list[i])
-  SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
-  ScaleToEm(${em_ascent}, ${em_descent})
-  SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
-  SetOS2Value("Width",                   5) # Medium
-  SetOS2Value("FSType",                  0)
-  SetOS2Value("VendorID",           "PfEd")
-  SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
-  SetOS2Value("WinAscentIsOffset",       0)
-  SetOS2Value("WinDescentIsOffset",      0)
-  SetOS2Value("TypoAscentIsOffset",      0)
-  SetOS2Value("TypoDescentIsOffset",     0)
-  SetOS2Value("HHeadAscentIsOffset",     0)
-  SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen_ascent})
-  SetOS2Value("WinDescent",            ${hackgen_descent})
-  SetOS2Value("TypoAscent",            ${em_ascent})
-  SetOS2Value("TypoDescent",          -${em_descent})
-  SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen_descent})
-  SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 9, 2, 2, 3, 2, 2, 7])
-
-  # Merge Hack font
-  Print("Merge " + hack_list[i]:t)
-  MergeFonts(hack_list[i])
-  MergeFonts(powerline_list[i])
-
-  # Save HackGen
-  if (fontfamilysuffix != "")
-        Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        Generate("${base_dir}/" + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
-  else
-        Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        Generate("${base_dir}/" + fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
-  endif
-  Close()
-
-  i += 1
-endloop
-
-Quit()
-_EOT_
-
-########################################
-# Generate extraction nerd symbols script for HackGen35
-########################################
-
-cat > ${tmpdir}/${hackgen35_nerd_symbol_generator} << _EOT_
-#!$fontforge_command -script
-
-# Print message
-Print("Generate extraction nerd symbols script for HackGen35")
-
-# Set parameters
-hack_list  = ["${tmpdir}/${modified_hackgen35_nerd_symbol_regular}", \\
-                     "${tmpdir}/${modified_hackgen35_nerd_symbol_bold}"]
-powerline_list = ["${tmpdir}/${modified_hack35_powerline_regular}", \\
-                      "${tmpdir}/${modified_hack35_powerline_bold}"]
-fontfamily        = "${hackgen35_evacuation_nerd_familyname}"
-fontfamilysuffix  = "${hackgen35_familyname_suffix}"
-fontstyle_list    = ["Regular", "Bold"]
-fontweight_list   = [400,       700]
-panoseweight_list = [5,         8]
-copyright         = "${copyright}"
-version           = "${hackgen_version}"
-
-# Begin loop of regular and bold
-i = 0
-while (i < SizeOf(fontstyle_list))
-  # Open new file
-  New()
-
-  # Set encoding to Unicode-bmp
-  Reencode("unicode")
-
-  # Set configuration
-  if (fontfamilysuffix != "")
-        SetFontNames(fontfamily + fontfamilysuffix + "-" + fontstyle_list[i], \\
-                     fontfamily + " " + fontfamilysuffix, \\
-                     fontfamily + " " + fontfamilysuffix + " " + fontstyle_list[i], \\
-                     fontstyle_list[i], \\
-                     copyright, version)
-  else
-        SetFontNames(fontfamily + "-" + fontstyle_list[i], \\
-                     fontfamily, \\
-                     fontfamily + " " + fontstyle_list[i], \\
-                     fontstyle_list[i], \\
-                     copyright, version)
-  endif
-  SetTTFName(0x409, 2, fontstyle_list[i])
-  SetTTFName(0x409, 3, "FontForge 2.0 : " + \$fullname + " : " + Strftime("%d-%m-%Y", 0))
-  ScaleToEm(${em_ascent}, ${em_descent})
-  SetOS2Value("Weight", fontweight_list[i]) # Book or Bold
-  SetOS2Value("Width",                   5) # Medium
-  SetOS2Value("FSType",                  0)
-  SetOS2Value("VendorID",           "PfEd")
-  SetOS2Value("IBMFamily",            2057) # SS Typewriter Gothic
-  SetOS2Value("WinAscentIsOffset",       0)
-  SetOS2Value("WinDescentIsOffset",      0)
-  SetOS2Value("TypoAscentIsOffset",      0)
-  SetOS2Value("TypoDescentIsOffset",     0)
-  SetOS2Value("HHeadAscentIsOffset",     0)
-  SetOS2Value("HHeadDescentIsOffset",    0)
-  SetOS2Value("WinAscent",             ${hackgen35_ascent})
-  SetOS2Value("WinDescent",            ${hackgen35_descent})
-  SetOS2Value("TypoAscent",            ${em_ascent})
-  SetOS2Value("TypoDescent",          -${em_descent})
-  SetOS2Value("TypoLineGap",           ${typo_line_gap})
-  SetOS2Value("HHeadAscent",           ${hackgen35_ascent})
-  SetOS2Value("HHeadDescent",         -${hackgen35_descent})
-  SetOS2Value("HHeadLineGap",            0)
-  SetPanose([2, 11, panoseweight_list[i], 3, 2, 2, 3, 2, 2, 7])
-
-  # Merge Hack font
-  Print("Merge " + hack_list[i]:t)
-  MergeFonts(hack_list[i])
-  MergeFonts(powerline_list[i])
-
-  # Save HackGen
-  if (fontfamilysuffix != "")
-        Print("Save " + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf")
-        Generate("${base_dir}/" + fontfamily + fontfamilysuffix + "-" + fontstyle_list[i] + ".ttf", "")
-  else
-        Print("Save " + fontfamily + "-" + fontstyle_list[i] + ".ttf")
-        Generate("${base_dir}/" + fontfamily + "-" + fontstyle_list[i] + ".ttf", "")
-  endif
-  Close()
-
-  i += 1
-endloop
-
-Quit()
-_EOT_
 
 ########################################
 # Generate extraction nerd symbols script for HackGen Console
@@ -2801,16 +2510,10 @@ $fontforge_command -script ${tmpdir}/${modified_hack_powerline_generator} 2> $re
 # Generate powerline Symbol
 $fontforge_command -script ${tmpdir}/${modified_hack35_powerline_generator} 2> $redirection_stderr || exit 4
 
-# Generate Modified HackGen Nerd Symbol
-$fontforge_command -script ${tmpdir}/${modified_hackgen_nerd_symbol_generator} 2> $redirection_stderr || exit 4
-
-# Generate Modified HackGen Nerd Symbol
-$fontforge_command -script ${tmpdir}/${modified_hackgen35_nerd_symbol_generator} 2> $redirection_stderr || exit 4
-
 # Generate Modified HackGen Console Nerd Symbol
 $fontforge_command -script ${tmpdir}/${modified_hackgen_nerd_console_symbol_generator} 2> $redirection_stderr || exit 4
 
-# Generate Modified HackGen Console Nerd Symbol
+# Generate Modified HackGen35 Console Nerd Symbol
 $fontforge_command -script ${tmpdir}/${modified_hackgen35_nerd_console_symbol_generator} 2> $redirection_stderr || exit 4
 
 # Generate Hack evacuation symbol
@@ -2851,12 +2554,6 @@ $fontforge_command -script ${tmpdir}/${hackgen35_generator} 2> $redirection_stde
 
 # Generate HackGen Console - 35
 $fontforge_command -script ${tmpdir}/${hackgen35_console_generator} 2> $redirection_stderr || exit 4
-
-# Generate HackGen Nerd Symbol
-$fontforge_command -script ${tmpdir}/${hackgen_nerd_symbol_generator} 2> $redirection_stderr || exit 4
-
-# Generate HackGen35 Nerd Symbol
-$fontforge_command -script ${tmpdir}/${hackgen35_nerd_symbol_generator} 2> $redirection_stderr || exit 4
 
 # Generate HackGen Nerd Symbol
 $fontforge_command -script ${tmpdir}/${hackgen_nerd_console_symbol_generator} 2> $redirection_stderr || exit 4
@@ -2917,10 +2614,10 @@ do
   hackgen35_filename="${hackgen35_familyname}-${style}.ttf"
   hackgen35_console_filename="${hackgen35_familyname}${hackgen_console_suffix}-${style}.ttf"
 
-  hackgen_nerd_filename="${hackgen_nerd_familyname}-${style}.ttf"
-  hackgen_nerd_console_filename="${hackgen_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-  hackgen35_nerd_filename="${hackgen35_nerd_familyname}-${style}.ttf"
-  hackgen35_nerd_console_filename="${hackgen35_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+  hackgen_nerd_console_filename="${hackgen_familyname}${hackgen_console_suffix}${hackgen_nerd_suffix}-${style}.ttf"
+  hackgen35_nerd_console_filename="${hackgen35_familyname}${hackgen_console_suffix}${hackgen_nerd_suffix}-${style}.ttf"
+  hackgen_nerd_jp_console_filename="${hackgen_familyname}${hackgen_console_suffix}${hackgen_nerd_jp_suffix}-${style}.ttf"
+  hackgen35_nerd_jp_console_filename="${hackgen35_familyname}${hackgen_console_suffix}${hackgen_nerd_jp_suffix}-${style}.ttf"
 
   # pyftmergeの出力ファイル名が"merged.ttf"で固定なので、並列処理時に競合しないように、それぞれ別のフォルダで作業する
 
@@ -2967,23 +2664,7 @@ do
     mv merged.ttf "${base_dir}/${hackgen35_console_filename}"
   ) > "${tmpdir}/${hackgen35_console_filename}.pyftmerge_output" 2>&1 &
 
-  # HackGen Nerd
-  echo "Start pyftmerge: ${hackgen_nerd_filename}"
-  (
-    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_nerd_filename}"
-    pyftmerge "${base_dir}/hinted_${hackgen_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "${base_dir}/${hackgen_evacuation_nerd_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "$marge_genjyuu_regular"
-    mv merged.ttf "${base_dir}/${hackgen_nerd_filename}"
-    
-    cd "${base_dir}"
-    ttx -t name "${hackgen_nerd_filename}"
-    sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_filename%%.ttf}.ttx"
-    mv "${hackgen_nerd_filename}" "${hackgen_nerd_filename}_orig"
-    ttx -m "${hackgen_nerd_filename}_orig" "${hackgen_nerd_filename%%.ttf}.ttx"
-  ) > "${tmpdir}/${hackgen_nerd_filename}.pyftmerge_output" 2>&1 &
-
-  # HackGen Nerd Console
+  # HackGen Console NF
   echo "Start pyftmerge: ${hackgen_nerd_console_filename}"
   (
     cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_nerd_console_filename}"
@@ -2995,28 +2676,12 @@ do
     
     cd "${base_dir}"
     ttx -t name "${hackgen_nerd_console_filename}"
-    sed -i -e 's/HackGen/HackGenNerd/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
+    sed -i -e 's/HackGen Console/HackGen Console NF/g; s/HackGenConsole/HackGenConsoleNF/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
     mv "${hackgen_nerd_console_filename}" "${hackgen_nerd_console_filename}_orig"
     ttx -m "${hackgen_nerd_console_filename}_orig" "${hackgen_nerd_console_filename%%.ttf}.ttx"
   ) > "${tmpdir}/${hackgen_nerd_console_filename}.pyftmerge_output" 2>&1 &
 
-  # HackGen35 Nerd
-  echo "Start pyftmerge: ${hackgen35_nerd_filename}"
-  (
-    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_nerd_filename}"
-    pyftmerge "${base_dir}/hinted_${hackgen35_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "${base_dir}/${hackgen35_evacuation_nerd_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "$marge_genjyuu35_regular"
-    mv merged.ttf "${base_dir}/${hackgen35_nerd_filename}"
-    
-    cd "${base_dir}"
-    ttx -t name "${hackgen35_nerd_filename}"
-    sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_filename%%.ttf}.ttx"
-    mv "${hackgen35_nerd_filename}" "${hackgen35_nerd_filename}_orig"
-    ttx -m "${hackgen35_nerd_filename}_orig" "${hackgen35_nerd_filename%%.ttf}.ttx"
-  ) > "${tmpdir}/${hackgen35_nerd_filename}.pyftmerge_output" 2>&1 &
-
-  # HackGen35 Nerd Console
+  # HackGen35 Console NF
   echo "Start pyftmerge: ${hackgen35_nerd_console_filename}"
   (
     cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_nerd_console_filename}"
@@ -3028,10 +2693,44 @@ do
     
     cd "${base_dir}"
     ttx -t name "${hackgen35_nerd_console_filename}"
-    sed -i -e 's/HackGen35/HackGen35Nerd/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
+    sed -i -e 's/HackGen35 Console/HackGen35 Console NF/g; s/HackGen35Console/HackGen35ConsoleNF/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
     mv "${hackgen35_nerd_console_filename}" "${hackgen35_nerd_console_filename}_orig"
     ttx -m "${hackgen35_nerd_console_filename}_orig" "${hackgen35_nerd_console_filename%%.ttf}.ttx"
   ) > "${tmpdir}/${hackgen35_nerd_console_filename}.pyftmerge_output" 2>&1 &
+
+  # HackGen Console NFJ
+  echo "Start pyftmerge: ${hackgen_nerd_jp_console_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_nerd_jp_console_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen_console_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu_console_regular"
+    pyftmerge merged.ttf "${base_dir}/${hackgen_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+    mv merged.ttf "${base_dir}/${hackgen_nerd_jp_console_filename}"
+    
+    cd "${base_dir}"
+    ttx -t name "${hackgen_nerd_jp_console_filename}"
+    sed -i -e 's/HackGen Console/HackGen Console NFJ/g; s/HackGenConsole/HackGenConsoleNFJ/g' "${hackgen_nerd_jp_console_filename%%.ttf}.ttx"
+    mv "${hackgen_nerd_jp_console_filename}" "${hackgen_nerd_jp_console_filename}_orig"
+    ttx -m "${hackgen_nerd_jp_console_filename}_orig" "${hackgen_nerd_jp_console_filename%%.ttf}.ttx"
+  ) > "${tmpdir}/${hackgen_nerd_jp_console_filename}.pyftmerge_output" 2>&1 &
+
+  # HackGen35 Console NFJ
+  echo "Start pyftmerge: ${hackgen35_nerd_jp_console_filename}"
+  (
+    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_nerd_jp_console_filename}"
+    pyftmerge "${base_dir}/hinted_${hackgen35_console_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "${base_dir}/${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
+    pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
+    pyftmerge merged.ttf "${base_dir}/${hackgen35_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
+    mv merged.ttf "${base_dir}/${hackgen35_nerd_jp_console_filename}"
+    
+    cd "${base_dir}"
+    ttx -t name "${hackgen35_nerd_jp_console_filename}"
+    sed -i -e 's/HackGen35 Console/HackGen35 Console NFJ/g; s/HackGen35Console/HackGen35ConsoleNFJ/g' "${hackgen35_nerd_jp_console_filename%%.ttf}.ttx"
+    mv "${hackgen35_nerd_jp_console_filename}" "${hackgen35_nerd_jp_console_filename}_orig"
+    ttx -m "${hackgen35_nerd_jp_console_filename}_orig" "${hackgen35_nerd_jp_console_filename%%.ttf}.ttx"
+  ) > "${tmpdir}/${hackgen35_nerd_jp_console_filename}.pyftmerge_output" 2>&1 &
 
   wait
   
@@ -3041,10 +2740,10 @@ do
     ${hackgen_console_filename}
     ${hackgen35_filename}
     ${hackgen35_console_filename}
-    ${hackgen_nerd_filename}
     ${hackgen_nerd_console_filename}
-    ${hackgen35_nerd_filename}
     ${hackgen35_nerd_console_filename}
+    ${hackgen_nerd_jp_console_filename}
+    ${hackgen35_nerd_jp_console_filename}
   "
   for ttf_file in $pyftmerged_ttf_files
   do
@@ -3061,8 +2760,6 @@ rm -f "${hackgen_evacuation_symbol_familyname}"*.ttf
 rm -f "${hackgen35_evacuation_symbol_familyname}"*.ttf
 rm -f "${hackgen_evacuation_nerd_familyname}"*.ttf
 rm -f "${hackgen35_evacuation_nerd_familyname}"*.ttf
-rm -f "${hackgen_nerd_familyname}"*.ttx
-rm -f "${hackgen35_nerd_familyname}"*.ttx
 rm -f "${hackgen_box_drawing_light_familyname}"*.ttf
 rm -f "${hackgen35_box_drawing_light_familyname}"*.ttf
 
