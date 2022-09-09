@@ -1188,14 +1188,17 @@ while (i < SizeOf(input_list))
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
-  bracket_move = $((${hackgen_half_width} / 3))
+  bracket_move = $((${hackgen_half_width} / 7 * 3))
+  bracket_scale = 104
   Select(0uff08) # (
   SelectMore(0uff3b) # [
   SelectMore(0uff5b) # {
+  Scale(bracket_scale)
   Move(-bracket_move, 0); SetWidth(${hackgen_full_width})
   Select(0uff09) # )
   SelectMore(0uff3d) # ]
   SelectMore(0uff5d) # }
+  Scale(bracket_scale)
   Move( bracket_move, 0); SetWidth(${hackgen_full_width})
 
   # 全角 ，．‘’“” の調整
@@ -1383,14 +1386,17 @@ while (i < SizeOf(input_list))
 
   # Edit zenkaku brackets
   Print("Edit zenkaku brackets")
-  bracket_move = $((${hackgen35_half_width} / 3))
+  bracket_move = $((${hackgen35_half_width} / 7 * 3))
+  bracket_scale = 104
   Select(0uff08) # (
   SelectMore(0uff3b) # [
   SelectMore(0uff5b) # {
+  Scale(bracket_scale)
   Move(-bracket_move, 0); SetWidth(${hackgen35_full_width})
   Select(0uff09) # )
   SelectMore(0uff3d) # ]
   SelectMore(0uff5d) # }
+  Scale(bracket_scale)
   Move( bracket_move, 0); SetWidth(${hackgen35_full_width})
 
   # 全角 ，．‘’“” の調整
