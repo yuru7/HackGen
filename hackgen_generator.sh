@@ -292,6 +292,9 @@ select_nerd_symbols="
 
   # Pomicons
   SelectMore(0ue000, 0ue00a)
+
+  # Codicons
+  SelectMore(0uea60, 0uebeb)
 "
 
 # 罫線記号
