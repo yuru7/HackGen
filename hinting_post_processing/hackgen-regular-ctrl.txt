@@ -1,23 +1,25 @@
 # plus
-#uni002B touch 4,5,10,11 y -0.5 @
-uni002B touch 4,5,10,11 y 0.5  @13,14,17,18
+uni002B touch 4,5,10,11 y -0.5 @15
+uni002B touch 4,5,10,11 y 0.5  @16
 
 # eight
-uni0038 touch 5-7,24-26,32-33,44,53-55 y -0.4 @14,16,19,21
-#uni0038 touch 5-7,24-26,32-33,44,53-55 y 0.5 @
+uni0038 touch 5-8,24-26,32-33,44,52-54 y -0.4 @13,16,18-20
+uni0038 touch 5-8,24-26,32-33,44,52-54 y 0.4 @15
 
 # zero
-uni0030 touch 34-46 y -0.3 @16
-uni0030 touch 34-46 y -0.5 @13-14,18,20-21
-uni0030 touch 34-46 y  0.5 @17
+uni0030 touch 33-45 y -0.3 @20
+uni0030 touch 33-45 y -0.5 @13
+uni0030 touch 33-45 y  0.3 @15
 
 # a
-uni0061 touch 5-10,40-44 y -0.5 @14,18,20
+uni0061 touch 5-10,40-44 y -0.5 @13-14,16,19
 
 # i,j
-uni0069 touch 3-8 y 0.5 @11-
-uni006A touch 3-8 y 0.5 @11-
+uni0069 touch 0-12 y 0.3 @11-
+uni006A touch 0-11 y 0.3 @11-
+uni0069 touch 0-12 y 0.75 @18
+uni006A touch 0-11 y 0.75 @18
 
 # |
-uni007C touch 2-3 y -0.4 @14
-uni007C touch 4-5 y 0.4 @14
+#uni007C touch 2-3 y -0.4 @14
+#uni007C touch 4-5 y 0.4 @14

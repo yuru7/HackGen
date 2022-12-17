@@ -40,7 +40,7 @@ genjyuu_width=1024
 hackgen_half_width=540
 hackgen_full_width=$((${hackgen_half_width} * 2))
 hack_shrink_x=88
-hack_shrink_y=93
+hack_shrink_y=97
 
 hackgen35_half_width=618
 hackgen35_full_width=$((${hackgen35_half_width} * 5 / 3))
@@ -2586,12 +2586,12 @@ $fontforge_command -script ${tmpdir}/${hackgen35_box_drawing_light_generator} 2>
 # Add hinting HackGen Regular
 for f in ${hackgen_familyname}-Regular.ttf ${hackgen_familyname}${hackgen_console_suffix}-Regular.ttf
 do
-  ttfautohint -m hinting_post_processing/hackgen-regular-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -m hinting_post_processing/hackgen-regular-ctrl.txt -l 6 -r 45 -X "12-" -a nnn -D latn -W -I "$f" "hinted_${f}"
 done
 # Add hinting HackGen Bold
 for f in ${hackgen_familyname}-Bold.ttf ${hackgen_familyname}${hackgen_console_suffix}-Bold.ttf
 do
-  ttfautohint -m hinting_post_processing/hackgen-bold-ctrl.txt -l 6 -r 45 -X "12-" -a qsq -D latn -W -I "$f" "hinted_${f}"
+  ttfautohint -m hinting_post_processing/hackgen-bold-ctrl.txt -l 6 -r 45 -X "12-" -a nnn -D latn -W -I "$f" "hinted_${f}"
 done
 # Add hinting HackGen35 Regular
 for f in ${hackgen35_familyname}-Regular.ttf ${hackgen35_familyname}${hackgen_console_suffix}-Regular.ttf
