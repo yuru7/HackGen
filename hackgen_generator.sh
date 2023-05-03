@@ -12,7 +12,6 @@ hackgen35_familyname=${hackgen_familyname}"35"
 hackgen35_familyname_suffix=""
 hackgen_console_suffix="Console"
 hackgen_nerd_suffix="NF"
-hackgen_nerd_jp_suffix="NFJ"
 hackgen_evacuation_nerd_familyname="Evacuation${hackgen_familyname}Nerd"
 hackgen35_evacuation_nerd_familyname="Evacuation${hackgen35_familyname}Nerd"
 hackgen_evacuation_symbol_familyname=${hackgen_familyname}"EvacuationSymbol"
@@ -71,8 +70,8 @@ hack_regular_src="Hack-Regular.ttf"
 hack_bold_src="Hack-Bold.ttf"
 mod_arrow_regular_src="modify_arrow_Hack-Regular.sfd"
 mod_arrow_bold_src="modify_arrow_Hack-Bold.sfd"
-nerd_patched_hack_regular_src="Hack Regular Nerd Font Complete.ttf"
-nerd_patched_hack_bold_src="Hack Bold Nerd Font Complete.ttf"
+nerd_patched_hack_regular_src="HackNerdFont-Regular.ttf"
+nerd_patched_hack_bold_src="HackNerdFont-Bold.ttf"
 genjyuu_regular_src="GenJyuuGothicL-Monospace-Regular.ttf"
 genjyuu_bold_src="GenJyuuGothicL-Monospace-Bold.ttf"
 
@@ -262,39 +261,30 @@ select_nerd_symbols="
   # IEC Power Symbols
   SelectMore(0u23fb, 0u23fe)
   SelectMore(0u2b58)
-
   # Octicons
   SelectMore(0u2665)
-  SelectMore(0u26A1)
-  SelectMore(0uf27c)
-  SelectMore(0uf400, 0uf4a9)
-
-  # Font Awesome Extension
-  SelectMore(0ue200, 0ue2a9)
-
-  # Weather
-  SelectMore(0ue300, 0ue3e3)
-
-  # Seti-UI + Custom
-  SelectMore(0ue5fa, 0ue62e)
-
-  # Devicons
-  SelectMore(0ue700, 0ue7c5)
-
-  # Font Awesome
-  SelectMore(0uf000, 0uf2e0)
-
-  # Font Logos (Formerly Font Linux)
-  SelectMore(0uf300, 0uf31c)
-
-  # Material Design Icons
-  SelectMore(0uf500, 0ufd46)
-
+  SelectMore(0u26a1)
+  SelectMore(0uf400, 0uf532)
   # Pomicons
   SelectMore(0ue000, 0ue00a)
-
+  # Font Awesome Extension
+  SelectMore(0ue200, 0ue2a9)
+  # Weather Icons
+  SelectMore(0ue300, 0ue3e3)
+  # Seti-UI + Custom
+  SelectMore(0ue5fa, 0ue6ac)
+  # Devicons
+  SelectMore(0ue700, 0ue7c5)
   # Codicons
   SelectMore(0uea60, 0uebeb)
+  # Font Awesome
+  SelectMore(0uf000, 0uf2e0)
+  # Font Logos
+  SelectMore(0uf300, 0uf32f)
+  # Material Design
+  SelectMore(0uf0001, 0uf1af0)
+  # Other
+  SelectMore(0u2630)
 "
 
 # 罫線記号
@@ -2629,8 +2619,6 @@ do
 
   hackgen_nerd_console_filename="${hackgen_familyname}${hackgen_console_suffix}${hackgen_nerd_suffix}-${style}.ttf"
   hackgen35_nerd_console_filename="${hackgen35_familyname}${hackgen_console_suffix}${hackgen_nerd_suffix}-${style}.ttf"
-  hackgen_nerd_jp_console_filename="${hackgen_familyname}${hackgen_console_suffix}${hackgen_nerd_jp_suffix}-${style}.ttf"
-  hackgen35_nerd_jp_console_filename="${hackgen35_familyname}${hackgen_console_suffix}${hackgen_nerd_jp_suffix}-${style}.ttf"
 
   # pyftmergeの出力ファイル名が"merged.ttf"で固定なので、並列処理時に競合しないように、それぞれ別のフォルダで作業する
 
@@ -2711,40 +2699,6 @@ do
     ttx -m "${hackgen35_nerd_console_filename}_orig" "${hackgen35_nerd_console_filename%%.ttf}.ttx"
   ) > "${tmpdir}/${hackgen35_nerd_console_filename}.pyftmerge_output" 2>&1 &
 
-  # HackGen Console NFJ
-  echo "Start pyftmerge: ${hackgen_nerd_jp_console_filename}"
-  (
-    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen_nerd_jp_console_filename}"
-    pyftmerge "${base_dir}/hinted_${hackgen_console_filename}" "${base_dir}/${hackgen_evacuation_symbol_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "${base_dir}/${hackgen_box_drawing_light_familyname}${hackgen_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "$marge_genjyuu_console_regular"
-    pyftmerge merged.ttf "${base_dir}/${hackgen_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-    mv merged.ttf "${base_dir}/${hackgen_nerd_jp_console_filename}"
-    
-    cd "${base_dir}"
-    ttx -t name "${hackgen_nerd_jp_console_filename}"
-    sed -i -e 's/HackGen Console/HackGen Console NFJ/g; s/HackGenConsole/HackGenConsoleNFJ/g' "${hackgen_nerd_jp_console_filename%%.ttf}.ttx"
-    mv "${hackgen_nerd_jp_console_filename}" "${hackgen_nerd_jp_console_filename}_orig"
-    ttx -m "${hackgen_nerd_jp_console_filename}_orig" "${hackgen_nerd_jp_console_filename%%.ttf}.ttx"
-  ) > "${tmpdir}/${hackgen_nerd_jp_console_filename}.pyftmerge_output" 2>&1 &
-
-  # HackGen35 Console NFJ
-  echo "Start pyftmerge: ${hackgen35_nerd_jp_console_filename}"
-  (
-    cdAutoMakeDir "${tmpdir}/parallel_merge/${hackgen35_nerd_jp_console_filename}"
-    pyftmerge "${base_dir}/hinted_${hackgen35_console_filename}" "${base_dir}/${hackgen35_evacuation_symbol_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "${base_dir}/${hackgen35_box_drawing_light_familyname}${hackgen35_familyname_suffix}-${style}.ttf"
-    pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
-    pyftmerge merged.ttf "${base_dir}/${hackgen35_evacuation_nerd_familyname}${hackgen_console_suffix}-${style}.ttf"
-    mv merged.ttf "${base_dir}/${hackgen35_nerd_jp_console_filename}"
-    
-    cd "${base_dir}"
-    ttx -t name "${hackgen35_nerd_jp_console_filename}"
-    sed -i -e 's/HackGen35 Console/HackGen35 Console NFJ/g; s/HackGen35Console/HackGen35ConsoleNFJ/g' "${hackgen35_nerd_jp_console_filename%%.ttf}.ttx"
-    mv "${hackgen35_nerd_jp_console_filename}" "${hackgen35_nerd_jp_console_filename}_orig"
-    ttx -m "${hackgen35_nerd_jp_console_filename}_orig" "${hackgen35_nerd_jp_console_filename%%.ttf}.ttx"
-  ) > "${tmpdir}/${hackgen35_nerd_jp_console_filename}.pyftmerge_output" 2>&1 &
-
   wait
   
   # 並列処理からの出力内容をまとめて出力
@@ -2755,8 +2709,6 @@ do
     ${hackgen35_console_filename}
     ${hackgen_nerd_console_filename}
     ${hackgen35_nerd_console_filename}
-    ${hackgen_nerd_jp_console_filename}
-    ${hackgen35_nerd_jp_console_filename}
   "
   for ttf_file in $pyftmerged_ttf_files
   do
