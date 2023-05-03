@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hackgen_version="2.8.0"
+hackgen_version="2.9.0"
 
 BASE_DIR=$(cd $(dirname $0); pwd)
 PREFIX="$1"
