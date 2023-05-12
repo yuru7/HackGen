@@ -42,8 +42,7 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 |`HackGen`<br/>![hackgen](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen.png)|`HackGen35`<br/>![hackgen35](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35.png)|
 |`HackGen Console`<br/>![hackgen console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen-console.png)|`HackGen35 Console`<br/>![hackgen35 console](https://github.com/yuru7/HackGen/raw/image/hikaku_hackgen35-console.png)|
 
-また、追加で提供している `HackGenNerd` `HackGen35Nerd` フォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加合成しており、Font Awesome をはじめとした多くのアイコンフォントが表示できるようになります。  
-> ⚠ Nerd Fonts の仕様 ([Fix invalid code points for some glyphs](https://github.com/ryanoasis/nerd-fonts/issues/365)) により、一部のコードポイントにおいて漢字グリフが Nerd Fonts 収録グリフに置き換わっています。(例: `﨑 (たつさき/U+FA11)` など) Nerd Fonts を必要とする用途以外は、通常の HackGen を利用することをオススメします。
+また、追加で提供している `HackGen NF` `HackGen35 NF` フォントファミリーには、[Nerd Fonts](https://www.nerdfonts.com/) を追加合成しており、Font Awesome をはじめとした多くのアイコンフォントが表示できるようになります。  
 
 ## フォントのインストール
 
@@ -53,7 +52,7 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 [Release - HackGen](https://github.com/yuru7/HackGen/releases)
 
 * `HackGen_バージョン.zip` は従来の HackGen/HackGen35
-* `HackGenNerd_バージョン.zip` は従来の HackGen/HackGen35 に [Nerd Fonts](https://www.nerdfonts.com/) を追加合成したもの
+* `HackGen_NF_バージョン.zip` は従来の HackGen/HackGen35 に [Nerd Fonts](https://www.nerdfonts.com/) を追加合成したもの
 
 ### Homebrew によるフォントのインストール
 
