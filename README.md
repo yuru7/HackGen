@@ -4,6 +4,8 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 
 白源 (はくげん／HackGen) は、プログラミング向け英文フォント Hack と、源ノ角ゴシックの派生フォント源柔ゴシックを合成したプログラミングフォントです。  
 
+![image](https://github.com/yuru7/HackGen/assets/13458509/ea0c0dae-58ea-4712-8ed2-570274b87039)
+
 2つのフォントをただ合成しただけではなく、一部の独自改変により更なる視認性向上を図っています。
 
 * 文字幅 半角1:全角2 の正統派な等幅フォント (文字幅 半角3:全角5 バージョンも同梱)
