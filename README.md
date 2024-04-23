@@ -51,7 +51,7 @@ HackGen is a composite font of Hack and GenJyuu-Gothic.
 ビルド済みの ttf ファイルは GitHub のリリースページからダウンロードできます。  
 ダウンロードした ttf ファイルは、各 OS に応じた手順でインストールしてください。
 
-[Release - HackGen](https://github.com/yuru7/HackGen/releases)
+[Release - HackGen](https://github.com/yuru7/HackGen/releases/latest)
 
 * `HackGen_バージョン.zip` は従来の HackGen/HackGen35
 * `HackGen_NF_バージョン.zip` は従来の HackGen/HackGen35 に [Nerd Fonts](https://www.nerdfonts.com/) を追加合成したもの
