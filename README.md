@@ -62,7 +62,6 @@ Mac の Homebrew ユーザーは以下のコマンドでもインストールす
 ※Homebrew リポジトリに追加してくださったのはユーザーさんなので、使用方法などをリポジトリオーナーはサポートできません。悪しからずご了承ください。
 
 ```
-$ brew tap homebrew/cask-fonts
 $ brew install font-hackgen
 $ brew install font-hackgen-nerd
 ```
