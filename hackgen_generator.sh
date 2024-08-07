@@ -1,6 +1,6 @@
 #!/bin/sh
 
-base_dir=$(cd $(dirname $0); pwd)
+base_dir=$(cd "$(dirname "$0")" && pwd)
 # HackGen Generator
 hackgen_version="$2"
 

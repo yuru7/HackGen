@@ -2,7 +2,7 @@
 
 hackgen_version="2.9.0"
 
-BASE_DIR=$(cd $(dirname $0); pwd)
+BASE_DIR=$(cd "$(dirname "$0")" && pwd)
 PREFIX="$1"
 
 function mvBuild() {
