@@ -21,8 +21,8 @@ Copyright (c) 2019, Yuko OTAWARA'
 for P in ${BASE_DIR}/${FONT_PATTERN}
 do
   ttx -t name "$P"
-  mv "${P%%.ttf}.ttx" ${BASE_DIR}/tmp.ttx
-  cat ${BASE_DIR}/tmp.ttx | perl -pe "s?###COPYRIGHT###?$COPYRIGHT?" > "${P%%.ttf}.ttx"
+  mv "${P%%.ttf}.ttx" "${BASE_DIR}/tmp.ttx"
+  perl -pe "s?###COPYRIGHT###?$COPYRIGHT?" < "${BASE_DIR}/tmp.ttx" > "${P%%.ttf}.ttx"
 
   mv "$P" "${P}_orig"
   ttx -m "${P}_orig" "${P%%.ttf}.ttx"
