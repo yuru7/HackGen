@@ -29,7 +29,6 @@ hackgen35_descent=243
 
 em_ascent=881
 em_descent=143
-em=$(($em_ascent + $em_descent))
 
 typo_line_gap=80
 
@@ -46,7 +45,6 @@ hackgen35_full_width=$((${hackgen35_half_width} * 5 / 3))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
-ttfautohint_command="ttfautohint"
 
 # Set redirection of stderr
 redirection_stderr="/dev/null"
@@ -54,16 +52,8 @@ redirection_stderr="/dev/null"
 # Set fonts directories used in auto flag
 fonts_directories="${base_dir}/source/"
 
-# Set zenkaku space glyph
-zenkaku_space_glyph=""
-
 # Set flags
 leaving_tmp_flag="false"
-fullwidth_ambiguous_flag="true"
-scaling_down_flag="true"
-
-# Set non-Discorded characters
-non_discorded_characters=""
 
 # Set filenames
 hack_regular_src="Hack-Regular.ttf"
