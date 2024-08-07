@@ -2614,7 +2614,7 @@ do
 
   cdAutoMakeDir() {
     mkdir -p "$1"
-    cd "$1"
+    cd "$1" || exit 1
   }
 
   # HackGen
@@ -2665,7 +2665,7 @@ do
     pyftmerge merged.ttf "$marge_genjyuu_console_regular"
     mv merged.ttf "${base_dir}/${hackgen_nerd_console_filename}"
     
-    cd "${base_dir}"
+    cd "${base_dir}" || exit 1
     ttx -t name "${hackgen_nerd_console_filename}"
     sed -i -e 's/HackGen Console/HackGen Console NF/g; s/HackGenConsole/HackGenConsoleNF/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
     mv "${hackgen_nerd_console_filename}" "${hackgen_nerd_console_filename}_orig"
@@ -2682,7 +2682,7 @@ do
     pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
     mv merged.ttf "${base_dir}/${hackgen35_nerd_console_filename}"
     
-    cd "${base_dir}"
+    cd "${base_dir}" || exit 1
     ttx -t name "${hackgen35_nerd_console_filename}"
     sed -i -e 's/HackGen35 Console/HackGen35 Console NF/g; s/HackGen35Console/HackGen35ConsoleNF/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
     mv "${hackgen35_nerd_console_filename}" "${hackgen35_nerd_console_filename}_orig"
