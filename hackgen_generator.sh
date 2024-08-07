@@ -1,6 +1,8 @@
 #!/bin/sh
 
-base_dir=$(cd $(dirname $0); pwd)
+set -e
+
+base_dir=$(cd "$(dirname "$0")" && pwd)
 # HackGen Generator
 hackgen_version="$2"
 
@@ -29,7 +31,6 @@ hackgen35_descent=243
 
 em_ascent=881
 em_descent=143
-em=$(($em_ascent + $em_descent))
 
 typo_line_gap=80
 
@@ -46,7 +47,6 @@ hackgen35_full_width=$((${hackgen35_half_width} * 5 / 3))
 
 # Set path to fontforge command
 fontforge_command="fontforge"
-ttfautohint_command="ttfautohint"
 
 # Set redirection of stderr
 redirection_stderr="/dev/null"
@@ -54,16 +54,8 @@ redirection_stderr="/dev/null"
 # Set fonts directories used in auto flag
 fonts_directories="${base_dir}/source/"
 
-# Set zenkaku space glyph
-zenkaku_space_glyph=""
-
 # Set flags
 leaving_tmp_flag="false"
-fullwidth_ambiguous_flag="true"
-scaling_down_flag="true"
-
-# Set non-Discorded characters
-non_discorded_characters=""
 
 # Set filenames
 hack_regular_src="Hack-Regular.ttf"
@@ -170,12 +162,12 @@ input_hack_bold=`find $fonts_directories -follow -name "$hack_bold_src" | head -
 input_mod_arrow_regular=`find $fonts_directories -follow -name "$mod_arrow_regular_src" | head -n 1`
 input_mod_arrow_bold=`find $fonts_directories -follow -name "$mod_arrow_bold_src" | head -n 1`
 
-if [ -z "${input_hack_regular}" -o -z "${input_hack_bold}" ]
+if [ -z "${input_hack_regular}" ] || [ -z "${input_hack_bold}" ]
 then
   echo "Error: $hack_regular_src and/or $hack_bold_src not found" >&2
   exit 1
 fi
-if [ -z "${input_mod_arrow_regular}" -o -z "${input_mod_arrow_bold}" ]
+if [ -z "${input_mod_arrow_regular}" ] || [ -z "${input_mod_arrow_bold}" ]
 then
   echo "Error: $input_mod_arrow_regular and/or $input_mod_arrow_bold not found" >&2
   exit 1
@@ -184,7 +176,7 @@ fi
 # Search GenJyuuGothicL
 input_genjyuu_regular=`find $fonts_directories -follow -iname "$genjyuu_regular_src" | head -n 1`
 input_genjyuu_bold=`find $fonts_directories -follow -iname "$genjyuu_bold_src"    | head -n 1`
-if [ -z "${input_genjyuu_regular}" -o -z "${input_genjyuu_bold}" ]
+if [ -z "${input_genjyuu_regular}" ] || [ -z "${input_genjyuu_bold}" ]
 then
   echo "Error: $genjyuu_regular_src and/or $genjyuu_bold_src not found" >&2
   exit 1
@@ -225,7 +217,7 @@ then
 fi
 
 # Make temporary directory
-if [ -w "/tmp" -a "${leaving_tmp_flag}" = "false" ]
+if [ -w "/tmp" ] && [ "${leaving_tmp_flag}" = "false" ]
 then
   tmpdir=`mktemp -d /tmp/hackgen_generator_tmpdir.XXXXXX` || exit 2
 else
@@ -2624,7 +2616,7 @@ do
 
   cdAutoMakeDir() {
     mkdir -p "$1"
-    cd "$1"
+    cd "$1" || exit 1
   }
 
   # HackGen
@@ -2675,7 +2667,7 @@ do
     pyftmerge merged.ttf "$marge_genjyuu_console_regular"
     mv merged.ttf "${base_dir}/${hackgen_nerd_console_filename}"
     
-    cd "${base_dir}"
+    cd "${base_dir}" || exit 1
     ttx -t name "${hackgen_nerd_console_filename}"
     sed -i -e 's/HackGen Console/HackGen Console NF/g; s/HackGenConsole/HackGenConsoleNF/g' "${hackgen_nerd_console_filename%%.ttf}.ttx"
     mv "${hackgen_nerd_console_filename}" "${hackgen_nerd_console_filename}_orig"
@@ -2692,7 +2684,7 @@ do
     pyftmerge merged.ttf "$marge_genjyuu35_console_regular"
     mv merged.ttf "${base_dir}/${hackgen35_nerd_console_filename}"
     
-    cd "${base_dir}"
+    cd "${base_dir}" || exit 1
     ttx -t name "${hackgen35_nerd_console_filename}"
     sed -i -e 's/HackGen35 Console/HackGen35 Console NF/g; s/HackGen35Console/HackGen35ConsoleNF/g' "${hackgen35_nerd_console_filename%%.ttf}.ttx"
     mv "${hackgen35_nerd_console_filename}" "${hackgen35_nerd_console_filename}_orig"

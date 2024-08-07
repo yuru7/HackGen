@@ -1,6 +1,8 @@
 #!/bin/bash
 
-BASE_DIR=$(cd $(dirname $0); pwd)
+set -e
+
+BASE_DIR=$(cd "$(dirname "$0")" && pwd)
 PREFIX="$1"
 
 xAvgCharWidth_SETVAL=540
@@ -16,13 +18,13 @@ for P in ${BASE_DIR}/${HACKGEN_PATTERN}; do
   sed -i.bak -e 's,xAvgCharWidth value="'$xAvgCharWidth_value'",xAvgCharWidth value="'${xAvgCharWidth_SETVAL}'",' "${P%%.ttf}.ttx"
 
   fsSelection_value=$(grep fsSelection "${P%%.ttf}.ttx" | awk -F\" '{print $2}')
-  if [ `echo $P | grep Regular` ]; then
+  if echo "$P" | grep -q Regular; then
     fsSelection_sed_value='00000000 01000000'
-  elif [ `echo $P | grep BoldOblique` ]; then
+  elif echo "$P" | grep -q BoldOblique; then
     fsSelection_sed_value='00000000 00100001'
-  elif [ `echo $P | grep Bold` ]; then
+  elif echo "$P" | grep -q Bold; then
     fsSelection_sed_value='00000000 00100000'
-  elif [ `echo $P | grep Oblique` ]; then
+  elif echo "$P" | grep -q Oblique; then
     fsSelection_sed_value='00000000 00000001'
   fi
   sed -i.bak -e 's,fsSelection value="'"$fsSelection_value"'",fsSelection value="'"$fsSelection_sed_value"'",' "${P%%.ttf}.ttx"
@@ -33,9 +35,8 @@ for P in ${BASE_DIR}/${HACKGEN_PATTERN}; do
   sed -i.bak -e 's,<isFixedPitch value="0"/>,<isFixedPitch value="1"/>,' "${P%%.ttf}.ttx"
 
   mv "$P" "${P}_orig"
-  ttx -m "${P}_orig" "${P%%.ttf}.ttx"
-  
-  if [ $? -eq 0 ]; then
+
+  if ttx -m "${P}_orig" "${P%%.ttf}.ttx"; then
     mv "${P}_orig" "${BASE_DIR}/bak/"
     mv "${P%%.ttf}.ttx" "${BASE_DIR}/bak/"
     rm "${P%%.ttf}.ttx.bak"
@@ -49,13 +50,13 @@ for P in ${BASE_DIR}/${HACKGEN53_PATTERN}; do
   sed -i.bak -e 's,xAvgCharWidth value="'$xAvgCharWidth_value'",xAvgCharWidth value="'${xAvgCharWidth53_SETVAL}'",' "${P%%.ttf}.ttx"
 
   fsSelection_value=$(grep fsSelection "${P%%.ttf}.ttx" | awk -F\" '{print $2}')
-  if [ `echo $P | grep Regular` ]; then
+  if echo "$P" | grep -q Regular; then
     fsSelection_sed_value='00000000 01000000'
-  elif [ `echo $P | grep BoldOblique` ]; then
+  elif echo "$P" | grep -q BoldOblique; then
     fsSelection_sed_value='00000000 00100001'
-  elif [ `echo $P | grep Bold` ]; then
+  elif echo "$P" | grep -q Bold; then
     fsSelection_sed_value='00000000 00100000'
-  elif [ `echo $P | grep Oblique` ]; then
+  elif echo "$P" | grep -q Oblique; then
     fsSelection_sed_value='00000000 00000001'
   fi
   sed -i.bak -e 's,fsSelection value="'"$fsSelection_value"'",fsSelection value="'"$fsSelection_sed_value"'",' "${P%%.ttf}.ttx"
@@ -64,9 +65,8 @@ for P in ${BASE_DIR}/${HACKGEN53_PATTERN}; do
   sed -i.bak -e 's,underlinePosition value="'$underlinePosition_value'",underlinePosition value="-70",' "${P%%.ttf}.ttx"
 
   mv "$P" "${P}_orig"
-  ttx -m "${P}_orig" "${P%%.ttf}.ttx"
-  
-  if [ $? -eq 0 ]; then
+
+  if ttx -m "${P}_orig" "${P%%.ttf}.ttx"; then
     mv -f "${P}_orig" "${BASE_DIR}/bak/"
     mv -f "${P%%.ttf}.ttx" "${BASE_DIR}/bak/"
     rm -f "${P%%.ttf}.ttx.bak"
