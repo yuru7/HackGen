@@ -160,12 +160,12 @@ input_hack_bold=`find $fonts_directories -follow -name "$hack_bold_src" | head -
 input_mod_arrow_regular=`find $fonts_directories -follow -name "$mod_arrow_regular_src" | head -n 1`
 input_mod_arrow_bold=`find $fonts_directories -follow -name "$mod_arrow_bold_src" | head -n 1`
 
-if [ -z "${input_hack_regular}" -o -z "${input_hack_bold}" ]
+if [ -z "${input_hack_regular}" ] || [ -z "${input_hack_bold}" ]
 then
   echo "Error: $hack_regular_src and/or $hack_bold_src not found" >&2
   exit 1
 fi
-if [ -z "${input_mod_arrow_regular}" -o -z "${input_mod_arrow_bold}" ]
+if [ -z "${input_mod_arrow_regular}" ] || [ -z "${input_mod_arrow_bold}" ]
 then
   echo "Error: $input_mod_arrow_regular and/or $input_mod_arrow_bold not found" >&2
   exit 1
@@ -174,7 +174,7 @@ fi
 # Search GenJyuuGothicL
 input_genjyuu_regular=`find $fonts_directories -follow -iname "$genjyuu_regular_src" | head -n 1`
 input_genjyuu_bold=`find $fonts_directories -follow -iname "$genjyuu_bold_src"    | head -n 1`
-if [ -z "${input_genjyuu_regular}" -o -z "${input_genjyuu_bold}" ]
+if [ -z "${input_genjyuu_regular}" ] || [ -z "${input_genjyuu_bold}" ]
 then
   echo "Error: $genjyuu_regular_src and/or $genjyuu_bold_src not found" >&2
   exit 1
@@ -215,7 +215,7 @@ then
 fi
 
 # Make temporary directory
-if [ -w "/tmp" -a "${leaving_tmp_flag}" = "false" ]
+if [ -w "/tmp" ] && [ "${leaving_tmp_flag}" = "false" ]
 then
   tmpdir=`mktemp -d /tmp/hackgen_generator_tmpdir.XXXXXX` || exit 2
 else
