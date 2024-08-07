@@ -18,7 +18,7 @@ function buildCmap() {
     awk 'NR > 1 {print}' "$CMAP_MASTER" | while read line
     do
       out_name=$(echo "$line" | awk -F, '{print $4}')
-      grep_out_name=$(egrep -m1 "name=\"${out_name}[#\"]" "$ttx_path" | perl -pe 's/^.+name="([^"]+?)".+/$1/')
+      grep_out_name=$(grep -E -m1 "name=\"${out_name}[#\"]" "$ttx_path" | perl -pe 's/^.+name="([^"]+?)".+/$1/')
       if [ -z "$grep_out_name" ]; then
         continue
       fi
@@ -35,7 +35,7 @@ function buildCmap() {
 
   # 適用するttxファイルを作成
   (
-    egrep -v 'cmap_format_14| uvs=' "$ttx_path" | awk '/<\/cmap>/ {exit} {print}'
+    grep -E -v 'cmap_format_14| uvs=' "$ttx_path" | awk '/<\/cmap>/ {exit} {print}'
     cat "$TMP_TTX"
     awk 'BEGIN {prFlag = 0} /<post>/ {prFlag = 1} prFlag == 1 {print}' "$ttx_path"
   ) > $GENERATED_CMAP
