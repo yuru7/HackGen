@@ -15,7 +15,7 @@ function buildCmap() {
   ttx_path="$1"
   # cmapマスタの作成
   (
-    awk 'NR > 1 {print}' "$CMAP_MASTER" | while read line
+    awk 'NR > 1 {print}' "$CMAP_MASTER" | while read -r line
     do
       out_name=$(echo "$line" | awk -F, '{print $4}')
       grep_out_name=$(grep -E -m1 "name=\"${out_name}[#\"]" "$ttx_path" | perl -pe 's/^.+name="([^"]+?)".+/$1/')
@@ -38,7 +38,7 @@ function buildCmap() {
     grep -E -v 'cmap_format_14| uvs=' "$ttx_path" | awk '/<\/cmap>/ {exit} {print}'
     cat "$TMP_TTX"
     awk 'BEGIN {prFlag = 0} /<post>/ {prFlag = 1} prFlag == 1 {print}' "$ttx_path"
-  ) > $GENERATED_CMAP
+  ) > "$GENERATED_CMAP"
 }
 
 function proc() {
@@ -49,10 +49,10 @@ function proc() {
     return
   fi
 
-  ttx -t cmap -t post $font
-  mv ${font} ${font}_orig
+  ttx -t cmap -t post "$font"
+  mv "${font}" "${font}_orig"
   buildCmap "${font%%.ttf}.ttx"
-  ttx -o ${font} -m ${font}_orig $GENERATED_CMAP
+  ttx -o "${font}" -m "${font}_orig" "$GENERATED_CMAP"
 }
 
 echo '### Start cmap_patch ###'
@@ -83,4 +83,4 @@ for f in $font_list; do
   rm "$output_filename"
 done
 
-rm -f "$GENERATED_CMAP"_* "$TMP_CMAP_MASTER"_* "$TMP_TTX"_* *.ttx *.ttf_orig
+rm -f "$GENERATED_CMAP"_* "$TMP_CMAP_MASTER"_* "$TMP_TTX"_* ./*.ttx ./*.ttf_orig
