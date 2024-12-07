@@ -295,6 +295,8 @@ box_drawing_light_symbols="
 # ヒンティング処理から除外するグリフ
 select_evacuate_from_hinting="
   ${powerline_symbols}
+  # Brackets Peace
+  SelectMore(0u239B, 0u23AE)
 "
 
 # console 版と通常版の Hack から合成するグリフ差分
