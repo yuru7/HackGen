@@ -252,37 +252,36 @@ powerline_extra_symbols='
   SelectMore(0ue0a3)
   SelectMore(0ue0b4, 0ue0c8)
   SelectMore(0ue0ca)
-  SelectMore(0ue0cc, 0ue0d2)
-  SelectMore(0ue0d4)
+  SelectMore(0ue0cc, 0ue0d7)
 '
 
 # Nerd Fonts から適用するグリフ
 select_nerd_symbols="
-  # IEC Power Symbols
-  SelectMore(0u23fb, 0u23fe)
-  SelectMore(0u2b58)
-  # Octicons
-  SelectMore(0u2665)
-  SelectMore(0u26a1)
-  SelectMore(0uf400, 0uf532)
-  # Pomicons
-  SelectMore(0ue000, 0ue00a)
-  # Font Awesome Extension
-  SelectMore(0ue200, 0ue2a9)
-  # Weather Icons
-  SelectMore(0ue300, 0ue3e3)
   # Seti-UI + Custom
-  SelectMore(0ue5fa, 0ue6ac)
+  SelectMore(0uE5FA, 0uE6B7)
   # Devicons
-  SelectMore(0ue700, 0ue7c5)
-  # Codicons
-  SelectMore(0uea60, 0uebeb)
+  SelectMore(0uE700, 0uE8E3)
   # Font Awesome
-  SelectMore(0uf000, 0uf2e0)
-  # Font Logos
-  SelectMore(0uf300, 0uf32f)
+  SelectMore(0uED00, 0uF2FF)
+  # Font Awesome Extension
+  SelectMore(0uE200, 0uE2A9)
   # Material Design
-  SelectMore(0uf0001, 0uf1af0)
+  SelectMore(0uF0001, 0uF1AF0)
+  # Weather
+  SelectMore(0uE300, 0uE3E3)
+  # Octicons
+  SelectMore(0uF400, 0uF533)
+  SelectMore(0u2665)
+  SelectMore(0u26A1)
+  # IEC Power Symbols
+  SelectMore(0u23FB, 0u23FE)
+  SelectMore(0u2B58)
+  # Font Logos
+  SelectMore(0uF300, 0uF381)
+  # Pomicons
+  SelectMore(0uE000, 0uE00A)
+  # Codicons
+  SelectMore(0uEA60, 0uEC1E)
   # Other
   SelectMore(0u2630)
 "
